@@ -1,0 +1,17 @@
+# 핵심 의존성
+Pillow>=10.0
+edge-tts>=6.1
+requests>=2.31
+beautifulsoup4>=4.12
+python-dotenv>=1.0
+
+# 이미지 생성 (Replicate API 사용 시)
+replicate>=0.25
+
+# YouTube 업로드
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.1
+
+# 유틸리티
+aiohttp>=3.9
+aiofiles>=23.0

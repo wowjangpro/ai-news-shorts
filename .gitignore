@@ -1,0 +1,25 @@
+# 에셋 & 출력
+assets/
+output/
+*.mp4
+*.mp3
+*.wav
+
+# 환경 설정
+config/.env
+config/client_secret.json
+config/youtube_token.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

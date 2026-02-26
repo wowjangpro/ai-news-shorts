@@ -36,7 +36,7 @@ BLACK = (0, 0, 0)
 DARK_BG = (15, 15, 25)
 
 # ── TTS ──
-TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-SunHiNeural")
+TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")
 TTS_RATE = os.getenv("TTS_RATE", "-10%")
 
 # ── 이미지 생성 ──

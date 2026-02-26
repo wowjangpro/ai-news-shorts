@@ -177,7 +177,7 @@ class VideoRenderer:
         draw.text((35, HEADER_HEIGHT - 38), date_str, font=f_date, fill=(150, 150, 160))
 
     def _draw_subtitle(self, draw, scene, local_t, fade):
-        """하단 자막 영역"""
+        """하단 자막 영역 — 기본 WHITE, highlight_lines만 GOLD"""
         # 반투명 배경
         sub_top = VIDEO_HEIGHT - SUBTITLE_HEIGHT
         for y in range(sub_top, sub_top + 80):
@@ -188,6 +188,7 @@ class VideoRenderer:
 
         # 자막 텍스트
         lines = scene["subtitle"].split("\n")
+        highlight_lines = set(scene.get("highlight_lines", []))
         f_sub = self.get_font(46, "Black")
 
         total_h = len(lines) * 65
@@ -207,7 +208,9 @@ class VideoRenderer:
             tw = bbox[2] - bbox[0]
             x = (VIDEO_WIDTH - tw) // 2 + offset_x
 
-            fill = tuple(int(v * alpha) for v in GOLD)
+            # 하이라이트 줄은 GOLD, 나머지는 WHITE
+            color = GOLD if i in highlight_lines else WHITE
+            fill = tuple(int(v * alpha) for v in color)
             outline = tuple(int(v * alpha) for v in BLACK)
             self._text_outline(draw, line, x, y, f_sub, fill, outline, 4)
 

@@ -43,6 +43,7 @@ SCRIPT = {
         {
             "tag": "속보",
             "subtitle": "코스피 사상 첫\n6000선 돌파",
+            "highlight_lines": [1],
             "tts_text": "코스피가 사상 처음으로 6000선을 돌파했습니다.",
             "image_prompt": "stock chart surge trading",
             "duration": 6,
@@ -50,6 +51,7 @@ SCRIPT = {
         {
             "tag": "역사적 순간",
             "subtitle": "개장과 동시에 6022.70으로 출발\n5000 돌파 후 단 한 달 만에\n1000포인트 추가 상승",
+            "highlight_lines": [],
             "tts_text": "개장과 동시에 6022.70으로 출발하며, 5000 돌파 후 단 한 달 만에 1000포인트가 추가 상승했습니다.",
             "image_prompt": "stock ticker price table",
             "duration": 7,
@@ -57,6 +59,7 @@ SCRIPT = {
         {
             "tag": "반도체 랠리",
             "subtitle": "삼성전자 20만원 돌파\nSK하이닉스 100만원 돌파\nAI 반도체 수요 폭증이 원인",
+            "highlight_lines": [0, 1],
             "tts_text": "삼성전자가 20만원을, SK하이닉스가 100만원을 돌파했습니다. AI 반도체 수요 폭증이 원인입니다.",
             "image_prompt": "semiconductor chip HBM DRAM",
             "duration": 7,
@@ -64,6 +67,7 @@ SCRIPT = {
         {
             "tag": "개미의 힘",
             "subtitle": "개인투자자 8291억원 순매수로\n상승을 견인",
+            "highlight_lines": [],
             "tts_text": "개인투자자들이 8291억원을 순매수하며 상승을 견인했습니다.",
             "image_prompt": "investor crowd people",
             "duration": 6,
@@ -71,6 +75,7 @@ SCRIPT = {
         {
             "tag": "전문가 전망",
             "subtitle": "증권사들 목표치 대폭 상향\n하나증권 7870 KB증권 7500\n노무라 상반기 8000 전망",
+            "highlight_lines": [1, 2],
             "tts_text": "증권사들도 목표치를 대폭 상향했습니다. 하나증권 7870, KB증권 7500, 노무라는 상반기 8000을 전망합니다.",
             "image_prompt": "forecast target prediction",
             "duration": 7,
@@ -78,6 +83,7 @@ SCRIPT = {
         {
             "tag": "주의사항",
             "subtitle": "시장 과열 신호도 감지\n사이드카 연이어 발동\n투자에 유의하시기 바랍니다",
+            "highlight_lines": [0, 1],
             "tts_text": "다만 시장 과열 신호도 감지되고 있습니다. 사이드카가 연이어 발동되었으니, 투자에 유의하시기 바랍니다.",
             "image_prompt": "warning caution risk",
             "duration": 7,

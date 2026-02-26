@@ -17,10 +17,15 @@ class VideoRenderer:
     def get_font(self, size: int, weight: str = "Bold") -> ImageFont.FreeTypeFont:
         key = (size, weight)
         if key not in self.fonts:
-            for path in FONT_PATHS.get(weight, FONT_PATHS["Bold"]):
+            for entry in FONT_PATHS.get(weight, FONT_PATHS["Bold"]):
+                # .ttc 파일은 (경로, 인덱스) 튜플
+                if isinstance(entry, tuple):
+                    path, index = entry
+                else:
+                    path, index = entry, 0
                 if os.path.exists(path):
                     try:
-                        self.fonts[key] = ImageFont.truetype(path, size)
+                        self.fonts[key] = ImageFont.truetype(path, size, index=index)
                         break
                     except Exception:
                         continue
@@ -128,7 +133,9 @@ class VideoRenderer:
         # ── 4. 하단 바 ──
         draw.rectangle([0, VIDEO_HEIGHT - 55, VIDEO_WIDTH, VIDEO_HEIGHT], fill=BLACK)
         f = self.get_font(22, "Regular")
-        draw.text((30, VIDEO_HEIGHT - 42), "📰 AI 뉴스 브리핑 | #뉴스 #속보", font=f, fill=(120, 120, 130))
+        tags = script.get("youtube_tags", ["뉴스", "속보"])
+        tag_str = " ".join(f"#{t}" for t in tags[:4])
+        draw.text((30, VIDEO_HEIGHT - 42), f"📰 AI 뉴스 브리핑 | {tag_str}", font=f, fill=(120, 120, 130))
 
         return img
 
@@ -158,12 +165,15 @@ class VideoRenderer:
         bbox = draw.textbbox((0, 0), title, font=f_title)
         tw = bbox[2] - bbox[0]
         x = (VIDEO_WIDTH - tw) // 2
-        self._text_outline(draw, title, x, 100, f_title, WHITE, BLACK, 3)
+        self._text_outline(draw, title, x, 100, f_title, WHITE, BLACK, 4)
 
-        # 날짜
+        # 날짜 + 출처
         f_date = self.get_font(24, "Regular")
         from datetime import datetime
         date_str = datetime.now().strftime("%Y.%m.%d")
+        source = script.get("source", "")
+        if source:
+            date_str += f" | {source}"
         draw.text((35, HEADER_HEIGHT - 38), date_str, font=f_date, fill=(150, 150, 160))
 
     def _draw_subtitle(self, draw, scene, local_t, fade):
@@ -197,9 +207,9 @@ class VideoRenderer:
             tw = bbox[2] - bbox[0]
             x = (VIDEO_WIDTH - tw) // 2 + offset_x
 
-            fill = tuple(int(v * alpha) for v in WHITE)
+            fill = tuple(int(v * alpha) for v in GOLD)
             outline = tuple(int(v * alpha) for v in BLACK)
-            self._text_outline(draw, line, x, y, f_sub, fill, outline, 3)
+            self._text_outline(draw, line, x, y, f_sub, fill, outline, 4)
 
     @staticmethod
     def _text_outline(draw, text, x, y, f, fill, outline, w):

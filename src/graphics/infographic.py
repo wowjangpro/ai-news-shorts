@@ -9,25 +9,29 @@ import os
 # ── 유틸리티 ──
 
 def _get_font(size, weight="Bold"):
-    """시스템 한글 폰트 로드"""
+    """시스템 한글 폰트 로드 (.ttc 인덱스 지원)"""
     paths = {
-        "Black": ["/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        "Black": [("/System/Library/Fonts/AppleSDGothicNeo.ttc", 16),
                    "/Library/Fonts/NanumSquareRoundEB.ttf",
                    "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc"],
-        "Bold": ["/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        "Bold": [("/System/Library/Fonts/AppleSDGothicNeo.ttc", 6),
                   "/Library/Fonts/NanumSquareRoundB.ttf",
                   "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"],
-        "Medium": ["/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        "Medium": [("/System/Library/Fonts/AppleSDGothicNeo.ttc", 4),
                     "/Library/Fonts/NanumSquareRound.ttf",
                     "/usr/share/fonts/opentype/noto/NotoSansCJK-Medium.ttc"],
-        "Regular": ["/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        "Regular": [("/System/Library/Fonts/AppleSDGothicNeo.ttc", 0),
                      "/Library/Fonts/NanumSquareRoundR.ttf",
                      "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"],
     }
-    for p in paths.get(weight, paths["Bold"]):
+    for entry in paths.get(weight, paths["Bold"]):
+        if isinstance(entry, tuple):
+            p, idx = entry
+        else:
+            p, idx = entry, 0
         if os.path.exists(p):
             try:
-                return ImageFont.truetype(p, size)
+                return ImageFont.truetype(p, size, index=idx)
             except Exception:
                 continue
     return ImageFont.load_default()

@@ -53,24 +53,25 @@ TOKEN_PATH = CONFIG_DIR / "youtube_token.json"
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 
 # ── 폰트 (Mac / Linux) ──
+# .ttc 파일은 (경로, 인덱스) 튜플로 지정
 FONT_PATHS = {
     "Black": [
-        "/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 16),   # Heavy
         "/Library/Fonts/NanumSquareRoundEB.ttf",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc",
     ],
     "Bold": [
-        "/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 6),    # Bold
         "/Library/Fonts/NanumSquareRoundB.ttf",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
     ],
     "Medium": [
-        "/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 4),    # SemiBold
         "/Library/Fonts/NanumSquareRound.ttf",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Medium.ttc",
     ],
     "Regular": [
-        "/System/Library/Fonts/AppleSDGothicNeo.ttc",
+        ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 0),    # Regular
         "/Library/Fonts/NanumSquareRoundR.ttf",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
     ],

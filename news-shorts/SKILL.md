@@ -64,12 +64,14 @@ ffmpeg -i output/영상파일.mp4 -vf "select='eq(n,프레임번호)'" -vsync vf
 
 | 모듈 | 경로 | 역할 |
 |------|------|------|
-| VideoRenderer | `src/video_renderer.py` | 프레임별 렌더링 |
-| VideoComposer | `src/video_composer.py` | FFmpeg 합성 |
+| VideoRenderer | `src/video_renderer.py` | 프레임별 렌더링 (TTS 기반 씬 동기화) |
+| VideoComposer | `src/video_composer.py` | FFmpeg 합성 (TTS 볼륨 3배) |
 | BGMGenerator | `src/bgm_generator.py` | 뉴스 BGM 합성 |
 | infographic | `src/graphics/infographic.py` | 인포그래픽 생성 (5개 범용 타입) |
+| YouTubeUploader | `src/youtube_uploader.py` | YouTube 쇼츠 자동 업로드 |
 
 TTS: edge-tts (`ko-KR-InJoonNeural` 남성, 속도 +15%), 설정: `config/settings.py`
+YouTube: 기본 자동 업로드 (`YOUTUBE_UPLOAD=true`), #Shorts 자동 태그, 비공개로 업로드
 
 ## 파일 구조
 - `scripts/run_news_shorts.py` — 범용 파이프라인 (수정 불필요)

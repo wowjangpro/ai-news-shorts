@@ -16,7 +16,7 @@ class VideoComposer:
         narration_path: Path,
         bgm_path: Path,
         output_path: Path,
-        narration_vol: float = 1.0,
+        narration_vol: float = 3.0,
         bgm_vol: float = 0.2,
     ):
         """최종 영상 합성"""

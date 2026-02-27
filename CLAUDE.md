@@ -19,7 +19,8 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 4. `edge-tts` — 씬별 TTS 나레이션
 5. `src/bgm_generator.py` — 뉴스 BGM 합성
 6. `src/video_renderer.py` — 프레임별 렌더링 (헤더 + 이미지 + 자막)
-7. `src/video_composer.py` — FFmpeg로 프레임 + 오디오 합성
+7. `src/video_composer.py` — FFmpeg로 프레임 + 오디오 합성 (TTS 볼륨 3배)
+8. `src/youtube_uploader.py` — YouTube 쇼츠 자동 업로드 (#Shorts 자동 태그)
 
 ## 영상 레이아웃 (1080x1920)
 - 상단 0~250px: 검정 배경, 빨간 태그 + 제목 + 날짜
@@ -37,9 +38,9 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - [x] BGM 합성기
 - [x] 영상 렌더러 (헤더 + 자막 + highlight_lines)
 - [x] TTS 연동 (edge-tts 남성 음성, +15% 속도)
-- [x] 씬 전환 최적화 (페이드인/아웃 0.2초, 빠른 전환)
+- [x] 씬 전환 최적화 (페이드인/아웃 0.2초, TTS 기반 씬 동기화)
 - [x] 범용 파이프라인 (run_news_shorts.py + news_data.json)
-- [ ] YouTube 업로드 연동
+- [x] YouTube 쇼츠 자동 업로드 (OAuth 2.0, #Shorts 태그, 기본 활성화)
 
 ## 참고 샘플
 - YouTube Shorts 샘플: https://www.youtube.com/shorts/J1lCB7hYdBg

@@ -39,13 +39,14 @@ class VideoRenderer:
         images: list[Path],
         total_duration: float,
         frames_dir: Path,
+        seg_durations: list[float] | None = None,
     ):
         """전체 프레임 렌더링"""
         total_frames = int(total_duration * VIDEO_FPS)
         scenes = script["scenes"]
 
-        # 씬별 타이밍 계산
-        scene_timings = self._calc_timings(scenes, total_duration)
+        # 씬별 타이밍 계산 (TTS 실제 길이 기반)
+        scene_timings = self._calc_timings(scenes, total_duration, seg_durations)
 
         # 이미지 프리로드
         loaded_images = []
@@ -67,14 +68,18 @@ class VideoRenderer:
 
         print(f"  ✓ {total_frames}프레임 완료")
 
-    def _calc_timings(self, scenes: list[dict], total_duration: float) -> list[tuple]:
-        """씬별 (시작초, 끝초) 계산"""
-        # 각 씬 duration 비율로 분배
-        total_dur = sum(s.get("duration", 6) for s in scenes)
+    def _calc_timings(self, scenes, total_duration, seg_durations=None) -> list[tuple]:
+        """씬별 (시작초, 끝초) 계산 — TTS 실제 길이 기반 동기화"""
+        SILENCE_GAP = 0.3  # run_news_shorts.py의 SILENCE_GAP과 동일
         timings = []
-        t = 0.2  # 시작 여유
-        for s in scenes:
-            dur = s.get("duration", 6) / total_dur * (total_duration - 0.4)
+        t = 0.0
+        for i, s in enumerate(scenes):
+            if seg_durations and i < len(seg_durations):
+                dur = seg_durations[i] + SILENCE_GAP
+            else:
+                # fallback: 비율 분배
+                total_dur = sum(sc.get("duration", 6) for sc in scenes)
+                dur = s.get("duration", 6) / total_dur * total_duration
             timings.append((t, t + dur))
             t += dur
         return timings

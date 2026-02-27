@@ -49,7 +49,7 @@ MFLUX_QUANTIZE = int(os.getenv("MFLUX_QUANTIZE", "4"))  # 3|4|5|6|8 비트 양�
 MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "4"))  # schnell: 4, dev: 20
 
 # ── YouTube ──
-YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "false").lower() == "true"
+YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "true").lower() == "true"
 YOUTUBE_CATEGORY = "25"  # News & Politics
 CLIENT_SECRET_PATH = CONFIG_DIR / "client_secret.json"
 TOKEN_PATH = CONFIG_DIR / "youtube_token.json"

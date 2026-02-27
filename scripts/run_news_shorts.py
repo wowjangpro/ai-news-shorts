@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config.settings import (
     VIDEO_WIDTH, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
-    TTS_VOICE, TTS_RATE,
+    TTS_VOICE, TTS_RATE, YOUTUBE_UPLOAD,
 )
 from src.graphics.infographic import generate_infographic
 from src.bgm_generator import BGMGenerator
@@ -33,23 +33,27 @@ def load_script(json_path: Path) -> dict:
         return json.load(f)
 
 
-async def generate_tts(scenes: list[dict], work_dir: Path) -> tuple[Path, float]:
-    """edge-tts로 씬별 나레이션 생성 후 합치기"""
+SILENCE_GAP = 0.3  # 씬 사이 무음 (초)
+
+async def generate_tts(scenes: list[dict], work_dir: Path) -> tuple[Path, float, list[float]]:
+    """edge-tts로 씬별 나레이션 생성 후 합치기. 씬별 TTS 길이도 반환."""
     import edge_tts
 
     segments = []
+    seg_durations = []
     for i, scene in enumerate(scenes):
         seg_path = work_dir / f"tts_{i:02d}.mp3"
         comm = edge_tts.Communicate(scene["tts_text"], TTS_VOICE, rate=TTS_RATE)
         await comm.save(str(seg_path))
         segments.append(seg_path)
         dur = _get_audio_duration(seg_path)
+        seg_durations.append(dur)
         print(f"  ✓ 씬 {i+1}: {scene['tts_text'][:30]}... ({dur:.1f}초)")
 
     silence_path = work_dir / "silence.mp3"
     subprocess.run([
         "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono",
-        "-t", "1.0", "-q:a", "9", str(silence_path),
+        "-t", str(SILENCE_GAP), "-q:a", "9", str(silence_path),
     ], capture_output=True)
 
     concat_file = work_dir / "concat_tts.txt"
@@ -66,7 +70,7 @@ async def generate_tts(scenes: list[dict], work_dir: Path) -> tuple[Path, float]
         "-c:a", "libmp3lame", "-q:a", "2", str(narration_path),
     ], capture_output=True)
 
-    return narration_path, _get_audio_duration(narration_path)
+    return narration_path, _get_audio_duration(narration_path), seg_durations
 
 
 def _get_audio_duration(path: Path) -> float:
@@ -109,7 +113,7 @@ async def main(json_path: Path):
 
         # 2. TTS
         print("\n🎙️  2단계: TTS 나레이션...")
-        narration_path, total_duration = await generate_tts(scenes, work_dir)
+        narration_path, total_duration, seg_durations = await generate_tts(scenes, work_dir)
         print(f"  📏 총 길이: {total_duration:.1f}초")
 
         # 3. BGM
@@ -121,7 +125,7 @@ async def main(json_path: Path):
         print("\n🎬 4단계: 프레임 렌더링...")
         frames_dir = work_dir / "frames"
         frames_dir.mkdir()
-        VideoRenderer().render_all_frames(script, images, total_duration, frames_dir)
+        VideoRenderer().render_all_frames(script, images, total_duration, frames_dir, seg_durations)
 
         # 5. 합성
         print("\n🔧 5단계: 최종 합성...")
@@ -135,6 +139,13 @@ async def main(json_path: Path):
         # 사용된 스크립트 저장
         script_out = OUTPUT_DIR / f"{safe_title}_script_{timestamp}.json"
         script_out.write_text(json.dumps(script, ensure_ascii=False, indent=2))
+
+        # 6. YouTube 업로드
+        if YOUTUBE_UPLOAD:
+            print("\n📤 6단계: YouTube 업로드...")
+            from src.youtube_uploader import YouTubeUploader
+            video_id = YouTubeUploader().authenticate().upload(output_path, script)
+            print(f"  🔗 https://youtu.be/{video_id}")
 
         print(f"\n🎉 완료! 영상: {output_path}")
         return str(output_path)

@@ -167,13 +167,10 @@ class VideoRenderer:
         x = (VIDEO_WIDTH - tw) // 2
         self._text_outline(draw, title, x, 100, f_title, WHITE, BLACK, 4)
 
-        # 날짜 + 출처
+        # 날짜
         f_date = self.get_font(24, "Regular")
         from datetime import datetime
         date_str = datetime.now().strftime("%Y.%m.%d")
-        source = script.get("source", "")
-        if source:
-            date_str += f" | {source}"
         draw.text((35, HEADER_HEIGHT - 38), date_str, font=f_date, fill=(150, 150, 160))
 
     def _draw_subtitle(self, draw, scene, local_t, fade):

@@ -40,8 +40,13 @@ TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")
 TTS_RATE = os.getenv("TTS_RATE", "-10%")
 
 # ── 이미지 생성 ──
-IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # replicate | local | stock | graphic
+IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # graphic | local | replicate | stock
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
+
+# ── mflux (로컬 FLUX) ──
+MFLUX_MODEL = os.getenv("MFLUX_MODEL", "schnell")  # schnell(빠름) | dev(고품질)
+MFLUX_QUANTIZE = int(os.getenv("MFLUX_QUANTIZE", "4"))  # 3|4|5|6|8 비트 양자화
+MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "4"))  # schnell: 4, dev: 20
 
 # ── YouTube ──
 YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "false").lower() == "true"

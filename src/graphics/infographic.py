@@ -89,10 +89,24 @@ def _right_text(draw, text, x_right, y, font, fill):
 
 # ── 메인 디스패치 ──
 
-def generate_infographic(w: int, h: int, prompt: str, tag: str = "") -> Image.Image:
-    """프롬프트 키워드로 적절한 인포그래픽 생성"""
-    p = prompt.lower()
+def generate_infographic(w: int, h: int, prompt: str, tag: str = "", data: dict | None = None) -> Image.Image:
+    """프롬프트 키워드 또는 data.type으로 인포그래픽 생성"""
 
+    # data.type 기반 디스패치 (새 방식)
+    if data and "type" in data:
+        dispatch = {
+            "headline": _draw_headline_visual,
+            "numbers": _draw_key_numbers,
+            "list": _draw_info_list,
+            "quote": _draw_quote_visual,
+            "comparison": _draw_comparison,
+        }
+        fn = dispatch.get(data["type"])
+        if fn:
+            return fn(w, h, data)
+
+    # 기존 prompt 키워드 매칭 (하위 호환)
+    p = prompt.lower()
     if any(kw in p for kw in ["ticker", "price table", "stock list"]):
         return _draw_stock_ticker(w, h)
     elif any(kw in p for kw in ["chart", "stock", "market", "trading", "surge"]):
@@ -560,5 +574,317 @@ def _draw_generic_news(w, h):
     _gradient(draw, 0, 0, w, h, (10, 15, 35), (5, 5, 20))
     _center_glow(draw, w // 2, h // 2, 500, (30, 45, 80))
     _particles(draw, w, h, 40, seed=99, color=(40, 60, 100))
+
+    return img
+
+
+# ═══════════════════════════════════════════
+# 범용 데이터 기반 인포그래픽 (어떤 뉴스에도 대응)
+# ═══════════════════════════════════════════
+
+
+def _draw_headline_visual(w, h, data):
+    """대형 헤드라인 텍스트 + 드라마틱 배경"""
+    accent = tuple(data.get("accent_color", [255, 60, 60]))
+    style = data.get("style", "breaking")  # breaking | positive | negative | neutral
+
+    bg_colors = {
+        "breaking": ((30, 8, 12), (12, 5, 18), accent),
+        "positive": ((5, 20, 12), (5, 10, 18), (60, 200, 120)),
+        "negative": ((25, 8, 8), (10, 5, 15), (255, 60, 60)),
+        "neutral": ((8, 12, 30), (5, 5, 20), (80, 140, 255)),
+    }
+    c_top, c_bottom, glow_color = bg_colors.get(style, bg_colors["neutral"])
+
+    img = Image.new("RGB", (w, h), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _gradient(draw, 0, 0, w, h, c_top, c_bottom)
+    _center_glow(draw, w // 2, h // 3, min(w, h), glow_color)
+
+    # 메인 텍스트
+    text = data.get("text", "")
+    lines = text.split("\n")
+
+    # 폰트 크기 자동 결정 (텍스트 길이에 따라)
+    max_len = max(len(l) for l in lines) if lines else 1
+    font_size = min(100, max(60, w // max(max_len, 1) - 10))
+    f_main = _get_font(font_size, "Black")
+
+    total_line_h = len(lines) * (font_size + 20)
+    start_y = (h - total_line_h) // 2 - 40
+
+    # 글로우 효과
+    def glow_fn(gd):
+        for i, line in enumerate(lines):
+            bbox = gd.textbbox((0, 0), line, font=f_main)
+            tw = bbox[2] - bbox[0]
+            x = (w - tw) // 2
+            y = start_y + i * (font_size + 20)
+            gd.text((x, y), line, font=f_main, fill=accent)
+    img = _add_glow(img, glow_fn, blur_radius=20)
+    draw = ImageDraw.Draw(img)
+
+    # 선명한 텍스트
+    for i, line in enumerate(lines):
+        bbox = draw.textbbox((0, 0), line, font=f_main)
+        tw = bbox[2] - bbox[0]
+        x = (w - tw) // 2
+        y = start_y + i * (font_size + 20)
+        draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+
+    # 부제
+    sub_text = data.get("sub_text", "")
+    if sub_text:
+        f_sub = _get_font(34, "Medium")
+        bbox = draw.textbbox((0, 0), sub_text, font=f_sub)
+        tw = bbox[2] - bbox[0]
+        draw.text(((w - tw) // 2, start_y + total_line_h + 30), sub_text, font=f_sub, fill=accent)
+
+    _particles(draw, w, h, 30, seed=11, color=tuple(c // 3 for c in glow_color))
+    return img
+
+
+def _draw_key_numbers(w, h, data):
+    """핵심 수치를 카드 형태로 강조 표시"""
+    accent = tuple(data.get("accent_color", [80, 160, 255]))
+    items = data.get("items", [])
+
+    img = Image.new("RGB", (w, h), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _gradient(draw, 0, 0, w, h, (5, 10, 28), (3, 5, 18))
+    _center_glow(draw, w // 2, h // 3, 500, accent)
+
+    margin = 50
+    gap = 30
+    n = len(items)
+    if n == 0:
+        return img
+
+    # 카드 높이 계산
+    available_h = h - margin * 2 - gap * (n - 1)
+    card_h = min(240, available_h // n)
+
+    # 폰트 크기 (카드 크기에 비례)
+    val_size = min(80, card_h - 70)
+    f_label = _get_font(30, "Medium")
+    f_val = _get_font(val_size, "Black")
+
+    total_block = n * card_h + (n - 1) * gap
+    start_y = (h - total_block) // 2
+
+    for i, item in enumerate(items):
+        y = start_y + i * (card_h + gap)
+        color = tuple(item.get("color", list(accent)))
+
+        # 카드 배경
+        draw.rounded_rectangle(
+            [margin, y, w - margin, y + card_h],
+            radius=14, fill=(15, 18, 32), outline=(30, 40, 60), width=1
+        )
+
+        # 라벨
+        draw.text((margin + 25, y + 18), item.get("label", ""), font=f_label, fill=(160, 170, 190))
+
+        # 대형 수치
+        val_text = item.get("value", "")
+        bbox = draw.textbbox((0, 0), val_text, font=f_val)
+        tw = bbox[2] - bbox[0]
+        val_x = (w - tw) // 2
+        val_y = y + card_h - val_size - 20
+        draw.text((val_x, val_y), val_text, font=f_val, fill=color)
+
+    # 첫 카드 글로우
+    if items:
+        first_color = tuple(items[0].get("color", list(accent)))
+        img = _add_glow(img, lambda d: d.rounded_rectangle(
+            [margin, start_y, w - margin, start_y + card_h],
+            radius=14, fill=tuple(c // 4 for c in first_color)
+        ), blur_radius=18)
+
+    _particles(draw, w, h, 25, seed=22, color=tuple(c // 5 for c in accent))
+    return img
+
+
+def _draw_info_list(w, h, data):
+    """스타일링된 불릿 리스트"""
+    accent = tuple(data.get("accent_color", [60, 120, 255]))
+    items = data.get("items", [])
+    title = data.get("title", "")
+
+    icon_colors = {
+        "red": (220, 55, 55), "yellow": (220, 180, 50),
+        "green": (60, 190, 100), "blue": (60, 120, 255), "gray": (100, 105, 120),
+    }
+
+    img = Image.new("RGB", (w, h), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _gradient(draw, 0, 0, w, h, (8, 10, 28), (5, 5, 18))
+
+    margin = 50
+    y_offset = margin
+
+    # 제목
+    if title:
+        f_title = _get_font(38, "Bold")
+        draw.text((margin + 10, y_offset), title, font=f_title, fill=accent)
+        y_offset += 70
+
+    # 리스트 아이템
+    n = len(items)
+    gap = 15
+    available_h = h - y_offset - margin
+    card_h = min(85, (available_h - gap * (n - 1)) // max(n, 1))
+    f_text = _get_font(min(34, card_h - 30), "Bold")
+
+    for i, item in enumerate(items):
+        y = y_offset + i * (card_h + gap)
+        icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+
+        # 카드 배경
+        draw.rounded_rectangle(
+            [margin, y, w - margin, y + card_h],
+            radius=10, fill=(15, 18, 32), outline=(30, 38, 55), width=1
+        )
+
+        # 상태 원
+        dot_y = y + card_h // 2
+        draw.ellipse([margin + 20, dot_y - 10, margin + 40, dot_y + 10], fill=icon)
+
+        # 텍스트
+        draw.text((margin + 55, y + (card_h - 34) // 2), item.get("text", ""), font=f_text, fill=(230, 230, 240))
+
+    # 첫 아이템 글로우
+    if items:
+        img = _add_glow(img, lambda d: d.rounded_rectangle(
+            [margin, y_offset, w - margin, y_offset + card_h],
+            radius=10, fill=tuple(c // 5 for c in accent)
+        ), blur_radius=15)
+
+    _particles(draw, w, h, 20, seed=33, color=tuple(c // 4 for c in accent))
+    return img
+
+
+def _draw_quote_visual(w, h, data):
+    """인용문 + 화자 정보 카드"""
+    accent = tuple(data.get("accent_color", [100, 180, 255]))
+
+    img = Image.new("RGB", (w, h), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _gradient(draw, 0, 0, w, h, (8, 12, 30), (5, 5, 18))
+
+    # 측면 글로우
+    _center_glow(draw, 80, h // 3, 400, accent)
+
+    # 대형 따옴표
+    f_quote_mark = _get_font(160, "Black")
+    draw.text((60, 60), "\u201C", font=f_quote_mark, fill=tuple(c // 3 for c in accent))
+
+    # 인용문 텍스트
+    text = data.get("text", "")
+    lines = text.split("\n")
+    max_len = max(len(l) for l in lines) if lines else 1
+    font_size = min(48, max(34, w // max(max_len + 2, 1)))
+    f_text = _get_font(font_size, "Bold")
+
+    text_x = 90
+    text_y = 250
+    line_gap = font_size + 18
+
+    # 좌측 악센트 바
+    total_text_h = len(lines) * line_gap
+    draw.rectangle([65, text_y - 5, 72, text_y + total_text_h], fill=accent)
+
+    for i, line in enumerate(lines):
+        y = text_y + i * line_gap
+        draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
+
+    # 화자 정보
+    speaker = data.get("speaker", "")
+    affiliation = data.get("affiliation", "")
+    if speaker:
+        f_speaker = _get_font(32, "Bold")
+        f_aff = _get_font(28, "Regular")
+        speaker_y = text_y + total_text_h + 50
+        draw.text((text_x, speaker_y), f"— {speaker}", font=f_speaker, fill=accent)
+        if affiliation:
+            bbox = draw.textbbox((0, 0), f"— {speaker}", font=f_speaker)
+            sw = bbox[2] - bbox[0]
+            draw.text((text_x + sw + 15, speaker_y + 4), f"| {affiliation}", font=f_aff, fill=(120, 130, 150))
+
+    _particles(draw, w, h, 20, seed=44, color=tuple(c // 5 for c in accent))
+    return img
+
+
+def _draw_comparison(w, h, data):
+    """범용 비교 바 차트"""
+    accent = tuple(data.get("accent_color", [255, 100, 60]))
+    items = data.get("items", [])
+    baseline = data.get("baseline")
+    unit = data.get("unit", "")
+
+    img = Image.new("RGB", (w, h), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _gradient(draw, 0, 0, w, h, (8, 12, 18), (3, 5, 15))
+
+    if not items:
+        return img
+
+    max_val = max(item["value"] for item in items) * 1.15
+    margin_y = 60
+    bar_x = 220
+    max_bar_w = w - bar_x - 80
+    gap = (h - margin_y * 2) // (len(items) + 1)
+
+    f_name = _get_font(32, "Bold")
+    f_val = _get_font(36, "Black")
+
+    # 기준선
+    if baseline:
+        bx = bar_x + int(baseline["value"] / max_val * max_bar_w)
+        draw.line([(bx, margin_y - 10), (bx, h - 40)], fill=(80, 200, 120), width=2)
+        f_base = _get_font(24, "Medium")
+        label = f"{baseline['label']} {baseline['value']:,}{unit}"
+        draw.text((bx - 50, margin_y - 35), label, font=f_base, fill=(80, 200, 120))
+
+    # 바 색상 그라데이션 생성
+    default_colors = [
+        (255, 80, 80), (255, 120, 60), (255, 160, 40),
+        (255, 190, 50), (210, 210, 70), (140, 200, 90),
+    ]
+
+    for i, item in enumerate(items):
+        y = margin_y + (i + 1) * gap
+        bw = int(item["value"] / max_val * max_bar_w)
+        color = tuple(item.get("color", list(default_colors[i % len(default_colors)])))
+
+        # 바 배경
+        draw.rounded_rectangle(
+            [bar_x, y + 8, bar_x + max_bar_w, y + 55],
+            radius=6, fill=(15, 18, 25)
+        )
+        # 바
+        draw.rounded_rectangle(
+            [bar_x, y + 8, bar_x + bw, y + 55],
+            radius=6, fill=color
+        )
+        # 하이라이트
+        highlight = tuple(min(255, c + 50) for c in color)
+        draw.line([(bar_x + 6, y + 12), (bar_x + bw - 6, y + 12)], fill=highlight, width=1)
+
+        # 라벨
+        draw.text((25, y + 14), item.get("label", ""), font=f_name, fill=(240, 240, 250))
+
+        # 값
+        val_text = f"{item['value']:,}{unit}"
+        _right_text(draw, val_text, w - 30, y + 10, f_val, (255, 255, 255))
+
+    # 첫 바 글로우
+    first_y = margin_y + gap
+    first_bw = int(items[0]["value"] / max_val * max_bar_w)
+    first_color = tuple(items[0].get("color", list(default_colors[0])))
+    img = _add_glow(img, lambda d: d.rounded_rectangle(
+        [bar_x, first_y + 8, bar_x + first_bw, first_y + 55],
+        radius=6, fill=tuple(c // 4 for c in first_color)
+    ), blur_radius=15)
 
     return img

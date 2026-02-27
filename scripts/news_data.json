@@ -1,0 +1,92 @@
+{
+  "title": "쿠팡 김범석 사과",
+  "source": "아시아경제",
+  "youtube_title": "[속보] 쿠팡 김범석 의장, 3370만명 개인정보 유출 첫 육성 사과 | 2026.02.27",
+  "youtube_description": "쿠팡 김범석 의장이 3370만명 개인정보 유출 사태에 대해 처음으로 육성 사과했습니다.\n실적 발표 컨퍼런스콜에서 직접 입장을 밝혔으나, 국회 청문회는 불출석.\n\n#쿠팡 #김범석 #개인정보유출 #쿠팡해킹 #개인정보",
+  "youtube_tags": ["쿠팡", "김범석", "개인정보유출", "쿠팡해킹", "사과"],
+  "scenes": [
+    {
+      "tag": "속보",
+      "subtitle": "쿠팡 김범석 의장\n개인정보 유출 첫 육성 사과",
+      "highlight_lines": [1],
+      "tts_text": "쿠팡 김범석 의장이 지난해 발생한 대규모 개인정보 유출 사태에 대해 처음으로 공식 석상에서 육성 사과했습니다.",
+      "image_prompt": "headline",
+      "duration": 7,
+      "infographic_data": {
+        "type": "headline",
+        "text": "쿠팡 김범석\n첫 육성 사과",
+        "sub_text": "개인정보 유출 사태 관련",
+        "accent_color": [255, 60, 60],
+        "style": "negative"
+      }
+    },
+    {
+      "tag": "사건 개요",
+      "subtitle": "지난해 11월 발생\n3370만 회원 정보 유출\n전직 직원이 외부 유출",
+      "highlight_lines": [1],
+      "tts_text": "이 사건은 지난해 11월, 중국인으로 추정되는 전직 내부 직원에 의해 3천3백70만 회원의 성명, 주소, 연락처가 대량 유출된 사태입니다.",
+      "image_prompt": "numbers",
+      "duration": 8,
+      "infographic_data": {
+        "type": "numbers",
+        "items": [
+          {"label": "유출 회원 수", "value": "3,370만 명", "color": [255, 80, 80]},
+          {"label": "유출 정보", "value": "성명·주소·연락처", "color": [255, 160, 60]},
+          {"label": "발생 시점", "value": "2025년 11월", "color": [100, 160, 255]}
+        ],
+        "accent_color": [255, 80, 80]
+      }
+    },
+    {
+      "tag": "사과문",
+      "subtitle": "고객 기대에 부응 못해\n다시 한번 사과드린다",
+      "highlight_lines": [0, 1],
+      "tts_text": "김 의장은 4분기 실적 발표 컨퍼런스콜에서 고객의 기대에 부응하지 못했다며, 고객은 쿠팡이 존재하는 유일한 이유라고 밝혔습니다.",
+      "image_prompt": "quote",
+      "duration": 8,
+      "infographic_data": {
+        "type": "quote",
+        "text": "고객은 쿠팡이\n존재하는 유일한 이유,\n그 신뢰를 얻기 위해\n매일 최선을 다하고 있다",
+        "speaker": "김범석",
+        "affiliation": "쿠팡Inc 의장",
+        "accent_color": [100, 160, 255]
+      }
+    },
+    {
+      "tag": "보상안",
+      "subtitle": "피해 고객 1인당 5만원\n구매이용권 지급\n3370만명 대상",
+      "highlight_lines": [0],
+      "tts_text": "쿠팡은 고객 신뢰 복원을 위해 유출 피해 고객 3천3백70만 명 전원에게 1인당 5만 원의 구매이용권을 지급하겠다고 밝혔습니다.",
+      "image_prompt": "numbers",
+      "duration": 7,
+      "infographic_data": {
+        "type": "numbers",
+        "items": [
+          {"label": "1인당 보상 금액", "value": "5만원", "color": [80, 200, 120]},
+          {"label": "보상 대상", "value": "3,370만 명", "color": [100, 160, 255]},
+          {"label": "총 보상 규모 추정", "value": "약 1.7조원", "color": [255, 160, 60]}
+        ],
+        "accent_color": [80, 200, 120]
+      }
+    },
+    {
+      "tag": "논란",
+      "subtitle": "국회 청문회는 불출석\n서면 사과 후 한 달 만\n육성 사과에도 비판 이어져",
+      "highlight_lines": [0],
+      "tts_text": "다만 김 의장은 국회 청문회에는 출석하지 않아 비판이 이어지고 있으며, 서면 사과 이후 한 달 만의 육성 사과에 진정성 논란도 제기되고 있습니다.",
+      "image_prompt": "list",
+      "duration": 8,
+      "infographic_data": {
+        "type": "list",
+        "title": "쟁점 정리",
+        "items": [
+          {"text": "국회 청문회 불출석 — 비판 확산", "icon": "red"},
+          {"text": "서면 사과 후 한 달 만에 육성 사과", "icon": "yellow"},
+          {"text": "진정성 논란 — 실적 발표에서 사과", "icon": "red"},
+          {"text": "5만원 보상 — 충분한가 논쟁", "icon": "yellow"}
+        ],
+        "accent_color": [255, 80, 80]
+      }
+    }
+  ]
+}

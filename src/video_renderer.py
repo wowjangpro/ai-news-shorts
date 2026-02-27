@@ -194,7 +194,8 @@ class VideoRenderer:
         f_sub = self.get_font(46, "Black")
 
         total_h = len(lines) * 65
-        start_y = sub_top + 90 + (200 - total_h) // 2
+        text_area = SUBTITLE_HEIGHT - 80 - 55  # 그라데이션(80) + 하단바(55) 제외
+        start_y = sub_top + 80 + (text_area - total_h) // 2
 
         for i, line in enumerate(lines):
             # 줄별 등장 애니메이션

@@ -24,7 +24,7 @@ VIDEO_CRF = int(os.getenv("VIDEO_CRF", "20"))
 
 # ── 레이아웃 ──
 HEADER_HEIGHT = 250        # 상단 제목 영역
-SUBTITLE_HEIGHT = 350      # 하단 자막 영역
+SUBTITLE_HEIGHT = 830      # 하단 자막 영역
 IMAGE_AREA_TOP = HEADER_HEIGHT
 IMAGE_AREA_BOTTOM = VIDEO_HEIGHT - SUBTITLE_HEIGHT
 

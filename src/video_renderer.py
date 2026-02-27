@@ -140,7 +140,7 @@ class VideoRenderer:
         f = self.get_font(22, "Regular")
         tags = script.get("youtube_tags", ["뉴스", "속보"])
         tag_str = " ".join(f"#{t}" for t in tags[:4])
-        draw.text((30, VIDEO_HEIGHT - 42), f"📰 AI 뉴스 브리핑 | {tag_str}", font=f, fill=(120, 120, 130))
+        draw.text((30, VIDEO_HEIGHT - 42), "AI로 생성되어 사실과 다를 수 있습니다.", font=f, fill=(120, 120, 130))
 
         return img
 

@@ -7,7 +7,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 ## 기술 스택
 - Python 3.11+, Pillow, edge-tts, FFmpeg
 - 이미지: 코드 인포그래픽 (Pillow)
-- TTS: edge-tts (ko-KR-InJoonNeural 남성)
+- TTS: edge-tts (ko-KR-InJoonNeural 남성, 속도 +15%)
 - 업로드: YouTube Data API v3
 
 ## 핵심 파이프라인
@@ -36,7 +36,8 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - [x] 코드 인포그래픽 배경 렌더러 (5개 범용 타입: headline, numbers, list, quote, comparison)
 - [x] BGM 합성기
 - [x] 영상 렌더러 (헤더 + 자막 + highlight_lines)
-- [x] TTS 연동 (edge-tts 남성 음성)
+- [x] TTS 연동 (edge-tts 남성 음성, +15% 속도)
+- [x] 씬 전환 최적화 (페이드인/아웃 0.2초, 빠른 전환)
 - [x] 범용 파이프라인 (run_news_shorts.py + news_data.json)
 - [ ] YouTube 업로드 연동
 

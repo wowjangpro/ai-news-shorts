@@ -72,9 +72,9 @@ class VideoRenderer:
         # 각 씬 duration 비율로 분배
         total_dur = sum(s.get("duration", 6) for s in scenes)
         timings = []
-        t = 0.5  # 시작 여유
+        t = 0.2  # 시작 여유
         for s in scenes:
-            dur = s.get("duration", 6) / total_dur * (total_duration - 2)
+            dur = s.get("duration", 6) / total_dur * (total_duration - 0.4)
             timings.append((t, t + dur))
             t += dur
         return timings
@@ -98,10 +98,10 @@ class VideoRenderer:
 
         # 전체 페이드
         fade = 1.0
-        if sec < 1:
-            fade = sec
-        elif sec > total_duration - 1.5:
-            fade = max(0, (total_duration - sec) / 1.5)
+        if sec < 0.2:
+            fade = sec / 0.2
+        elif sec > total_duration - 0.2:
+            fade = max(0, (total_duration - sec) / 0.2)
 
         # ── 1. 중앙 이미지 ──
         if 0 <= scene_idx < len(loaded_images):
@@ -110,10 +110,10 @@ class VideoRenderer:
             # 씬 전환 페이드
             sf = 1.0
             start, end = scene_timings[scene_idx]
-            if sec - start < 0.4:
-                sf = (sec - start) / 0.4
-            elif end - sec < 0.3:
-                sf = (end - sec) / 0.3
+            if sec - start < 0.12:
+                sf = (sec - start) / 0.12
+            elif end - sec < 0.08:
+                sf = (end - sec) / 0.08
 
             # 밝기 조절
             if sf < 1 or fade < 1:

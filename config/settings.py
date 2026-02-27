@@ -37,7 +37,7 @@ DARK_BG = (15, 15, 25)
 
 # ── TTS ──
 TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")
-TTS_RATE = os.getenv("TTS_RATE", "-10%")
+TTS_RATE = os.getenv("TTS_RATE", "+15%")
 
 # ── 이미지 생성 ──
 IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # graphic | local | replicate | stock

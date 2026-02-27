@@ -1,94 +1,111 @@
 {
-  "title": "법왜곡죄 국회 통과",
-  "youtube_title": "[속보] 법왜곡죄 국회 본회의 통과, 판·검사 법 왜곡 시 최대 징역 10년 | 2026.02.27",
-  "youtube_description": "법왜곡죄 도입을 위한 형법 개정안이 국회 본회의를 통과했습니다.\n찬성 163표, 반대 3표, 기권 4표로 압도적 가결.\n판사·검사가 형사사건에서 법을 왜곡하면 최대 징역 10년에 처해집니다.\n\n#법왜곡죄 #국회 #사법개혁 #형법개정 #판검사",
-  "youtube_tags": ["법왜곡죄", "국회통과", "사법개혁", "형법개정", "판검사"],
+  "title": "한-UAE 650억불 협력",
+  "youtube_title": "[속보] 한국-UAE 650억 달러 방산·원전·AI 초대형 협력 확정 | 2026.02.27",
+  "youtube_description": "강훈식 대통령비서실장이 UAE 특사로 방문해 650억 달러 이상의 협력 사업을 확정했습니다.\n방산 분야만 350억 달러, 투자 협력 300억 달러 규모입니다.\n단순 무기 거래를 넘어 설계·교육·유지보수까지 전주기 파트너십을 구축합니다.\n\n#UAE #방산 #K방산 #방산협력 #강훈식",
+  "youtube_tags": ["UAE", "방산협력", "K방산", "강훈식", "방위산업"],
   "scenes": [
     {
       "tag": "속보",
-      "subtitle": "법왜곡죄 형법 개정안\n국회 본회의 통과",
+      "subtitle": "한국-UAE\n650억 달러 협력 확정",
       "highlight_lines": [1],
-      "tts_text": "법왜곡죄 도입을 위한 형법 개정안이 오늘 국회 본회의를 통과했습니다. 판사와 검사가 형사사건에서 고의로 법을 왜곡하면 처벌받게 됩니다.",
+      "tts_text": "한국과 아랍에미리트가 650억 달러, 우리 돈 약 92조 원 규모의 초대형 협력 사업을 확정했습니다.",
       "image_prompt": "headline",
-      "duration": 7,
+      "duration": 6,
       "infographic_data": {
         "type": "headline",
-        "text": "법왜곡죄\n국회 통과",
-        "sub_text": "형법 개정안 본회의 가결",
-        "accent_color": [255, 60, 60],
-        "style": "breaking"
+        "text": "한-UAE\n650억 달러 협력",
+        "sub_text": "방산·원전·AI 전방위 사업 타결",
+        "accent_color": [60, 160, 255],
+        "style": "positive"
       }
     },
     {
-      "tag": "표결 결과",
-      "subtitle": "재석 170명 중\n찬성 163 · 반대 3 · 기권 4\n압도적 찬성으로 가결",
-      "highlight_lines": [1],
-      "tts_text": "표결 결과, 재석 170명 중 찬성 163표, 반대 3표, 기권 4표로 압도적인 찬성을 받아 가결되었습니다.",
+      "tag": "핵심 수치",
+      "subtitle": "총 650억 달러 (약 92조원)\n방산 350억불 · 투자 300억불\n역대 최대 규모 협력",
+      "highlight_lines": [0],
+      "tts_text": "이번 협력의 총 규모는 650억 달러 이상으로, 방산 분야에서만 350억 달러, 기존 투자 협력 재편이 300억 달러에 달합니다.",
       "image_prompt": "numbers",
       "duration": 7,
       "infographic_data": {
         "type": "numbers",
         "items": [
-          {"label": "찬성", "value": "163표", "color": [80, 200, 120]},
-          {"label": "반대", "value": "3표", "color": [255, 80, 80]},
-          {"label": "기권", "value": "4표", "color": [180, 180, 180]}
+          {"label": "총 협력 규모", "value": "650억 달러", "color": [80, 200, 120]},
+          {"label": "방산 분야", "value": "350억 달러", "color": [60, 160, 255]},
+          {"label": "투자 협력", "value": "300억 달러", "color": [255, 180, 60]}
         ],
         "accent_color": [80, 200, 120]
       }
     },
     {
-      "tag": "핵심 내용",
-      "subtitle": "판·검사 법 왜곡 시\n최대 징역 10년\n자격정지 10년 병과",
-      "highlight_lines": [1],
-      "tts_text": "법왜곡죄의 핵심 내용은, 판사나 검사가 형사사건 재판 또는 수사에서 고의로 법을 왜곡할 경우, 최대 징역 10년에 자격정지 10년이 병과됩니다.",
+      "tag": "방산 협력",
+      "subtitle": "통합 방공 · 항공 전력\n해양 전력까지 전 분야\n전주기 파트너십 체결",
+      "highlight_lines": [2],
+      "tts_text": "방산 협력은 통합 방공무기, 첨단 항공 전력, 해양 전력 등 전 분야를 포괄하며, 설계부터 교육훈련, 유지보수까지 전주기에 걸친 파트너십을 체결했습니다.",
       "image_prompt": "list",
       "duration": 8,
       "infographic_data": {
         "type": "list",
-        "title": "법왜곡죄 주요 내용",
+        "title": "방산 협력 분야",
         "items": [
-          {"text": "적용 대상: 판사 · 검사", "icon": "blue"},
-          {"text": "대상 행위: 형사사건 법률 왜곡", "icon": "red"},
-          {"text": "형량: 최대 징역 10년", "icon": "red"},
-          {"text": "자격정지 10년 병과 가능", "icon": "yellow"}
+          {"text": "통합 방공무기 체계", "icon": "blue"},
+          {"text": "첨단 항공 전력", "icon": "blue"},
+          {"text": "해양 전력", "icon": "blue"},
+          {"text": "설계 · 교육 · 유지보수 전주기", "icon": "green"}
         ],
-        "accent_color": [100, 160, 255]
+        "accent_color": [60, 160, 255]
       }
     },
     {
-      "tag": "찬반 논란",
-      "subtitle": "민주당 '사법 정의 실현'\n국힘 '사법 보복 우려'\n첨예한 여야 대립",
-      "highlight_lines": [0, 1],
-      "tts_text": "더불어민주당은 사법 정의를 실현하기 위한 필수 법안이라고 주장하는 반면, 국민의힘은 사법 보복이 우려된다며 강하게 반대했습니다.",
-      "image_prompt": "comparison",
+      "tag": "특사 발언",
+      "subtitle": "강훈식 비서실장\n세 차례 심도 있는 논의\n650억불 사업 공동 추진",
+      "highlight_lines": [2],
+      "tts_text": "강훈식 대통령비서실장은 UAE 칼둔 아부다비 행정청장과 세 차례에 걸친 심도 있는 논의를 통해 650억 달러 이상의 사업을 공동 추진하기로 했다고 밝혔습니다.",
+      "image_prompt": "quote",
       "duration": 8,
       "infographic_data": {
-        "type": "comparison",
-        "items": [
-          {"label": "민주당 (찬성)", "value": 163, "color": [80, 160, 255]},
-          {"label": "국힘 등 (반대)", "value": 3, "color": [255, 80, 80]}
-        ],
-        "unit": "표",
-        "accent_color": [80, 160, 255]
+        "type": "quote",
+        "text": "세 차례 심도 있는\n논의를 통해\n650억 달러 이상의 사업을\n함께 추진하기로 했다",
+        "speaker": "강훈식",
+        "affiliation": "대통령비서실장",
+        "accent_color": [60, 160, 255]
       }
     },
     {
-      "tag": "향후 전망",
-      "subtitle": "사법개혁 3법 중 첫 통과\n대통령 거부권 행사 주목\n재의결 가능성도",
-      "highlight_lines": [1],
-      "tts_text": "이번 법왜곡죄는 민주당이 추진하는 사법개혁 3법 중 첫 번째로 통과된 것입니다. 대통령의 거부권 행사 여부가 주목되며, 재의결 가능성도 거론되고 있습니다.",
+      "tag": "비방산 협력",
+      "subtitle": "원전 · AI · 첨단기술\n문화 · 보건의료까지\n전방위 협력 확대",
+      "highlight_lines": [0],
+      "tts_text": "방산 외에도 원전 핵연료 공급과 정비 사업, 인공지능 기술 접목, 그리고 문화·보건의료 분야까지 전방위 협력을 확대하기로 했습니다.",
       "image_prompt": "list",
-      "duration": 8,
+      "duration": 7,
       "infographic_data": {
         "type": "list",
-        "title": "향후 전망",
+        "title": "비방산 협력 분야",
         "items": [
-          {"text": "사법개혁 3법 중 첫 번째 통과", "icon": "green"},
-          {"text": "대통령 거부권 행사 가능성", "icon": "yellow"},
-          {"text": "국회 재의결 시 2/3 필요", "icon": "blue"},
-          {"text": "나머지 2법 처리 일정 주목", "icon": "gray"}
+          {"text": "원전 핵연료 공급 · 정비 · AI 접목", "icon": "green"},
+          {"text": "원전 제3국 공동진출 전략", "icon": "green"},
+          {"text": "AI · 첨단기술 협력", "icon": "blue"},
+          {"text": "문화 · 교육 · 보건의료", "icon": "yellow"}
         ],
-        "accent_color": [255, 180, 60]
+        "accent_color": [80, 200, 120]
+      }
+    },
+    {
+      "tag": "시장 반응",
+      "subtitle": "방산주 일제히 강세\n칼둔 청장 3~4월 재방한\n격주 워킹그룹 가동",
+      "highlight_lines": [0],
+      "tts_text": "이 소식에 국내 방산 관련 주식이 일제히 강세를 보였으며, 칼둔 청장이 3월에서 4월 사이 한국을 재방문하고 격주 단위 워킹그룹도 운영될 예정입니다.",
+      "image_prompt": "list",
+      "duration": 7,
+      "infographic_data": {
+        "type": "list",
+        "title": "향후 일정",
+        "items": [
+          {"text": "방산주 일제히 강세", "icon": "green"},
+          {"text": "칼둔 청장 3~4월 재방한 예정", "icon": "blue"},
+          {"text": "분야별 격주 워킹그룹 가동", "icon": "blue"},
+          {"text": "정상회담 시 MOU · 로드맵 채택", "icon": "yellow"}
+        ],
+        "accent_color": [60, 160, 255]
       }
     }
   ]

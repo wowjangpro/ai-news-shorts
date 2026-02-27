@@ -69,7 +69,7 @@ ffmpeg -i output/영상파일.mp4 -vf "select='eq(n,프레임번호)'" -vsync vf
 | BGMGenerator | `src/bgm_generator.py` | 뉴스 BGM 합성 |
 | infographic | `src/graphics/infographic.py` | 인포그래픽 생성 (5개 범용 타입) |
 
-TTS: edge-tts (`ko-KR-InJoonNeural` 남성), 설정: `config/settings.py`
+TTS: edge-tts (`ko-KR-InJoonNeural` 남성, 속도 +15%), 설정: `config/settings.py`
 
 ## 파일 구조
 - `scripts/run_news_shorts.py` — 범용 파이프라인 (수정 불필요)

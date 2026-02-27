@@ -1,112 +1,118 @@
 {
-  "title": "한-UAE 650억불 협력",
-  "youtube_title": "[속보] 한국-UAE 650억 달러 방산·원전·AI 초대형 협력 확정 | 2026.02.27",
-  "youtube_description": "강훈식 대통령비서실장이 UAE 특사로 방문해 650억 달러 이상의 협력 사업을 확정했습니다.\n방산 분야만 350억 달러, 투자 협력 300억 달러 규모입니다.\n단순 무기 거래를 넘어 설계·교육·유지보수까지 전주기 파트너십을 구축합니다.\n\n#UAE #방산 #K방산 #방산협력 #강훈식",
-  "youtube_tags": ["UAE", "방산협력", "K방산", "강훈식", "방위산업"],
-  "scenes": [
-    {
-      "tag": "속보",
-      "subtitle": "한국-UAE\n650억 달러 협력 확정",
-      "highlight_lines": [1],
-      "tts_text": "한국과 아랍에미리트가 650억 달러, 우리 돈 약 92조 원 규모의 초대형 협력 사업을 확정했습니다.",
-      "image_prompt": "headline",
-      "duration": 6,
-      "infographic_data": {
-        "type": "headline",
-        "text": "한-UAE\n650억 달러 협력",
-        "sub_text": "방산·원전·AI 전방위 사업 타결",
-        "accent_color": [60, 160, 255],
-        "style": "positive"
-      }
-    },
-    {
-      "tag": "핵심 수치",
-      "subtitle": "총 650억 달러 (약 92조원)\n방산 350억불 · 투자 300억불\n역대 최대 규모 협력",
-      "highlight_lines": [0],
-      "tts_text": "이번 협력의 총 규모는 650억 달러 이상으로, 방산 분야에서만 350억 달러, 기존 투자 협력 재편이 300억 달러에 달합니다.",
-      "image_prompt": "numbers",
-      "duration": 7,
-      "infographic_data": {
-        "type": "numbers",
-        "items": [
-          {"label": "총 협력 규모", "value": "650억 달러", "color": [80, 200, 120]},
-          {"label": "방산 분야", "value": "350억 달러", "color": [60, 160, 255]},
-          {"label": "투자 협력", "value": "300억 달러", "color": [255, 180, 60]}
-        ],
-        "accent_color": [80, 200, 120]
-      }
-    },
-    {
-      "tag": "방산 협력",
-      "subtitle": "통합 방공 · 항공 전력\n해양 전력까지 전 분야\n전주기 파트너십 체결",
-      "highlight_lines": [2],
-      "tts_text": "방산 협력은 통합 방공무기, 첨단 항공 전력, 해양 전력 등 전 분야를 포괄하며, 설계부터 교육훈련, 유지보수까지 전주기에 걸친 파트너십을 체결했습니다.",
-      "image_prompt": "list",
-      "duration": 8,
-      "infographic_data": {
-        "type": "list",
-        "title": "방산 협력 분야",
-        "items": [
-          {"text": "통합 방공무기 체계", "icon": "blue"},
-          {"text": "첨단 항공 전력", "icon": "blue"},
-          {"text": "해양 전력", "icon": "blue"},
-          {"text": "설계 · 교육 · 유지보수 전주기", "icon": "green"}
-        ],
-        "accent_color": [60, 160, 255]
-      }
-    },
-    {
-      "tag": "특사 발언",
-      "subtitle": "강훈식 비서실장\n세 차례 심도 있는 논의\n650억불 사업 공동 추진",
-      "highlight_lines": [2],
-      "tts_text": "강훈식 대통령비서실장은 UAE 칼둔 아부다비 행정청장과 세 차례에 걸친 심도 있는 논의를 통해 650억 달러 이상의 사업을 공동 추진하기로 했다고 밝혔습니다.",
-      "image_prompt": "quote",
-      "duration": 8,
-      "infographic_data": {
-        "type": "quote",
-        "text": "세 차례 심도 있는\n논의를 통해\n650억 달러 이상의 사업을\n함께 추진하기로 했다",
-        "speaker": "강훈식",
-        "affiliation": "대통령비서실장",
-        "accent_color": [60, 160, 255]
-      }
-    },
-    {
-      "tag": "비방산 협력",
-      "subtitle": "원전 · AI · 첨단기술\n문화 · 보건의료까지\n전방위 협력 확대",
-      "highlight_lines": [0],
-      "tts_text": "방산 외에도 원전 핵연료 공급과 정비 사업, 인공지능 기술 접목, 그리고 문화·보건의료 분야까지 전방위 협력을 확대하기로 했습니다.",
-      "image_prompt": "list",
-      "duration": 7,
-      "infographic_data": {
-        "type": "list",
-        "title": "비방산 협력 분야",
-        "items": [
-          {"text": "원전 핵연료 공급 · 정비 · AI 접목", "icon": "green"},
-          {"text": "원전 제3국 공동진출 전략", "icon": "green"},
-          {"text": "AI · 첨단기술 협력", "icon": "blue"},
-          {"text": "문화 · 교육 · 보건의료", "icon": "yellow"}
-        ],
-        "accent_color": [80, 200, 120]
-      }
-    },
-    {
-      "tag": "시장 반응",
-      "subtitle": "방산주 일제히 강세\n칼둔 청장 3~4월 재방한\n격주 워킹그룹 가동",
-      "highlight_lines": [0],
-      "tts_text": "이 소식에 국내 방산 관련 주식이 일제히 강세를 보였으며, 칼둔 청장이 3월에서 4월 사이 한국을 재방문하고 격주 단위 워킹그룹도 운영될 예정입니다.",
-      "image_prompt": "list",
-      "duration": 7,
-      "infographic_data": {
-        "type": "list",
-        "title": "향후 일정",
-        "items": [
-          {"text": "방산주 일제히 강세", "icon": "green"},
-          {"text": "칼둔 청장 3~4월 재방한 예정", "icon": "blue"},
-          {"text": "분야별 격주 워킹그룹 가동", "icon": "blue"},
-          {"text": "정상회담 시 MOU · 로드맵 채택", "icon": "yellow"}
-        ],
-        "accent_color": [60, 160, 255]
-      }
-    }
-  ]
+    "title": "쿠팡, 연이은 악재",
+    "youtube_title": "쿠팡 김범석 첫 사과에도 과징금 22억 철퇴…납품 갑질 실태 공개",
+    "youtube_description": "김범석 쿠팡 의장이 3300만명 개인정보 유출에 대해 첫 육성 사과를 했지만, 같은 날 공정위가 납품업체 갑질로 과징금 21.8억원을 부과했습니다. 대금 2809억원 최대 233일 지연, 발주 축소 압박 등 위반 사항을 정리했습니다.",
+    "youtube_tags": ["쿠팡", "김범석", "개인정보유출", "공정위", "과징금", "납품갑질"],
+    "scenes": [
+        {
+            "tag": "속보",
+            "subtitle": "쿠팡, 사과와 제재\n같은 날 동시에 터졌다",
+            "highlight_lines": [1],
+            "tts_text": "쿠팡이 하루 만에 두 건의 악재를 동시에 맞았습니다. 김범석 의장의 첫 육성 사과가 나온 같은 날, 공정거래위원회가 납품업체 갑질로 과징금을 부과했습니다.",
+            "image_prompt": "headline",
+            "duration": 8,
+            "infographic_data": {
+                "type": "headline",
+                "text": "쿠팡\n사과와 제재의 하루",
+                "sub_text": "2026.02.26 김범석 사과 + 공정위 과징금",
+                "style": "negative"
+            }
+        },
+        {
+            "tag": "사과",
+            "subtitle": "김범석 의장\n\"심려 끼쳐 사과드린다\"\n첫 육성 사과",
+            "highlight_lines": [1],
+            "tts_text": "김범석 쿠팡 의장은 콘퍼런스콜에서 지난해 말 발생한 3천3백만 명 개인정보 유출 사태에 대해 처음으로 직접 사과했습니다. 고객은 쿠팡이 존재하는 유일한 이유라며 신뢰 회복에 최선을 다하겠다고 밝혔습니다.",
+            "image_prompt": "quote",
+            "duration": 9,
+            "infographic_data": {
+                "type": "quote",
+                "text": "심려와 불편을 끼쳐드린 점에\n대해 다시 한번\n사과의 말씀을 드립니다",
+                "speaker": "김범석",
+                "affiliation": "쿠팡 Inc 의장",
+                "accent_color": [255, 80, 80]
+            }
+        },
+        {
+            "tag": "유출규모",
+            "subtitle": "국민 3,300만명 정보 유출\n매출 90%가 한국",
+            "highlight_lines": [0],
+            "tts_text": "쿠팡 매출의 약 90퍼센트가 한국에서 발생하며, 한국 국민 3천3백만 명이 쿠팡을 이용하고 있습니다. 그만큼 이번 유출의 파장이 클 수밖에 없습니다.",
+            "image_prompt": "numbers",
+            "duration": 7,
+            "infographic_data": {
+                "type": "numbers",
+                "items": [
+                    {"label": "정보 유출 규모", "value": "3,300만 명", "color": [255, 80, 80]},
+                    {"label": "한국 매출 비중", "value": "90%", "color": [255, 180, 60]},
+                    {"label": "2차 피해 확인", "value": "0건", "color": [80, 200, 120]}
+                ]
+            }
+        },
+        {
+            "tag": "과징금",
+            "subtitle": "공정위, 과징금 21.8억\n납품 갑질 첫 제재",
+            "highlight_lines": [0],
+            "tts_text": "같은 날 공정거래위원회는 쿠팡에 21억 8천5백만 원의 과징금을 부과했습니다. 대규모유통업법 위반으로, 직매입 대금 지급기한 조항을 적용한 첫 번째 사례입니다.",
+            "image_prompt": "numbers",
+            "duration": 8,
+            "infographic_data": {
+                "type": "numbers",
+                "items": [
+                    {"label": "과징금", "value": "21.8억 원", "color": [255, 80, 80]},
+                    {"label": "대금 지연 규모", "value": "2,809억 원", "color": [255, 160, 60]},
+                    {"label": "최대 지연일", "value": "233일", "color": [255, 100, 100]}
+                ]
+            }
+        },
+        {
+            "tag": "위반사항",
+            "subtitle": "마진 못 맞추면 발주 축소\n체험단 비용도 미반환",
+            "highlight_lines": [0],
+            "tts_text": "구체적인 위반 사항을 보면, 마진 목표 미달 시 단가 인하를 강요하고 발주를 축소했습니다. 상품대금 2천8백억 원을 최대 233일 늦게 지급했고, 체험단 미소진 상품 비용 5억 3천만 원도 돌려주지 않았습니다.",
+            "image_prompt": "list",
+            "duration": 10,
+            "infographic_data": {
+                "type": "list",
+                "title": "공정위 적발 위반사항",
+                "items": [
+                    {"text": "마진 미달 시 단가 인하 강요", "icon": "red"},
+                    {"text": "발주 중단·축소 압박", "icon": "red"},
+                    {"text": "대금 2,809억 최대 233일 지연", "icon": "red"},
+                    {"text": "지연이자 8.5억 미지급", "icon": "yellow"},
+                    {"text": "체험단 미소진 5.3억 미반환", "icon": "yellow"}
+                ],
+                "accent_color": [255, 80, 80]
+            }
+        },
+        {
+            "tag": "비판",
+            "subtitle": "\"국회 나와 사과해야\"\n미국에서도 쓴소리",
+            "highlight_lines": [0],
+            "tts_text": "미국에서도 비판의 목소리가 나왔습니다. 태미 오버비 전 미국 상공회의소 부회장은 김범석 의장이 국회 출석 요구를 무시한 것이 실수라며, 이재용 삼성 회장처럼 직접 국회에 나와 사과해야 한다고 지적했습니다.",
+            "image_prompt": "quote",
+            "duration": 9,
+            "infographic_data": {
+                "type": "quote",
+                "text": "국회 출석 요구를 무시한 것이\n실수, 직접 나와서\n사과해야 한다",
+                "speaker": "태미 오버비",
+                "affiliation": "전 미국 상공회의소 부회장",
+                "accent_color": [80, 160, 255]
+            }
+        },
+        {
+            "tag": "전망",
+            "subtitle": "신뢰 회복 갈 길 멀다\n소비자·납품업체 모두 피해",
+            "highlight_lines": [0],
+            "tts_text": "개인정보 유출 사과와 납품 갑질 제재가 동시에 터지면서, 쿠팡의 신뢰 회복은 갈 길이 멀어 보입니다. 소비자와 납품업체 모두가 피해를 입은 만큼, 근본적인 변화가 필요하다는 지적이 이어지고 있습니다.",
+            "image_prompt": "headline",
+            "duration": 8,
+            "infographic_data": {
+                "type": "headline",
+                "text": "쿠팡, 신뢰 회복\n갈 길이 멀다",
+                "sub_text": "소비자 3,300만 명 + 납품업체 피해",
+                "style": "negative"
+            }
+        }
+    ]
 }

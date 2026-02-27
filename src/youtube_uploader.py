@@ -47,7 +47,7 @@ class YouTubeUploader:
         self.service = build("youtube", "v3", credentials=creds)
         return self
 
-    def upload(self, video_path: str | Path, script: dict, privacy: str = "private") -> str:
+    def upload(self, video_path: str | Path, script: dict, privacy: str = "public") -> str:
         """영상 업로드 후 video_id 반환
 
         Args:

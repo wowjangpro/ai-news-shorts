@@ -1,91 +1,94 @@
 {
-  "title": "쿠팡 김범석 사과",
-  "source": "아시아경제",
-  "youtube_title": "[속보] 쿠팡 김범석 의장, 3370만명 개인정보 유출 첫 육성 사과 | 2026.02.27",
-  "youtube_description": "쿠팡 김범석 의장이 3370만명 개인정보 유출 사태에 대해 처음으로 육성 사과했습니다.\n실적 발표 컨퍼런스콜에서 직접 입장을 밝혔으나, 국회 청문회는 불출석.\n\n#쿠팡 #김범석 #개인정보유출 #쿠팡해킹 #개인정보",
-  "youtube_tags": ["쿠팡", "김범석", "개인정보유출", "쿠팡해킹", "사과"],
+  "title": "법왜곡죄 국회 통과",
+  "youtube_title": "[속보] 법왜곡죄 국회 본회의 통과, 판·검사 법 왜곡 시 최대 징역 10년 | 2026.02.27",
+  "youtube_description": "법왜곡죄 도입을 위한 형법 개정안이 국회 본회의를 통과했습니다.\n찬성 163표, 반대 3표, 기권 4표로 압도적 가결.\n판사·검사가 형사사건에서 법을 왜곡하면 최대 징역 10년에 처해집니다.\n\n#법왜곡죄 #국회 #사법개혁 #형법개정 #판검사",
+  "youtube_tags": ["법왜곡죄", "국회통과", "사법개혁", "형법개정", "판검사"],
   "scenes": [
     {
       "tag": "속보",
-      "subtitle": "쿠팡 김범석 의장\n개인정보 유출 첫 육성 사과",
+      "subtitle": "법왜곡죄 형법 개정안\n국회 본회의 통과",
       "highlight_lines": [1],
-      "tts_text": "쿠팡 김범석 의장이 지난해 발생한 대규모 개인정보 유출 사태에 대해 처음으로 공식 석상에서 육성 사과했습니다.",
+      "tts_text": "법왜곡죄 도입을 위한 형법 개정안이 오늘 국회 본회의를 통과했습니다. 판사와 검사가 형사사건에서 고의로 법을 왜곡하면 처벌받게 됩니다.",
       "image_prompt": "headline",
       "duration": 7,
       "infographic_data": {
         "type": "headline",
-        "text": "쿠팡 김범석\n첫 육성 사과",
-        "sub_text": "개인정보 유출 사태 관련",
+        "text": "법왜곡죄\n국회 통과",
+        "sub_text": "형법 개정안 본회의 가결",
         "accent_color": [255, 60, 60],
-        "style": "negative"
+        "style": "breaking"
       }
     },
     {
-      "tag": "사건 개요",
-      "subtitle": "지난해 11월 발생\n3370만 회원 정보 유출\n전직 직원이 외부 유출",
+      "tag": "표결 결과",
+      "subtitle": "재석 170명 중\n찬성 163 · 반대 3 · 기권 4\n압도적 찬성으로 가결",
       "highlight_lines": [1],
-      "tts_text": "이 사건은 지난해 11월, 중국인으로 추정되는 전직 내부 직원에 의해 3천3백70만 회원의 성명, 주소, 연락처가 대량 유출된 사태입니다.",
-      "image_prompt": "numbers",
-      "duration": 8,
-      "infographic_data": {
-        "type": "numbers",
-        "items": [
-          {"label": "유출 회원 수", "value": "3,370만 명", "color": [255, 80, 80]},
-          {"label": "유출 정보", "value": "성명·주소·연락처", "color": [255, 160, 60]},
-          {"label": "발생 시점", "value": "2025년 11월", "color": [100, 160, 255]}
-        ],
-        "accent_color": [255, 80, 80]
-      }
-    },
-    {
-      "tag": "사과문",
-      "subtitle": "고객 기대에 부응 못해\n다시 한번 사과드린다",
-      "highlight_lines": [0, 1],
-      "tts_text": "김 의장은 4분기 실적 발표 컨퍼런스콜에서 고객의 기대에 부응하지 못했다며, 고객은 쿠팡이 존재하는 유일한 이유라고 밝혔습니다.",
-      "image_prompt": "quote",
-      "duration": 8,
-      "infographic_data": {
-        "type": "quote",
-        "text": "고객은 쿠팡이\n존재하는 유일한 이유,\n그 신뢰를 얻기 위해\n매일 최선을 다하고 있다",
-        "speaker": "김범석",
-        "affiliation": "쿠팡Inc 의장",
-        "accent_color": [100, 160, 255]
-      }
-    },
-    {
-      "tag": "보상안",
-      "subtitle": "피해 고객 1인당 5만원\n구매이용권 지급\n3370만명 대상",
-      "highlight_lines": [0],
-      "tts_text": "쿠팡은 고객 신뢰 복원을 위해 유출 피해 고객 3천3백70만 명 전원에게 1인당 5만 원의 구매이용권을 지급하겠다고 밝혔습니다.",
+      "tts_text": "표결 결과, 재석 170명 중 찬성 163표, 반대 3표, 기권 4표로 압도적인 찬성을 받아 가결되었습니다.",
       "image_prompt": "numbers",
       "duration": 7,
       "infographic_data": {
         "type": "numbers",
         "items": [
-          {"label": "1인당 보상 금액", "value": "5만원", "color": [80, 200, 120]},
-          {"label": "보상 대상", "value": "3,370만 명", "color": [100, 160, 255]},
-          {"label": "총 보상 규모 추정", "value": "약 1.7조원", "color": [255, 160, 60]}
+          {"label": "찬성", "value": "163표", "color": [80, 200, 120]},
+          {"label": "반대", "value": "3표", "color": [255, 80, 80]},
+          {"label": "기권", "value": "4표", "color": [180, 180, 180]}
         ],
         "accent_color": [80, 200, 120]
       }
     },
     {
-      "tag": "논란",
-      "subtitle": "국회 청문회는 불출석\n서면 사과 후 한 달 만\n육성 사과에도 비판 이어져",
-      "highlight_lines": [0],
-      "tts_text": "다만 김 의장은 국회 청문회에는 출석하지 않아 비판이 이어지고 있으며, 서면 사과 이후 한 달 만의 육성 사과에 진정성 논란도 제기되고 있습니다.",
+      "tag": "핵심 내용",
+      "subtitle": "판·검사 법 왜곡 시\n최대 징역 10년\n자격정지 10년 병과",
+      "highlight_lines": [1],
+      "tts_text": "법왜곡죄의 핵심 내용은, 판사나 검사가 형사사건 재판 또는 수사에서 고의로 법을 왜곡할 경우, 최대 징역 10년에 자격정지 10년이 병과됩니다.",
       "image_prompt": "list",
       "duration": 8,
       "infographic_data": {
         "type": "list",
-        "title": "쟁점 정리",
+        "title": "법왜곡죄 주요 내용",
         "items": [
-          {"text": "국회 청문회 불출석 — 비판 확산", "icon": "red"},
-          {"text": "서면 사과 후 한 달 만에 육성 사과", "icon": "yellow"},
-          {"text": "진정성 논란 — 실적 발표에서 사과", "icon": "red"},
-          {"text": "5만원 보상 — 충분한가 논쟁", "icon": "yellow"}
+          {"text": "적용 대상: 판사 · 검사", "icon": "blue"},
+          {"text": "대상 행위: 형사사건 법률 왜곡", "icon": "red"},
+          {"text": "형량: 최대 징역 10년", "icon": "red"},
+          {"text": "자격정지 10년 병과 가능", "icon": "yellow"}
         ],
-        "accent_color": [255, 80, 80]
+        "accent_color": [100, 160, 255]
+      }
+    },
+    {
+      "tag": "찬반 논란",
+      "subtitle": "민주당 '사법 정의 실현'\n국힘 '사법 보복 우려'\n첨예한 여야 대립",
+      "highlight_lines": [0, 1],
+      "tts_text": "더불어민주당은 사법 정의를 실현하기 위한 필수 법안이라고 주장하는 반면, 국민의힘은 사법 보복이 우려된다며 강하게 반대했습니다.",
+      "image_prompt": "comparison",
+      "duration": 8,
+      "infographic_data": {
+        "type": "comparison",
+        "items": [
+          {"label": "민주당 (찬성)", "value": 163, "color": [80, 160, 255]},
+          {"label": "국힘 등 (반대)", "value": 3, "color": [255, 80, 80]}
+        ],
+        "unit": "표",
+        "accent_color": [80, 160, 255]
+      }
+    },
+    {
+      "tag": "향후 전망",
+      "subtitle": "사법개혁 3법 중 첫 통과\n대통령 거부권 행사 주목\n재의결 가능성도",
+      "highlight_lines": [1],
+      "tts_text": "이번 법왜곡죄는 민주당이 추진하는 사법개혁 3법 중 첫 번째로 통과된 것입니다. 대통령의 거부권 행사 여부가 주목되며, 재의결 가능성도 거론되고 있습니다.",
+      "image_prompt": "list",
+      "duration": 8,
+      "infographic_data": {
+        "type": "list",
+        "title": "향후 전망",
+        "items": [
+          {"text": "사법개혁 3법 중 첫 번째 통과", "icon": "green"},
+          {"text": "대통령 거부권 행사 가능성", "icon": "yellow"},
+          {"text": "국회 재의결 시 2/3 필요", "icon": "blue"},
+          {"text": "나머지 2법 처리 일정 주목", "icon": "gray"}
+        ],
+        "accent_color": [255, 180, 60]
       }
     }
   ]

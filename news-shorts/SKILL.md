@@ -17,21 +17,35 @@ description: "오늘의 뉴스를 검색하고 유튜브 쇼츠 영상을 자동
 `scripts/news_data.json`을 새 뉴스 내용으로 작성. JSON 구조는 [references/script-format.md](references/script-format.md) 참조.
 
 핵심 규칙:
-- **4~6개 씬**, TTS 합계 **3분 이내** (유튜브 쇼츠 제한)
+- **씬 개수는 뉴스 분량에 맞게 유동적으로 결정** (3~10개), TTS 합계 **3분 이내** (유튜브 쇼츠 제한)
+  - 짧은 단신: 3~4개 씬
+  - 일반 뉴스: 4~6개 씬
+  - 심층/데이터 많은 뉴스: 6~10개 씬
 - 자막: **15자 이내 × 최대 3줄**, `\n`으로 줄바꿈
 - `highlight_lines`: 핵심 데이터/숫자 줄은 GOLD, 설명 줄은 WHITE
 - `tts_text`: 자연스러운 한국어 존댓말
 - `image_prompt`: 인포그래픽 타입 키워드 (headline, numbers, list, quote, comparison)
 - `infographic_data`: 인포그래픽 렌더링 데이터 — 타입별 구조는 [references/infographic-types.md](references/infographic-types.md) 참조
 
-### 3. 영상 생성 실행
+### 3. 팩트체크
+영상 생성 **전**, 작성한 `news_data.json`을 원본 기사와 대조:
+
+1. `WebSearch`로 해당 뉴스 원문 재검색
+2. 아래 항목을 원문과 비교:
+   - **숫자/통계**: 금액, 인원, 비율, 날짜 등 정확한지
+   - **고유명사**: 인물명, 기관명, 법안명 등 오탈자 없는지
+   - **인용문**: 발언 내용이 원문과 일치하는지
+   - **맥락**: 사실관계가 왜곡·과장되지 않았는지
+3. 불일치 발견 시 `news_data.json` 수정 후 진행
+
+### 4. 영상 생성 실행
 ```bash
 python scripts/run_news_shorts.py
 ```
 `scripts/news_data.json`을 읽어 영상 생성. 출력: `output/` 폴더에 MP4 + script JSON 저장.
 다른 JSON 파일 지정도 가능: `python scripts/run_news_shorts.py path/to/data.json`
 
-### 4. 결과 확인
+### 5. 결과 확인
 ```bash
 ffmpeg -i output/영상파일.mp4 -vf "select='eq(n,프레임번호)'" -vsync vfr -frames:v 1 /tmp/check.png
 ```

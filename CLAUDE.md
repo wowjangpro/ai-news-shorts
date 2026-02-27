@@ -13,12 +13,13 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 ## 핵심 파이프라인
 `scripts/run_news_shorts.py` — 범용 파이프라인 (JSON 데이터 입력 → 영상 출력)
 
-1. `scripts/news_data.json` — 뉴스 데이터 (매번 새로 작성)
-2. `src/graphics/infographic.py` — 인포그래픽 배경 생성 (5개 범용 타입)
-3. `edge-tts` — 씬별 TTS 나레이션
-4. `src/bgm_generator.py` — 뉴스 BGM 합성
-5. `src/video_renderer.py` — 프레임별 렌더링 (헤더 + 이미지 + 자막)
-6. `src/video_composer.py` — FFmpeg로 프레임 + 오디오 합성
+1. 뉴스 검색 → `scripts/news_data.json` 작성 (매번 새로 작성)
+2. **팩트체크** — 원본 기사와 JSON 데이터 대조 (숫자, 고유명사, 인용문, 맥락)
+3. `src/graphics/infographic.py` — 인포그래픽 배경 생성 (5개 범용 타입)
+4. `edge-tts` — 씬별 TTS 나레이션
+5. `src/bgm_generator.py` — 뉴스 BGM 합성
+6. `src/video_renderer.py` — 프레임별 렌더링 (헤더 + 이미지 + 자막)
+7. `src/video_composer.py` — FFmpeg로 프레임 + 오디오 합성
 
 ## 영상 레이아웃 (1080x1920)
 - 상단 0~250px: 검정 배경, 빨간 태그 + 제목 + 날짜

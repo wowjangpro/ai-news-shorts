@@ -69,16 +69,6 @@ def _center_glow(draw, cx, cy, radius, color):
         draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=c)
 
 
-def _particles(draw, w, h, count=30, seed=42, color=(40, 60, 100)):
-    """미세 입자 효과"""
-    rng = random.Random(seed)
-    for _ in range(count):
-        x, y = rng.randint(0, w), rng.randint(0, h)
-        r = rng.randint(1, 4)
-        b = rng.uniform(0.3, 1.0)
-        c = tuple(int(v * b) for v in color)
-        draw.ellipse([x - r, y - r, x + r, y + r], fill=c)
-
 
 def _right_text(draw, text, x_right, y, font, fill):
     """오른쪽 정렬 텍스트"""
@@ -199,7 +189,6 @@ def _draw_stock_chart(w, h):
     tw2 = bbox2[2] - bbox2[0]
     draw.text(((w - tw2) // 2, num_y + 120), "+53.06  (+0.89%)", font=f_pct, fill=(255, 120, 120))
 
-    _particles(draw, w, h, 20, seed=7, color=(30, 50, 90))
     return img
 
 
@@ -359,7 +348,6 @@ def _draw_semiconductor(w, h):
         draw.text((cx0 + 20, card_y + 65), price, font=f_cp, fill=(255, 255, 255))
         draw.text((cx0 + 20, card_y + 130), pct, font=f_cc, fill=(255, 90, 90))
 
-    _particles(draw, w, h, 25, seed=33, color=(25, 55, 100))
     return img
 
 
@@ -560,7 +548,6 @@ def _draw_warning(w, h):
 
         draw.text((115, y + 3), text, font=f_bullet, fill=(230, 230, 235))
 
-    _particles(draw, w, h, 15, seed=77, color=(50, 20, 20))
     return img
 
 
@@ -573,7 +560,6 @@ def _draw_generic_news(w, h):
 
     _gradient(draw, 0, 0, w, h, (10, 15, 35), (5, 5, 20))
     _center_glow(draw, w // 2, h // 2, 500, (30, 45, 80))
-    _particles(draw, w, h, 40, seed=99, color=(40, 60, 100))
 
     return img
 
@@ -640,7 +626,6 @@ def _draw_headline_visual(w, h, data):
         tw = bbox[2] - bbox[0]
         draw.text(((w - tw) // 2, start_y + total_line_h + 30), sub_text, font=f_sub, fill=accent)
 
-    _particles(draw, w, h, 30, seed=11, color=tuple(c // 3 for c in glow_color))
     return img
 
 
@@ -701,7 +686,6 @@ def _draw_key_numbers(w, h, data):
             radius=14, fill=tuple(c // 4 for c in first_color)
         ), blur_radius=18)
 
-    _particles(draw, w, h, 25, seed=22, color=tuple(c // 5 for c in accent))
     return img
 
 
@@ -760,7 +744,6 @@ def _draw_info_list(w, h, data):
             radius=10, fill=tuple(c // 5 for c in accent)
         ), blur_radius=15)
 
-    _particles(draw, w, h, 20, seed=33, color=tuple(c // 4 for c in accent))
     return img
 
 
@@ -811,7 +794,6 @@ def _draw_quote_visual(w, h, data):
             sw = bbox[2] - bbox[0]
             draw.text((text_x + sw + 15, speaker_y + 4), f"| {affiliation}", font=f_aff, fill=(120, 130, 150))
 
-    _particles(draw, w, h, 20, seed=44, color=tuple(c // 5 for c in accent))
     return img
 
 

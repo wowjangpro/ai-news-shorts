@@ -40,8 +40,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - [x] TTS 연동 (edge-tts 남성 음성, +15% 속도)
 - [x] 씬 전환 최적화 (페이드인/아웃 0.2초, TTS 기반 씬 동기화)
 - [x] 범용 파이프라인 (run_news_shorts.py + news_data.json)
-- [x] YouTube 쇼츠 자동 업로드 (OAuth 2.0, #Shorts 태그, 기본 활성화)
+- [x] YouTube 쇼츠 자동 공개 업로드 (OAuth 2.0, #Shorts 태그, 기본 공개)
 
-## 참고 샘플
-- YouTube Shorts 샘플: https://www.youtube.com/shorts/J1lCB7hYdBg
-- 포맷: 세로, 상단 제목, 중앙 이미지, 하단 자막 (큰 글씨, 외곽선)
+## GitHub
+- https://github.com/wowjangpro/ai-news-shorts

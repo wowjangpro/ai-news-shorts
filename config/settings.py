@@ -23,10 +23,14 @@ VIDEO_FPS = int(os.getenv("VIDEO_FPS", "30"))
 VIDEO_CRF = int(os.getenv("VIDEO_CRF", "20"))
 
 # ── 레이아웃 ──
-HEADER_HEIGHT = 250        # 상단 제목 영역
-SUBTITLE_HEIGHT = 830      # 하단 자막 영역
-IMAGE_AREA_TOP = HEADER_HEIGHT
-IMAGE_AREA_BOTTOM = VIDEO_HEIGHT - SUBTITLE_HEIGHT
+HEADER_HEIGHT = 250        # 상단 제목 영역 (0~250)
+SCENE_SUB_TOP = HEADER_HEIGHT  # 씬 요약 자막 시작 (250)
+SCENE_SUB_HEIGHT = 220     # 씬 요약 자막 높이 (250~470)
+IMAGE_AREA_TOP = SCENE_SUB_TOP + SCENE_SUB_HEIGHT  # 인포그래픽 상단 (470)
+IMAGE_AREA_BOTTOM = IMAGE_AREA_TOP + 840           # 인포그래픽 하단 (1310)
+TTS_SUB_TOP = 1570         # TTS 실시간 자막 시작
+TTS_SUB_HEIGHT = 295       # TTS 자막 높이 (1570~1865)
+BOTTOM_BAR_HEIGHT = 55     # 하단 AI 고지 바 (1865~1920)
 
 # ── 색상 ──
 ACCENT_RED = (255, 60, 60)
@@ -79,5 +83,10 @@ FONT_PATHS = {
         ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 0),    # Regular
         "/Library/Fonts/NanumSquareRoundR.ttf",
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    ],
+    "Handwriting": [
+        os.path.expanduser("~/Library/Fonts/KyoboHandwriting2020pdy.otf"),
+        "/Library/Fonts/KyoboHandwriting2020pdy.otf",
+        ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 0),    # fallback
     ],
 }

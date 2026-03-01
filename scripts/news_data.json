@@ -1,119 +1,114 @@
 {
-    "title": "이란 하메네이 사망",
-    "youtube_title": "이란 최고지도자 하메네이 사망…미-이스라엘 벙커버스터 30발 투하, 37년 통치 종말",
-    "youtube_description": "미국과 이스라엘이 이란 테헤란을 공습해 최고지도자 하메네이가 사망했습니다. 벙커버스터 30발로 지하 60m 벙커 파괴, 가족 4명과 고위 관료 40명 이상 사망. 이란은 40일 추도기간을 선포하고 보복 미사일 공격에 나섰으며, 호르무즈 해협 봉쇄 우려로 국제유가가 급등하고 있습니다.",
-    "youtube_tags": ["이란", "하메네이", "이스라엘", "트럼프", "중동전쟁", "벙커버스터", "호르무즈해협", "유가급등"],
+    "title": "반려동물 식당 출입 허용",
+    "tone": {
+        "bg_top": [12, 22, 32],
+        "bg_bottom": [6, 14, 22],
+        "glow": [70, 170, 140],
+        "card_bg": [14, 26, 34],
+        "card_outline": [30, 58, 62]
+    },
+    "bg_prompt": "Flat editorial illustration of a cozy pet-friendly restaurant interior, a happy dog and cat sitting by a warm cafe table, soft pastel colors, welcoming atmosphere, clean minimal style, warm golden lighting",
+    "youtube_title": "오늘부터 강아지·고양이 식당 출입 합법! 3월 1일 시행…위반 시 영업정지",
+    "youtube_description": "2026년 3월 1일부터 반려동물(개·고양이)의 음식점 동반 출입이 합법화됩니다. 식품위생법 시행규칙 개정으로 일반음식점·휴게음식점·제과점에서 반려동물 동반이 가능해졌습니다. 단, 예방접종 필수, 자유 이동 금지, 칸막이·전용식기 설치 등 엄격한 위생 기준을 지켜야 하며, 위반 시 최대 영업정지 20일 처분을 받을 수 있습니다.",
+    "youtube_tags": ["반려동물", "식당출입", "강아지", "고양이", "식품위생법", "3월1일시행", "펫프렌들리", "반려동물동반"],
     "scenes": [
         {
-            "tag": "속보",
-            "subtitle": "이란 최고지도자\n하메네이 사망 확인",
+            "tag": "시행",
+            "subtitle": "3월 1일부터\n반려동물 식당 출입 합법화",
             "highlight_lines": [1],
-            "tts_text": "이란 국영방송이 최고지도자 아야톨라 하메네이의 사망을 공식 확인했습니다. 37년간 이란을 철권 통치해온 하메네이는 미국과 이스라엘의 합동 공습으로 테헤란 집무실에서 사망했습니다.",
+            "tts_text": "오늘 3월 1일부터 반려동물과 함께 식당에 갈 수 있게 됩니다. 식품의약품안전처가 식품위생법 시행규칙을 개정해 음식점에서 개와 고양이의 동반 출입을 공식 허용했습니다.",
             "image_prompt": "headline",
             "duration": 9,
             "infographic_data": {
                 "type": "headline",
-                "text": "이란 최고지도자\n하메네이 사망",
-                "sub_text": "37년 철권통치의 종말",
+                "text": "반려동물\n식당 출입 합법화",
+                "sub_text": "2026년 3월 1일 시행",
                 "style": "breaking"
             }
         },
         {
-            "tag": "공습",
-            "subtitle": "벙커버스터 30발 투하\n지하 60m 벙커 파괴",
+            "tag": "대상",
+            "subtitle": "일반음식점·휴게음식점·제과점\n개와 고양이만 허용",
             "highlight_lines": [0],
-            "tts_text": "이스라엘은 미국과 협력해 하메네이의 테헤란 거처에 벙커버스터 폭탄 약 30발을 투하했습니다. 지하 60미터까지 관통하는 폭탄으로 지하 벙커 대부분이 파괴된 것이 위성사진으로 확인됐습니다.",
-            "image_prompt": "numbers",
-            "duration": 9,
-            "infographic_data": {
-                "type": "numbers",
-                "items": [
-                    {"label": "투하 폭탄", "value": "약 30발", "color": [255, 80, 80]},
-                    {"label": "관통 깊이", "value": "지하 60m", "color": [255, 160, 60]},
-                    {"label": "공격 시점", "value": "2/28 새벽", "color": [60, 160, 255]}
-                ]
-            }
-        },
-        {
-            "tag": "피해",
-            "subtitle": "가족 4명·고위 관료 40명+\n함께 사망",
-            "highlight_lines": [0],
-            "tts_text": "하메네이의 딸, 손자, 며느리, 사위 등 가족 4명도 함께 사망했습니다. 최소 40명의 이란 고위 관료들도 같은 공습으로 목숨을 잃은 것으로 전해졌습니다.",
-            "image_prompt": "numbers",
-            "duration": 8,
-            "infographic_data": {
-                "type": "numbers",
-                "items": [
-                    {"label": "가족 사망", "value": "4명", "color": [255, 80, 80]},
-                    {"label": "고위 관료", "value": "40명 이상", "color": [255, 80, 80]},
-                    {"label": "공습 15시간 후", "value": "공식 발표", "color": [60, 160, 255]}
-                ]
-            }
-        },
-        {
-            "tag": "트럼프",
-            "subtitle": "\"하메네이 사살 성공\n이란 국민, 조국 되찾아라\"",
-            "highlight_lines": [0, 1],
-            "tts_text": "트럼프 미국 대통령은 하메네이 사망을 공식 발표하며, 이란 국민에게 조국을 되찾을 기회라고 말했습니다. 네타냐후 이스라엘 총리도 이란 지도부 대부분이 제거됐다고 밝혔습니다.",
-            "image_prompt": "quote",
-            "duration": 9,
-            "infographic_data": {
-                "type": "quote",
-                "text": "하메네이 사살 성공\n이란 국민이여\n조국을 되찾을\n기회가 왔다",
-                "speaker": "트럼프",
-                "affiliation": "미국 대통령",
-                "accent_color": [255, 80, 80]
-            }
-        },
-        {
-            "tag": "이란 반응",
-            "subtitle": "40일 추도기간 선포\n테헤란 거리엔 환호성",
-            "highlight_lines": [1],
-            "tts_text": "이란 정부는 40일간의 국가 추도기간과 1주일간 공휴일을 선포했습니다. 하지만 테헤란 거리에서는 시민들이 박수를 치고 운전자들이 경적을 울리며 축하하는 모습이 포착되었습니다.",
+            "tts_text": "동반 출입이 가능한 업종은 일반음식점, 휴게음식점, 제과점 세 곳입니다. 출입 가능한 반려동물은 개와 고양이로 한정되며, 모든 음식점에 전면 허용되는 것은 아니고 희망하는 업소만 신청해 운영할 수 있습니다.",
             "image_prompt": "list",
             "duration": 9,
             "infographic_data": {
                 "type": "list",
-                "title": "이란 내부 반응",
+                "title": "허용 대상",
                 "items": [
-                    {"text": "40일 국가 추도기간 선포", "icon": "blue"},
-                    {"text": "1주일 공휴일 선포", "icon": "blue"},
-                    {"text": "테헤란 시민들 거리 환호", "icon": "green"}
+                    {"text": "일반음식점", "icon": "green"},
+                    {"text": "휴게음식점 (카페 포함)", "icon": "green"},
+                    {"text": "제과점 (베이커리)", "icon": "green"}
                 ],
-                "accent_color": [60, 160, 255]
+                "accent_color": [60, 180, 120]
             }
         },
         {
-            "tag": "보복",
-            "subtitle": "이란 보복 미사일 발사\n호르무즈 해협 봉쇄 위기",
+            "tag": "조건",
+            "subtitle": "예방접종 필수\n자유 이동 금지",
             "highlight_lines": [0, 1],
-            "tts_text": "이란 혁명수비대는 이스라엘과 미군 기지에 보복 미사일과 드론을 발사했습니다. 국제 원유 수급의 핵심 통로인 호르무즈 해협 봉쇄도 선언해 전 세계가 긴장하고 있습니다.",
+            "tts_text": "반려동물 동반에는 엄격한 조건이 따릅니다. 예방접종을 하지 않은 반려동물은 출입이 제한되며, 영업장 안에서 반려동물이 자유롭게 돌아다니는 것은 금지됩니다. 반드시 전용 의자나 케이지, 목줄 고정 장치를 이용해 고정해야 합니다.",
             "image_prompt": "list",
-            "duration": 9,
+            "duration": 10,
             "infographic_data": {
                 "type": "list",
-                "title": "이란 보복 공격",
+                "title": "반려동물 동반 조건",
                 "items": [
-                    {"text": "이스라엘·미군 기지에 미사일 발사", "icon": "blue"},
-                    {"text": "호르무즈 해협 봉쇄 선언", "icon": "blue"},
-                    {"text": "UAE·사우디 미사일 공격", "icon": "blue"}
+                    {"text": "예방접종 완료 필수", "icon": "blue"},
+                    {"text": "케이지·목줄 고정 의무", "icon": "blue"},
+                    {"text": "매장 내 자유 이동 금지", "icon": "blue"}
                 ],
-                "accent_color": [255, 80, 80]
+                "accent_color": [60, 120, 255]
             }
         },
         {
-            "tag": "경제 충격",
-            "subtitle": "국제유가 급등\n배럴당 130달러 전망",
+            "tag": "시설",
+            "subtitle": "칸막이·전용식기·공기청정기\n위생 시설 의무화",
+            "highlight_lines": [0],
+            "tts_text": "업소 측도 시설 기준을 갖춰야 합니다. 반려동물이 조리장이나 식재료 보관 창고에 들어갈 수 없도록 칸막이와 울타리를 설치해야 하고, 반려동물용 전용 식기와 전용 쓰레기통을 별도로 마련해야 합니다. 음식에 털이 들어가지 않도록 덮개를 사용하고 환기와 공기청정기도 가동해야 합니다.",
+            "image_prompt": "list",
+            "duration": 11,
+            "infographic_data": {
+                "type": "list",
+                "title": "업소 시설 기준",
+                "items": [
+                    {"text": "조리장 칸막이·울타리 설치", "icon": "blue"},
+                    {"text": "전용 식기·쓰레기통 구분", "icon": "blue"},
+                    {"text": "음식 덮개·공기청정기 가동", "icon": "blue"}
+                ],
+                "accent_color": [255, 160, 60]
+            }
+        },
+        {
+            "tag": "처벌",
+            "subtitle": "위반 시 영업정지\n최대 20일 처분",
             "highlight_lines": [1],
-            "tts_text": "중동 사태로 국제유가가 급등하고 있습니다. 브렌트유는 4% 넘게 올랐고, 호르무즈 해협이 전면 봉쇄되면 배럴당 120에서 130달러까지 치솟을 것으로 전망됩니다. 한국 정부도 에너지 비상대응반을 가동했습니다.",
+            "tts_text": "규정을 어기면 강력한 행정처분이 내려집니다. 반려동물이 식품 취급 시설에 들어가거나 매장 내 이동 금지를 위반하면, 1차 영업정지 5일, 2차 10일, 3차 20일입니다. 그 외 경미한 위반은 시정명령부터 시작됩니다.",
             "image_prompt": "numbers",
             "duration": 9,
             "infographic_data": {
                 "type": "numbers",
                 "items": [
-                    {"label": "브렌트유 상승", "value": "+4.3%", "color": [255, 80, 80]},
-                    {"label": "봉쇄 시 전망", "value": "$130/배럴", "color": [255, 160, 60]},
-                    {"label": "미국 원유", "value": "+6.8%", "color": [255, 80, 80]}
+                    {"label": "1차 위반", "value": "정지 5일", "color": [255, 200, 60]},
+                    {"label": "2차 위반", "value": "정지 10일", "color": [255, 140, 60]},
+                    {"label": "3차 위반", "value": "정지 20일", "color": [255, 80, 80]}
+                ]
+            }
+        },
+        {
+            "tag": "현황",
+            "subtitle": "반려가구 1500만 시대\n펫프렌들리 문화 확산",
+            "highlight_lines": [0],
+            "tts_text": "현재 국내 반려동물 양육 가구는 약 552만 가구, 반려 인구는 1500만 명에 달합니다. 이번 제도 시행으로 반려인과 비반려인이 함께 공존하는 펫프렌들리 문화가 본격 확산될 것으로 기대됩니다.",
+            "image_prompt": "numbers",
+            "duration": 9,
+            "infographic_data": {
+                "type": "numbers",
+                "items": [
+                    {"label": "반려 가구", "value": "552만", "color": [60, 180, 120]},
+                    {"label": "반려 인구", "value": "1500만", "color": [60, 160, 255]},
+                    {"label": "시행일", "value": "3월 1일", "color": [255, 160, 60]}
                 ]
             }
         }

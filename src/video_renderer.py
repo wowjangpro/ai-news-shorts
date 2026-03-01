@@ -41,6 +41,7 @@ class VideoRenderer:
         frames_dir: Path,
         seg_durations: list[float] | None = None,
         all_word_timings: list[list[dict]] | None = None,
+        bg_img: Image.Image | None = None,
     ):
         """전체 프레임 렌더링"""
         total_frames = int(total_duration * VIDEO_FPS)
@@ -52,10 +53,18 @@ class VideoRenderer:
         # TTS 문장 타이밍 전처리 (씬별 단어 → 문장 그룹)
         sentence_timings = self._build_sentence_timings(scenes, scene_timings, all_word_timings)
 
-        # 이미지 프리로드
+        # 풀스크린 배경 이미지 준비
+        if bg_img is not None:
+            self._bg_img = bg_img.convert("RGB").resize((VIDEO_WIDTH, VIDEO_HEIGHT), Image.LANCZOS)
+        else:
+            self._bg_img = None
+
+        # 이미지 프리로드 (RGBA 투명 인포그래픽 지원)
         loaded_images = []
         for img_path in images:
-            img = Image.open(str(img_path)).convert("RGB")
+            img = Image.open(str(img_path))
+            if img.mode not in ("RGB", "RGBA"):
+                img = img.convert("RGBA")
             img = img.resize((VIDEO_WIDTH, IMAGE_AREA_BOTTOM - IMAGE_AREA_TOP), Image.LANCZOS)
             loaded_images.append(img)
 
@@ -147,7 +156,12 @@ class VideoRenderer:
         scene_timings, loaded_images, total_duration, sentence_timings,
     ) -> Image.Image:
         sec = frame_num / VIDEO_FPS
-        img = Image.new("RGB", (VIDEO_WIDTH, VIDEO_HEIGHT), BLACK)
+
+        # 풀스크린 배경: 일러스트 또는 검정
+        if self._bg_img is not None:
+            img = self._bg_img.copy()
+        else:
+            img = Image.new("RGB", (VIDEO_WIDTH, VIDEO_HEIGHT), BLACK)
         draw = ImageDraw.Draw(img)
 
         # 현재 씬
@@ -166,20 +180,33 @@ class VideoRenderer:
         elif sec > total_duration - 0.2:
             fade = max(0, (total_duration - sec) / 0.2)
 
+        # ── 배경 위 얇은 오버레이 (가독성 보조) ──
+        if self._bg_img is not None:
+            overlay = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), (0, 0, 0, 60))
+            img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+            draw = ImageDraw.Draw(img)
+
         # ── 1. 인포그래픽 이미지 ──
         if 0 <= scene_idx < len(loaded_images):
-            bg_img = loaded_images[scene_idx].copy()
-            sf = 1.0
-            start, end = scene_timings[scene_idx]
-            if sec - start < 0.12:
-                sf = (sec - start) / 0.12
-            elif end - sec < 0.08:
-                sf = (end - sec) / 0.08
-            if sf < 1 or fade < 1:
-                from PIL import ImageEnhance
-                enhancer = ImageEnhance.Brightness(bg_img)
-                bg_img = enhancer.enhance(sf * fade)
-            img.paste(bg_img, (0, IMAGE_AREA_TOP))
+            scene_img = loaded_images[scene_idx].copy()
+            if scene_img.mode == "RGBA":
+                # 투명 인포그래픽: 배경 위에 알파 합성
+                region = img.crop((0, IMAGE_AREA_TOP, VIDEO_WIDTH, IMAGE_AREA_BOTTOM)).convert("RGBA")
+                composited = Image.alpha_composite(region, scene_img)
+                img.paste(composited.convert("RGB"), (0, IMAGE_AREA_TOP))
+            else:
+                # 기존 불투명 인포그래픽: 페이드 + 붙이기
+                sf = 1.0
+                start, end = scene_timings[scene_idx]
+                if sec - start < 0.12:
+                    sf = (sec - start) / 0.12
+                elif end - sec < 0.08:
+                    sf = (end - sec) / 0.08
+                if sf < 1 or fade < 1:
+                    from PIL import ImageEnhance
+                    enhancer = ImageEnhance.Brightness(scene_img)
+                    scene_img = enhancer.enhance(sf * fade)
+                img.paste(scene_img, (0, IMAGE_AREA_TOP))
 
         # ── 2. 상단 헤더 ──
         self._draw_header(draw, script, scenes, scene_idx, fade)
@@ -196,7 +223,8 @@ class VideoRenderer:
             self._draw_tts_subtitle(draw, sentence_timings[scene_idx], sec, fade)
 
         # ── 6. 하단 바 ──
-        draw.rectangle([0, VIDEO_HEIGHT - BOTTOM_BAR_HEIGHT, VIDEO_WIDTH, VIDEO_HEIGHT], fill=BLACK)
+        if self._bg_img is None:
+            draw.rectangle([0, VIDEO_HEIGHT - BOTTOM_BAR_HEIGHT, VIDEO_WIDTH, VIDEO_HEIGHT], fill=BLACK)
         f = self.get_font(22, "Regular")
         draw.text((30, VIDEO_HEIGHT - 42), "AI로 생성되어 사실과 다를 수 있습니다.", font=f, fill=(120, 120, 130))
 
@@ -204,7 +232,9 @@ class VideoRenderer:
 
     def _draw_header(self, draw, script, scenes, scene_idx, fade):
         """상단 헤더 영역"""
-        draw.rectangle([0, 0, VIDEO_WIDTH, HEADER_HEIGHT], fill=BLACK)
+        # 배경은 _render_frame에서 오버레이 처리
+        if self._bg_img is None:
+            draw.rectangle([0, 0, VIDEO_WIDTH, HEADER_HEIGHT], fill=BLACK)
         draw.rectangle([0, 0, VIDEO_WIDTH, 5], fill=ACCENT_RED)
 
         if 0 <= scene_idx < len(scenes):
@@ -323,44 +353,16 @@ class VideoRenderer:
         for si, wrapped in blocks:
             is_active = (si == active_idx)
 
-            if is_active:
-                brightness = 1.0
-            elif si < active_idx:
-                # 지난 문장: 매우 어둡게
-                dist = active_idx - si
-                brightness = max(0.06, 0.18 - dist * 0.06)
-            else:
-                # 다음 문장: 약간 어둡게
-                dist = si - active_idx
-                brightness = max(0.10, 0.35 - dist * 0.10)
+            if not is_active:
+                y += len(wrapped) * line_height
+                continue
 
             for line_text in wrapped:
-                # 화면 밖이면 스킵
-                if y < area_top - line_height:
-                    y += line_height
-                    continue
-                if y > area_bottom + line_height:
-                    break
-
-                # 가장자리 페이드
-                edge_fade = 1.0
-                if y < area_top + 20:
-                    edge_fade = max(0, (y - area_top + 20) / 40)
-                elif y > area_bottom - 30:
-                    edge_fade = max(0, (area_bottom - y) / 30)
-
-                alpha = fade * edge_fade * brightness
-                fill_color = tuple(int(255 * alpha) for _ in range(3))
-
-                font = f_active if is_active else f_tts
-                bbox = draw.textbbox((0, 0), line_text, font=font)
+                bbox = draw.textbbox((0, 0), line_text, font=f_active)
                 tw = bbox[2] - bbox[0]
                 x = (VIDEO_WIDTH - tw) // 2
-
-                if is_active:
-                    self._text_outline(draw, line_text, x, int(y), font, fill_color, (0, 0, 0), 1)
-                else:
-                    draw.text((x, int(y)), line_text, font=font, fill=fill_color)
+                self._text_outline(draw, line_text, x, int(y), f_active, (255, 255, 255), (0, 0, 0), 3)
+                y += line_height
 
                 y += line_height
 

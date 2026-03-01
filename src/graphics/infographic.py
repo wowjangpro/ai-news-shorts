@@ -77,9 +77,60 @@ def _right_text(draw, text, x_right, y, font, fill):
     draw.text((x_right - tw, y), text, font=font, fill=fill)
 
 
+# ── 톤 (기사 분위기별 색상) ──
+
+# 기본 톤 (tone 미지정 시 사용)
+_DEFAULT_TONE = {
+    "bg_top": [8, 12, 30],
+    "bg_bottom": [5, 5, 20],
+    "glow": [50, 80, 140],
+    "card_bg": [15, 18, 32],
+    "card_outline": [30, 38, 55],
+}
+
+
+def _get_tone(data: dict) -> dict:
+    """데이터에서 톤 추출 — JSON에서 직접 RGB 값을 받아 사용
+    tone이 dict면 커스텀 색상, 미지정이면 기본값 사용"""
+    tone = data.get("tone")
+    if isinstance(tone, dict):
+        merged = dict(_DEFAULT_TONE)
+        merged.update(tone)
+        return {k: tuple(v) for k, v in merged.items()}
+    return {k: tuple(v) for k, v in _DEFAULT_TONE.items()}
+
+
+def _make_base(w: int, h: int, tone: dict, bg_img: Image.Image | None = None) -> Image.Image:
+    """배경 생성 — bg_img 있으면 투명 RGBA 캔버스, 없으면 그라데이션"""
+    if bg_img is not None:
+        return Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    else:
+        img = Image.new("RGB", (w, h), (0, 0, 0))
+        draw = ImageDraw.Draw(img)
+        _gradient(draw, 0, 0, w, h, tone["bg_top"], tone["bg_bottom"])
+        return img
+
+
+def _text_outline(draw, text, x, y, font, fill, outline=(0, 0, 0), width=3):
+    """텍스트에 외곽선 추가 (밝은 배경 위 가독성)"""
+    for dx in range(-width, width + 1):
+        for dy in range(-width, width + 1):
+            if dx * dx + dy * dy <= width * width:
+                draw.text((x + dx, y + dy), text, font=font, fill=outline)
+    draw.text((x, y), text, font=font, fill=fill)
+
+
+def _right_text_outline(draw, text, x_right, y, font, fill, outline=(0, 0, 0), width=3):
+    """오른쪽 정렬 + 외곽선 텍스트"""
+    bbox = draw.textbbox((0, 0), text, font=font)
+    tw = bbox[2] - bbox[0]
+    _text_outline(draw, text, x_right - tw, y, font, fill, outline, width)
+
+
 # ── 메인 디스패치 ──
 
-def generate_infographic(w: int, h: int, prompt: str, tag: str = "", data: dict | None = None) -> Image.Image:
+def generate_infographic(w: int, h: int, prompt: str, tag: str = "",
+                         data: dict | None = None, bg_img: Image.Image | None = None) -> Image.Image:
     """프롬프트 키워드 또는 data.type으로 인포그래픽 생성"""
 
     # data.type 기반 디스패치 (새 방식)
@@ -93,7 +144,7 @@ def generate_infographic(w: int, h: int, prompt: str, tag: str = "", data: dict 
         }
         fn = dispatch.get(data["type"])
         if fn:
-            return fn(w, h, data)
+            return fn(w, h, data, bg_img)
 
     # 기존 prompt 키워드 매칭 (하위 호환)
     p = prompt.lower()
@@ -569,23 +620,16 @@ def _draw_generic_news(w, h):
 # ═══════════════════════════════════════════
 
 
-def _draw_headline_visual(w, h, data):
+def _draw_headline_visual(w, h, data, bg_img=None):
     """대형 헤드라인 텍스트 + 드라마틱 배경"""
     accent = tuple(data.get("accent_color", [255, 60, 60]))
-    style = data.get("style", "breaking")  # breaking | positive | negative | neutral
+    tone = _get_tone(data)
+    transparent = bg_img is not None
 
-    bg_colors = {
-        "breaking": ((30, 8, 12), (12, 5, 18), accent),
-        "positive": ((5, 20, 12), (5, 10, 18), (60, 200, 120)),
-        "negative": ((25, 8, 8), (10, 5, 15), (255, 60, 60)),
-        "neutral": ((8, 12, 30), (5, 5, 20), (80, 140, 255)),
-    }
-    c_top, c_bottom, glow_color = bg_colors.get(style, bg_colors["neutral"])
-
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-    _gradient(draw, 0, 0, w, h, c_top, c_bottom)
-    _center_glow(draw, w // 2, h // 3, min(w, h), glow_color)
+    if not transparent:
+        _center_glow(draw, w // 2, h // 3, min(w, h), tone["glow"])
 
     # 메인 텍스트
     text = data.get("text", "")
@@ -599,24 +643,28 @@ def _draw_headline_visual(w, h, data):
     total_line_h = len(lines) * (font_size + 20)
     start_y = (h - total_line_h) // 2 - 40
 
-    # 글로우 효과
-    def glow_fn(gd):
-        for i, line in enumerate(lines):
-            bbox = gd.textbbox((0, 0), line, font=f_main)
-            tw = bbox[2] - bbox[0]
-            x = (w - tw) // 2
-            y = start_y + i * (font_size + 20)
-            gd.text((x, y), line, font=f_main, fill=accent)
-    img = _add_glow(img, glow_fn, blur_radius=20)
-    draw = ImageDraw.Draw(img)
+    if not transparent:
+        # 어두운 배경: 글로우 효과
+        def glow_fn(gd):
+            for i, line in enumerate(lines):
+                bbox = gd.textbbox((0, 0), line, font=f_main)
+                tw = bbox[2] - bbox[0]
+                x = (w - tw) // 2
+                y = start_y + i * (font_size + 20)
+                gd.text((x, y), line, font=f_main, fill=accent)
+        img = _add_glow(img, glow_fn, blur_radius=20)
+        draw = ImageDraw.Draw(img)
 
-    # 선명한 텍스트
+    # 텍스트 렌더링
     for i, line in enumerate(lines):
         bbox = draw.textbbox((0, 0), line, font=f_main)
         tw = bbox[2] - bbox[0]
         x = (w - tw) // 2
         y = start_y + i * (font_size + 20)
-        draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+        if transparent:
+            _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+        else:
+            draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
 
     # 부제
     sub_text = data.get("sub_text", "")
@@ -624,20 +672,27 @@ def _draw_headline_visual(w, h, data):
         f_sub = _get_font(34, "Medium")
         bbox = draw.textbbox((0, 0), sub_text, font=f_sub)
         tw = bbox[2] - bbox[0]
-        draw.text(((w - tw) // 2, start_y + total_line_h + 30), sub_text, font=f_sub, fill=accent)
+        sub_x = (w - tw) // 2
+        sub_y = start_y + total_line_h + 30
+        if transparent:
+            _text_outline(draw, sub_text, sub_x, sub_y, f_sub, accent, (0, 0, 0), 3)
+        else:
+            draw.text((sub_x, sub_y), sub_text, font=f_sub, fill=accent)
 
     return img
 
 
-def _draw_key_numbers(w, h, data):
+def _draw_key_numbers(w, h, data, bg_img=None):
     """핵심 수치를 카드 형태로 강조 표시"""
     accent = tuple(data.get("accent_color", [80, 160, 255]))
     items = data.get("items", [])
+    tone = _get_tone(data)
+    transparent = bg_img is not None
 
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-    _gradient(draw, 0, 0, w, h, (5, 10, 28), (3, 5, 18))
-    _center_glow(draw, w // 2, h // 3, 500, accent)
+    if not transparent:
+        _center_glow(draw, w // 2, h // 3, 500, tone["glow"])
 
     margin = 50
     gap = 30
@@ -657,6 +712,10 @@ def _draw_key_numbers(w, h, data):
     total_block = n * card_h + (n - 1) * gap
     start_y = (h - total_block) // 2
 
+    # 카드 색상 (투명 모드: 반투명)
+    card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+    card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
+
     for i, item in enumerate(items):
         y = start_y + i * (card_h + gap)
         color = tuple(item.get("color", list(accent)))
@@ -664,11 +723,15 @@ def _draw_key_numbers(w, h, data):
         # 카드 배경
         draw.rounded_rectangle(
             [margin, y, w - margin, y + card_h],
-            radius=14, fill=(15, 18, 32), outline=(30, 40, 60), width=1
+            radius=14, fill=card_bg, outline=card_ol, width=1
         )
 
         # 라벨
-        draw.text((margin + 25, y + 18), item.get("label", ""), font=f_label, fill=(160, 170, 190))
+        label_text = item.get("label", "")
+        if transparent:
+            _text_outline(draw, label_text, margin + 25, y + 18, f_label, (200, 210, 230), (0, 0, 0), 2)
+        else:
+            draw.text((margin + 25, y + 18), label_text, font=f_label, fill=(160, 170, 190))
 
         # 대형 수치
         val_text = item.get("value", "")
@@ -676,10 +739,13 @@ def _draw_key_numbers(w, h, data):
         tw = bbox[2] - bbox[0]
         val_x = (w - tw) // 2
         val_y = y + card_h - val_size - 20
-        draw.text((val_x, val_y), val_text, font=f_val, fill=color)
+        if transparent:
+            _text_outline(draw, val_text, val_x, val_y, f_val, color, (0, 0, 0), 3)
+        else:
+            draw.text((val_x, val_y), val_text, font=f_val, fill=color)
 
-    # 첫 카드 글로우
-    if items:
+    # 첫 카드 글로우 (어두운 배경에서만)
+    if items and not transparent:
         first_color = tuple(items[0].get("color", list(accent)))
         img = _add_glow(img, lambda d: d.rounded_rectangle(
             [margin, start_y, w - margin, start_y + card_h],
@@ -689,20 +755,21 @@ def _draw_key_numbers(w, h, data):
     return img
 
 
-def _draw_info_list(w, h, data):
+def _draw_info_list(w, h, data, bg_img=None):
     """스타일링된 불릿 리스트"""
     accent = tuple(data.get("accent_color", [60, 120, 255]))
     items = data.get("items", [])
     title = data.get("title", "")
+    tone = _get_tone(data)
+    transparent = bg_img is not None
 
     icon_colors = {
         "red": (220, 55, 55), "yellow": (220, 180, 50),
         "green": (60, 190, 100), "blue": (60, 120, 255), "gray": (100, 105, 120),
     }
 
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-    _gradient(draw, 0, 0, w, h, (8, 10, 28), (5, 5, 18))
 
     margin = 50
     y_offset = margin
@@ -710,7 +777,10 @@ def _draw_info_list(w, h, data):
     # 제목
     if title:
         f_title = _get_font(38, "Bold")
-        draw.text((margin + 10, y_offset), title, font=f_title, fill=accent)
+        if transparent:
+            _text_outline(draw, title, margin + 10, y_offset, f_title, accent, (0, 0, 0), 3)
+        else:
+            draw.text((margin + 10, y_offset), title, font=f_title, fill=accent)
         y_offset += 70
 
     # 리스트 아이템
@@ -720,6 +790,10 @@ def _draw_info_list(w, h, data):
     card_h = min(85, (available_h - gap * (n - 1)) // max(n, 1))
     f_text = _get_font(min(34, card_h - 30), "Bold")
 
+    # 카드 색상 (투명 모드: 반투명)
+    card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+    card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
+
     for i, item in enumerate(items):
         y = y_offset + i * (card_h + gap)
         icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
@@ -727,7 +801,7 @@ def _draw_info_list(w, h, data):
         # 카드 배경
         draw.rounded_rectangle(
             [margin, y, w - margin, y + card_h],
-            radius=10, fill=(15, 18, 32), outline=(30, 38, 55), width=1
+            radius=10, fill=card_bg, outline=card_ol, width=1
         )
 
         # 상태 원
@@ -735,10 +809,15 @@ def _draw_info_list(w, h, data):
         draw.ellipse([margin + 20, dot_y - 10, margin + 40, dot_y + 10], fill=icon)
 
         # 텍스트
-        draw.text((margin + 55, y + (card_h - 34) // 2), item.get("text", ""), font=f_text, fill=(230, 230, 240))
+        item_text = item.get("text", "")
+        text_y = y + (card_h - 34) // 2
+        if transparent:
+            _text_outline(draw, item_text, margin + 55, text_y, f_text, (240, 240, 250), (0, 0, 0), 2)
+        else:
+            draw.text((margin + 55, text_y), item_text, font=f_text, fill=(230, 230, 240))
 
-    # 첫 아이템 글로우
-    if items:
+    # 첫 아이템 글로우 (어두운 배경에서만)
+    if items and not transparent:
         img = _add_glow(img, lambda d: d.rounded_rectangle(
             [margin, y_offset, w - margin, y_offset + card_h],
             radius=10, fill=tuple(c // 5 for c in accent)
@@ -747,20 +826,26 @@ def _draw_info_list(w, h, data):
     return img
 
 
-def _draw_quote_visual(w, h, data):
+def _draw_quote_visual(w, h, data, bg_img=None):
     """인용문 + 화자 정보 카드"""
     accent = tuple(data.get("accent_color", [100, 180, 255]))
+    tone = _get_tone(data)
+    transparent = bg_img is not None
 
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-    _gradient(draw, 0, 0, w, h, (8, 12, 30), (5, 5, 18))
 
     # 측면 글로우
-    _center_glow(draw, 80, h // 3, 400, accent)
+    if not transparent:
+        _center_glow(draw, 80, h // 3, 400, tone["glow"])
 
     # 대형 따옴표
     f_quote_mark = _get_font(160, "Black")
-    draw.text((60, 60), "\u201C", font=f_quote_mark, fill=tuple(c // 3 for c in accent))
+    qm_fill = tuple(c // 3 for c in accent)
+    if transparent:
+        _text_outline(draw, "\u201C", 60, 60, f_quote_mark, qm_fill, (0, 0, 0), 3)
+    else:
+        draw.text((60, 60), "\u201C", font=f_quote_mark, fill=qm_fill)
 
     # 인용문 텍스트
     text = data.get("text", "")
@@ -779,7 +864,10 @@ def _draw_quote_visual(w, h, data):
 
     for i, line in enumerate(lines):
         y = text_y + i * line_gap
-        draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
+        if transparent:
+            _text_outline(draw, line, text_x, y, f_text, (240, 240, 250), (0, 0, 0), 3)
+        else:
+            draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
 
     # 화자 정보
     speaker = data.get("speaker", "")
@@ -788,25 +876,34 @@ def _draw_quote_visual(w, h, data):
         f_speaker = _get_font(32, "Bold")
         f_aff = _get_font(28, "Regular")
         speaker_y = text_y + total_text_h + 50
-        draw.text((text_x, speaker_y), f"— {speaker}", font=f_speaker, fill=accent)
+        sp_text = f"— {speaker}"
+        if transparent:
+            _text_outline(draw, sp_text, text_x, speaker_y, f_speaker, accent, (0, 0, 0), 2)
+        else:
+            draw.text((text_x, speaker_y), sp_text, font=f_speaker, fill=accent)
         if affiliation:
-            bbox = draw.textbbox((0, 0), f"— {speaker}", font=f_speaker)
+            bbox = draw.textbbox((0, 0), sp_text, font=f_speaker)
             sw = bbox[2] - bbox[0]
-            draw.text((text_x + sw + 15, speaker_y + 4), f"| {affiliation}", font=f_aff, fill=(120, 130, 150))
+            aff_text = f"| {affiliation}"
+            if transparent:
+                _text_outline(draw, aff_text, text_x + sw + 15, speaker_y + 4, f_aff, (160, 170, 190), (0, 0, 0), 2)
+            else:
+                draw.text((text_x + sw + 15, speaker_y + 4), aff_text, font=f_aff, fill=(120, 130, 150))
 
     return img
 
 
-def _draw_comparison(w, h, data):
+def _draw_comparison(w, h, data, bg_img=None):
     """범용 비교 바 차트"""
     accent = tuple(data.get("accent_color", [255, 100, 60]))
     items = data.get("items", [])
     baseline = data.get("baseline")
     unit = data.get("unit", "")
+    tone = _get_tone(data)
+    transparent = bg_img is not None
 
-    img = Image.new("RGB", (w, h), (0, 0, 0))
+    img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-    _gradient(draw, 0, 0, w, h, (8, 12, 18), (3, 5, 15))
 
     if not items:
         return img
@@ -820,13 +917,18 @@ def _draw_comparison(w, h, data):
     f_name = _get_font(32, "Bold")
     f_val = _get_font(36, "Black")
 
+    bar_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+
     # 기준선
     if baseline:
         bx = bar_x + int(baseline["value"] / max_val * max_bar_w)
         draw.line([(bx, margin_y - 10), (bx, h - 40)], fill=(80, 200, 120), width=2)
         f_base = _get_font(24, "Medium")
         label = f"{baseline['label']} {baseline['value']:,}{unit}"
-        draw.text((bx - 50, margin_y - 35), label, font=f_base, fill=(80, 200, 120))
+        if transparent:
+            _text_outline(draw, label, bx - 50, margin_y - 35, f_base, (80, 200, 120), (0, 0, 0), 2)
+        else:
+            draw.text((bx - 50, margin_y - 35), label, font=f_base, fill=(80, 200, 120))
 
     # 바 색상 그라데이션 생성
     default_colors = [
@@ -842,7 +944,7 @@ def _draw_comparison(w, h, data):
         # 바 배경
         draw.rounded_rectangle(
             [bar_x, y + 8, bar_x + max_bar_w, y + 55],
-            radius=6, fill=(15, 18, 25)
+            radius=6, fill=bar_bg
         )
         # 바
         draw.rounded_rectangle(
@@ -854,19 +956,26 @@ def _draw_comparison(w, h, data):
         draw.line([(bar_x + 6, y + 12), (bar_x + bw - 6, y + 12)], fill=highlight, width=1)
 
         # 라벨
-        draw.text((25, y + 14), item.get("label", ""), font=f_name, fill=(240, 240, 250))
+        if transparent:
+            _text_outline(draw, item.get("label", ""), 25, y + 14, f_name, (240, 240, 250), (0, 0, 0), 2)
+        else:
+            draw.text((25, y + 14), item.get("label", ""), font=f_name, fill=(240, 240, 250))
 
         # 값
         val_text = f"{item['value']:,}{unit}"
-        _right_text(draw, val_text, w - 30, y + 10, f_val, (255, 255, 255))
+        if transparent:
+            _right_text_outline(draw, val_text, w - 30, y + 10, f_val, (255, 255, 255), (0, 0, 0), 2)
+        else:
+            _right_text(draw, val_text, w - 30, y + 10, f_val, (255, 255, 255))
 
-    # 첫 바 글로우
-    first_y = margin_y + gap
-    first_bw = int(items[0]["value"] / max_val * max_bar_w)
-    first_color = tuple(items[0].get("color", list(default_colors[0])))
-    img = _add_glow(img, lambda d: d.rounded_rectangle(
-        [bar_x, first_y + 8, bar_x + first_bw, first_y + 55],
-        radius=6, fill=tuple(c // 4 for c in first_color)
-    ), blur_radius=15)
+    # 첫 바 글로우 (어두운 배경에서만)
+    if not transparent:
+        first_y = margin_y + gap
+        first_bw = int(items[0]["value"] / max_val * max_bar_w)
+        first_color = tuple(items[0].get("color", list(default_colors[0])))
+        img = _add_glow(img, lambda d: d.rounded_rectangle(
+            [bar_x, first_y + 8, bar_x + first_bw, first_y + 55],
+            radius=6, fill=tuple(c // 4 for c in first_color)
+        ), blur_radius=15)
 
     return img

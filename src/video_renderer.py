@@ -182,7 +182,7 @@ class VideoRenderer:
 
         # ── 배경 위 얇은 오버레이 (가독성 보조) ──
         if self._bg_img is not None:
-            overlay = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), (0, 0, 0, 60))
+            overlay = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), (0, 0, 0, 85))
             img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
             draw = ImageDraw.Draw(img)
 
@@ -318,9 +318,9 @@ class VideoRenderer:
         if not sent_timings:
             return
 
-        f_tts = self.get_font(32, "Handwriting")
-        f_active = self.get_font(36, "Handwriting")
-        line_height = 46
+        f_tts = self.get_font(34, "Handwriting")
+        f_active = self.get_font(38, "Handwriting")
+        line_height = 42
         max_w = VIDEO_WIDTH - 80
 
         # 표시 영역
@@ -362,8 +362,6 @@ class VideoRenderer:
                 tw = bbox[2] - bbox[0]
                 x = (VIDEO_WIDTH - tw) // 2
                 self._text_outline(draw, line_text, x, int(y), f_active, (255, 255, 255), (0, 0, 0), 3)
-                y += line_height
-
                 y += line_height
 
     @staticmethod

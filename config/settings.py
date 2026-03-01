@@ -48,9 +48,9 @@ IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # graphic | local | replica
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 
 # ── mflux (로컬 FLUX) ──
-MFLUX_MODEL = os.getenv("MFLUX_MODEL", "schnell")  # schnell(빠름) | dev(고품질)
+MFLUX_MODEL = os.getenv("MFLUX_MODEL", "schnell")  # schnell(빠름) | dev(고품질, 생명체 포함 시)
 MFLUX_QUANTIZE = int(os.getenv("MFLUX_QUANTIZE", "4"))  # 3|4|5|6|8 비트 양자화
-MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "4"))  # schnell: 4, dev: 20
+MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "4"))  # schnell: 4, dev: 20 (생명체 없으면 schnell 충분)
 
 # ── YouTube ──
 YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "true").lower() == "true"

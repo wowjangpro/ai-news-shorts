@@ -1,114 +1,93 @@
 {
-    "title": "반려동물 식당 출입 허용",
+    "title": "비트코인 급락 6.5만 달러",
     "tone": {
-        "bg_top": [12, 22, 32],
-        "bg_bottom": [6, 14, 22],
-        "glow": [70, 170, 140],
-        "card_bg": [14, 26, 34],
-        "card_outline": [30, 58, 62]
+        "bg_top": [8, 10, 20],
+        "bg_bottom": [4, 6, 14],
+        "glow": [255, 80, 60],
+        "card_bg": [12, 14, 24],
+        "card_outline": [40, 30, 50]
     },
-    "bg_prompt": "Flat editorial illustration of a cozy pet-friendly restaurant interior, a happy dog and cat sitting by a warm cafe table, soft pastel colors, welcoming atmosphere, clean minimal style, warm golden lighting",
-    "youtube_title": "오늘부터 강아지·고양이 식당 출입 합법! 3월 1일 시행…위반 시 영업정지",
-    "youtube_description": "2026년 3월 1일부터 반려동물(개·고양이)의 음식점 동반 출입이 합법화됩니다. 식품위생법 시행규칙 개정으로 일반음식점·휴게음식점·제과점에서 반려동물 동반이 가능해졌습니다. 단, 예방접종 필수, 자유 이동 금지, 칸막이·전용식기 설치 등 엄격한 위생 기준을 지켜야 하며, 위반 시 최대 영업정지 20일 처분을 받을 수 있습니다.",
-    "youtube_tags": ["반려동물", "식당출입", "강아지", "고양이", "식품위생법", "3월1일시행", "펫프렌들리", "반려동물동반"],
+    "bg_prompt": "Flat editorial illustration of a dark moody stock trading floor with multiple screens showing red downward charts and graphs, empty office chairs, dramatic red lighting, cool dark blue tones, financial crisis atmosphere, clean minimal style, no text, no watermark",
+    "youtube_title": "비트코인 6.5만 달러 추락…ETF 38억 달러 유출, 공포지수 역대 최저",
+    "youtube_description": "비트코인이 65,000달러까지 급락하며 2024년 11월 이후 최저치를 기록했습니다. 2월 한 달간 비트코인 현물 ETF에서 38억 달러(약 5.5조 원)가 유출되었고, 공포탐욕지수는 5까지 떨어지며 역대 최저치를 갱신했습니다. 트럼프 레임덕, 연준 긴축 지속, 파생상품 청산 등이 복합적으로 작용한 결과입니다.",
+    "youtube_tags": ["비트코인", "BTC", "급락", "ETF유출", "암호화폐", "공포지수", "비트코인폭락", "가상자산"],
     "scenes": [
         {
-            "tag": "시행",
-            "subtitle": "3월 1일부터\n반려동물 식당 출입 합법화",
-            "highlight_lines": [1],
-            "tts_text": "오늘 3월 1일부터 반려동물과 함께 식당에 갈 수 있게 됩니다. 식품의약품안전처가 식품위생법 시행규칙을 개정해 음식점에서 개와 고양이의 동반 출입을 공식 허용했습니다.",
+            "tag": "급락",
+            "subtitle": "비트코인 6.5만 달러\n2024년 11월 이후 최저",
+            "highlight_lines": [0],
+            "tts_text": "비트코인이 65,000달러까지 급락하며 2024년 11월 이후 최저치를 기록했습니다. 불과 석 달 전 10만 달러를 넘어섰던 비트코인이 35% 넘게 빠진 겁니다.",
             "image_prompt": "headline",
-            "duration": 9,
+            "duration": 8,
             "infographic_data": {
                 "type": "headline",
-                "text": "반려동물\n식당 출입 합법화",
-                "sub_text": "2026년 3월 1일 시행",
-                "style": "breaking"
+                "text": "비트코인\n6.5만 달러 추락",
+                "sub_text": "2024년 11월 이후 최저치",
+                "style": "negative"
             }
         },
         {
-            "tag": "대상",
-            "subtitle": "일반음식점·휴게음식점·제과점\n개와 고양이만 허용",
+            "tag": "ETF",
+            "subtitle": "ETF 38억 달러 유출\n5주 연속 자금 이탈",
             "highlight_lines": [0],
-            "tts_text": "동반 출입이 가능한 업종은 일반음식점, 휴게음식점, 제과점 세 곳입니다. 출입 가능한 반려동물은 개와 고양이로 한정되며, 모든 음식점에 전면 허용되는 것은 아니고 희망하는 업소만 신청해 운영할 수 있습니다.",
-            "image_prompt": "list",
-            "duration": 9,
-            "infographic_data": {
-                "type": "list",
-                "title": "허용 대상",
-                "items": [
-                    {"text": "일반음식점", "icon": "green"},
-                    {"text": "휴게음식점 (카페 포함)", "icon": "green"},
-                    {"text": "제과점 (베이커리)", "icon": "green"}
-                ],
-                "accent_color": [60, 180, 120]
-            }
-        },
-        {
-            "tag": "조건",
-            "subtitle": "예방접종 필수\n자유 이동 금지",
-            "highlight_lines": [0, 1],
-            "tts_text": "반려동물 동반에는 엄격한 조건이 따릅니다. 예방접종을 하지 않은 반려동물은 출입이 제한되며, 영업장 안에서 반려동물이 자유롭게 돌아다니는 것은 금지됩니다. 반드시 전용 의자나 케이지, 목줄 고정 장치를 이용해 고정해야 합니다.",
-            "image_prompt": "list",
-            "duration": 10,
-            "infographic_data": {
-                "type": "list",
-                "title": "반려동물 동반 조건",
-                "items": [
-                    {"text": "예방접종 완료 필수", "icon": "blue"},
-                    {"text": "케이지·목줄 고정 의무", "icon": "blue"},
-                    {"text": "매장 내 자유 이동 금지", "icon": "blue"}
-                ],
-                "accent_color": [60, 120, 255]
-            }
-        },
-        {
-            "tag": "시설",
-            "subtitle": "칸막이·전용식기·공기청정기\n위생 시설 의무화",
-            "highlight_lines": [0],
-            "tts_text": "업소 측도 시설 기준을 갖춰야 합니다. 반려동물이 조리장이나 식재료 보관 창고에 들어갈 수 없도록 칸막이와 울타리를 설치해야 하고, 반려동물용 전용 식기와 전용 쓰레기통을 별도로 마련해야 합니다. 음식에 털이 들어가지 않도록 덮개를 사용하고 환기와 공기청정기도 가동해야 합니다.",
-            "image_prompt": "list",
-            "duration": 11,
-            "infographic_data": {
-                "type": "list",
-                "title": "업소 시설 기준",
-                "items": [
-                    {"text": "조리장 칸막이·울타리 설치", "icon": "blue"},
-                    {"text": "전용 식기·쓰레기통 구분", "icon": "blue"},
-                    {"text": "음식 덮개·공기청정기 가동", "icon": "blue"}
-                ],
-                "accent_color": [255, 160, 60]
-            }
-        },
-        {
-            "tag": "처벌",
-            "subtitle": "위반 시 영업정지\n최대 20일 처분",
-            "highlight_lines": [1],
-            "tts_text": "규정을 어기면 강력한 행정처분이 내려집니다. 반려동물이 식품 취급 시설에 들어가거나 매장 내 이동 금지를 위반하면, 1차 영업정지 5일, 2차 10일, 3차 20일입니다. 그 외 경미한 위반은 시정명령부터 시작됩니다.",
+            "tts_text": "2월 한 달간 미국 비트코인 현물 ETF 11종에서 총 38억 달러, 우리 돈 약 5조 5천억 원이 빠져나갔습니다. 블랙록에서만 21억 달러, 피델리티에서 9억 5천만 달러가 유출되며 5주 연속 자금 이탈이 이어졌습니다.",
             "image_prompt": "numbers",
-            "duration": 9,
+            "duration": 11,
             "infographic_data": {
                 "type": "numbers",
                 "items": [
-                    {"label": "1차 위반", "value": "정지 5일", "color": [255, 200, 60]},
-                    {"label": "2차 위반", "value": "정지 10일", "color": [255, 140, 60]},
-                    {"label": "3차 위반", "value": "정지 20일", "color": [255, 80, 80]}
+                    {"label": "2월 ETF 유출", "value": "38억$", "color": [255, 80, 80]},
+                    {"label": "블랙록 IBIT", "value": "-21억$", "color": [255, 120, 60]},
+                    {"label": "피델리티 FBTC", "value": "-9.5억$", "color": [255, 160, 60]}
                 ]
             }
         },
         {
-            "tag": "현황",
-            "subtitle": "반려가구 1500만 시대\n펫프렌들리 문화 확산",
-            "highlight_lines": [0],
-            "tts_text": "현재 국내 반려동물 양육 가구는 약 552만 가구, 반려 인구는 1500만 명에 달합니다. 이번 제도 시행으로 반려인과 비반려인이 함께 공존하는 펫프렌들리 문화가 본격 확산될 것으로 기대됩니다.",
+            "tag": "공포",
+            "subtitle": "공포탐욕지수 5\n역대 최저치 갱신",
+            "highlight_lines": [0, 1],
+            "tts_text": "시장 심리를 나타내는 공포탐욕지수는 2월 6일 5까지 떨어지며 역대 최저치를 갱신했습니다. 25일 기준으로도 11에 머물러 극단적 공포 구간을 벗어나지 못하고 있습니다.",
             "image_prompt": "numbers",
             "duration": 9,
             "infographic_data": {
                 "type": "numbers",
                 "items": [
-                    {"label": "반려 가구", "value": "552만", "color": [60, 180, 120]},
-                    {"label": "반려 인구", "value": "1500만", "color": [60, 160, 255]},
-                    {"label": "시행일", "value": "3월 1일", "color": [255, 160, 60]}
+                    {"label": "2월 6일", "value": "5/100", "color": [255, 60, 60]},
+                    {"label": "2월 25일", "value": "11/100", "color": [255, 100, 60]},
+                    {"label": "구간", "value": "극단적 공포", "color": [200, 60, 60]}
+                ]
+            }
+        },
+        {
+            "tag": "원인",
+            "subtitle": "트럼프 레임덕·연준 긴축\n파생상품 청산 악순환",
+            "highlight_lines": [0],
+            "tts_text": "급락의 원인은 복합적입니다. 친암호화폐 정책을 펼치던 트럼프 대통령의 레임덕 우려가 커지면서 정책 불확실성이 확대되었고, 미국 연준의 긴축 기조가 지속되고 있습니다. 여기에 파생상품 시장에서 대규모 포지션 청산이 일어나며 가격 하락의 악순환이 반복되고 있습니다.",
+            "image_prompt": "list",
+            "duration": 12,
+            "infographic_data": {
+                "type": "list",
+                "title": "급락 3대 원인",
+                "items": [
+                    {"text": "트럼프 레임덕 정책 불확실성", "icon": "red"},
+                    {"text": "연준 긴축 기조 지속", "icon": "red"},
+                    {"text": "파생상품 대규모 청산 악순환", "icon": "red"}
+                ],
+                "accent_color": [255, 80, 80]
+            }
+        },
+        {
+            "tag": "전망",
+            "subtitle": "6.5만 달러 지지선 이탈 시\n추가 하락 가능성",
+            "highlight_lines": [1],
+            "tts_text": "전문가들은 65,000달러 지지선이 무너질 경우 추가 ETF 유출이 가속화될 수 있다고 경고합니다. 다만 역사적으로 공포지수 10 이하 구간은 최적의 매수 구간이었으나, 회복까지 3개월에서 13개월이 걸렸다는 점에 주의가 필요합니다.",
+            "image_prompt": "comparison",
+            "duration": 10,
+            "infographic_data": {
+                "type": "numbers",
+                "items": [
+                    {"label": "지지선", "value": "6.5만$", "color": [255, 200, 60]},
+                    {"label": "회복 소요", "value": "3~13개월", "color": [60, 160, 255]}
                 ]
             }
         }

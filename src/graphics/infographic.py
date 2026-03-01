@@ -113,11 +113,7 @@ def _make_base(w: int, h: int, tone: dict, bg_img: Image.Image | None = None) ->
 
 def _text_outline(draw, text, x, y, font, fill, outline=(0, 0, 0), width=3):
     """텍스트에 외곽선 추가 (밝은 배경 위 가독성)"""
-    for dx in range(-width, width + 1):
-        for dy in range(-width, width + 1):
-            if dx * dx + dy * dy <= width * width:
-                draw.text((x + dx, y + dy), text, font=font, fill=outline)
-    draw.text((x, y), text, font=font, fill=fill)
+    draw.text((x, y), text, font=font, fill=fill, stroke_width=width, stroke_fill=outline)
 
 
 def _right_text_outline(draw, text, x_right, y, font, fill, outline=(0, 0, 0), width=3):

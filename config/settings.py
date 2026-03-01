@@ -19,7 +19,7 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 # ── 영상 설정 ──
 VIDEO_WIDTH = 1080
 VIDEO_HEIGHT = 1920
-VIDEO_FPS = int(os.getenv("VIDEO_FPS", "30"))
+VIDEO_FPS = int(os.getenv("VIDEO_FPS", "24"))
 VIDEO_CRF = int(os.getenv("VIDEO_CRF", "20"))
 
 # ── 레이아웃 ──
@@ -47,10 +47,14 @@ TTS_RATE = os.getenv("TTS_RATE", "+15%")
 IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # graphic | local | replicate | stock
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 
-# ── mflux (로컬 FLUX) ──
-MFLUX_MODEL = os.getenv("MFLUX_MODEL", "schnell")  # schnell(빠름) | dev(고품질, 생명체 포함 시)
+# ── 일러스트 생성 (ollama) ──
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+OLLAMA_IMAGE_MODEL = os.getenv("OLLAMA_IMAGE_MODEL", "x/z-image-turbo")
+
+# ── mflux (로컬 FLUX, fallback) ──
+MFLUX_MODEL = os.getenv("MFLUX_MODEL", "dev")  # schnell(빠름) | dev(고품질)
 MFLUX_QUANTIZE = int(os.getenv("MFLUX_QUANTIZE", "4"))  # 3|4|5|6|8 비트 양자화
-MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "4"))  # schnell: 4, dev: 20 (생명체 없으면 schnell 충분)
+MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "20"))  # schnell: 4, dev: 20
 
 # ── YouTube ──
 YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "true").lower() == "true"

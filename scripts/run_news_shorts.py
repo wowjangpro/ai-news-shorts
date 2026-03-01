@@ -17,8 +17,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from PIL import Image
 
 from config.settings import (
-    VIDEO_WIDTH, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
+    VIDEO_WIDTH, VIDEO_HEIGHT, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
     TTS_VOICE, TTS_RATE,
+    OLLAMA_URL, OLLAMA_IMAGE_MODEL,
     MFLUX_MODEL, MFLUX_QUANTIZE, MFLUX_STEPS,
 )
 from src.graphics.infographic import generate_infographic
@@ -124,33 +125,58 @@ async def main(json_path: Path):
             if info_data and "tone" not in info_data:
                 info_data["tone"] = tone
 
-        # 1. 풀스크린 배경 일러스트 생성 (mflux, 1장)
+        # 1. 풀스크린 배경 일러스트 생성 (ollama, 1장)
         fullscreen_bg: Image.Image | None = None
         bg_prompt = script.get("bg_prompt")
         bg_cache_path = OUTPUT_DIR / "bg_cache.png"
         if bg_prompt:
-            from config.settings import VIDEO_HEIGHT
             # 캐시된 배경이 있으면 재사용
             if bg_cache_path.exists():
                 fullscreen_bg = Image.open(bg_cache_path)
                 print(f"\n🎨 1단계: 캐시된 배경 일러스트 사용")
             else:
                 while True:
-                    print(f"\n🎨 1단계: 배경 일러스트 생성 (mflux, 1080x1920)...")
+                    print(f"\n🎨 1단계: 배경 일러스트 생성 (ollama {OLLAMA_IMAGE_MODEL})...")
                     bg_path = work_dir / "bg_fullscreen.png"
                     try:
-                        result = subprocess.run([
-                            "mflux-generate",
-                            "--model", MFLUX_MODEL,
-                            "--quantize", str(MFLUX_QUANTIZE),
-                            "--steps", str(MFLUX_STEPS),
-                            "--width", str(IMAGE_W),
-                            "--height", str(VIDEO_HEIGHT),
-                            "--prompt", bg_prompt,
-                            "--output", str(bg_path),
-                        ], capture_output=True, text=True, timeout=600)
-                        if result.returncode == 0 and bg_path.exists():
-                            print(f"  ✓ 일러스트 생성 완료 — 미리보기...")
+                        import urllib.request, io, base64
+                        req_data = json.dumps({
+                            "model": OLLAMA_IMAGE_MODEL,
+                            "prompt": bg_prompt,
+                        }).encode()
+                        req = urllib.request.Request(
+                            f"{OLLAMA_URL}/api/generate",
+                            data=req_data,
+                            headers={"Content-Type": "application/json"},
+                        )
+                        image_data = None
+                        with urllib.request.urlopen(req, timeout=300) as resp:
+                            for line in resp:
+                                line = line.decode().strip()
+                                if not line:
+                                    continue
+                                chunk = json.loads(line)
+                                completed = chunk.get("completed", 0)
+                                total = chunk.get("total", 0)
+                                if completed and total:
+                                    print(f"\r  생성 중... {completed}/{total}", end="", flush=True)
+                                if chunk.get("done") and "image" in chunk:
+                                    image_data = chunk["image"]
+                                    print()
+                                    break
+
+                        if image_data:
+                            # 1024x1024 → 1080x1920 (center crop)
+                            raw_img = Image.open(io.BytesIO(base64.b64decode(image_data)))
+                            scale = max(VIDEO_WIDTH / raw_img.width, VIDEO_HEIGHT / raw_img.height)
+                            new_w = int(raw_img.width * scale)
+                            new_h = int(raw_img.height * scale)
+                            raw_img = raw_img.resize((new_w, new_h), Image.LANCZOS)
+                            left = (new_w - VIDEO_WIDTH) // 2
+                            top = (new_h - VIDEO_HEIGHT) // 2
+                            resized = raw_img.crop((left, top, left + VIDEO_WIDTH, top + VIDEO_HEIGHT))
+                            resized.save(str(bg_path))
+                            print(f"  ✓ 일러스트 생성 완료 ({raw_img.width}x{raw_img.height} → {VIDEO_WIDTH}x{VIDEO_HEIGHT})")
                             subprocess.run(["open", str(bg_path)])
                             try:
                                 answer = input("  👀 일러스트가 괜찮습니까? (y=사용 / n=재생성): ").strip().lower()
@@ -166,9 +192,9 @@ async def main(json_path: Path):
                                 bg_path.unlink(missing_ok=True)
                                 continue
                         else:
-                            print(f"  ⚠️ 일러스트 실패, 검정 배경 사용")
+                            print(f"  ⚠️ 일러스트 실패 (이미지 없음), 검정 배경 사용")
                             break
-                    except (subprocess.TimeoutExpired, Exception) as e:
+                    except Exception as e:
                         print(f"  ⚠️ 일러스트 실패 ({e.__class__.__name__}), 검정 배경 사용")
                         break
 

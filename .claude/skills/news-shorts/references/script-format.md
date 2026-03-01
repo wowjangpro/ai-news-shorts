@@ -12,7 +12,7 @@
         "card_bg": [14, 26, 34],
         "card_outline": [30, 58, 62]
     },
-    "bg_prompt": "Flat editorial illustration of ..., no text, no watermark",
+    "bg_prompt": "Flat editorial illustration of ...",
     "youtube_title": "70자 이내",
     "youtube_description": "설명",
     "youtube_tags": ["태그1", "태그2"],
@@ -24,7 +24,7 @@
 |------|------|
 | `title` | 한글 뉴스 제목 (15자 이내) |
 | `tone` | 커스텀 RGB 색상 (기사마다 새롭게 지정) |
-| `bg_prompt` | 영문 일러스트 프롬프트 (생명체 제외, no text/watermark 필수) |
+| `bg_prompt` | 영문 일러스트 프롬프트 (생명체 포함 가능, 국기/종교/브랜드 제외) |
 | `youtube_title` | 유튜브 제목 (클릭 유도, 70자 이내) |
 | `youtube_description` | 기사 요약 |
 | `youtube_tags` | 관련 태그 배열 |
@@ -37,10 +37,10 @@
 
 ### bg_prompt 작성 규칙
 - 형식: "Flat editorial illustration of ..."
-- 기사 핵심 장면의 배경/분위기만 묘사
-- **사람, 동물, 새 등 생명체는 절대 포함하지 않는다**
+- 기사 핵심 장면/분위기 묘사 (사람, 동물 등 생명체 포함 가능)
 - 색감은 기사 분위기 반영 (밝은 뉴스=warm, 어두운 뉴스=cool dark)
-- 항상 끝에 ", no text, no watermark" 추가
+- **부정 지시("no text" 등) 사용 금지** — 원치 않는 요소는 아예 언급하지 않기
+- **사회적·윤리적 민감 요소 제외** — 국기, 종교 상징, 브랜드 로고 등
 
 ## 씬 구조
 

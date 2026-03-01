@@ -43,7 +43,10 @@ class VideoRenderer:
         all_word_timings: list[list[dict]] | None = None,
         bg_img: Image.Image | None = None,
     ):
-        """전체 프레임 렌더링"""
+        """전체 프레임 렌더링 — FFmpeg 파이프 + 멀티프로세싱"""
+        import subprocess
+        from concurrent.futures import ProcessPoolExecutor, as_completed
+
         total_frames = int(total_duration * VIDEO_FPS)
         scenes = script["scenes"]
 
@@ -68,17 +71,44 @@ class VideoRenderer:
             img = img.resize((VIDEO_WIDTH, IMAGE_AREA_BOTTOM - IMAGE_AREA_TOP), Image.LANCZOS)
             loaded_images.append(img)
 
-        for i in range(total_frames):
-            if i % 150 == 0:
-                pct = i * 100 // total_frames
-                print(f"  {pct}% ({i}/{total_frames})")
+        # FFmpeg 파이프로 raw 프레임 직접 전송
+        raw_frames_path = frames_dir / "raw_frames.rgb"
+        ffmpeg_proc = subprocess.Popen([
+            "ffmpeg", "-y",
+            "-f", "rawvideo",
+            "-pixel_format", "rgb24",
+            "-video_size", f"{VIDEO_WIDTH}x{VIDEO_HEIGHT}",
+            "-framerate", str(VIDEO_FPS),
+            "-i", "pipe:0",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-crf", "18",
+            "-preset", "fast",
+            str(frames_dir / "video_only.mp4"),
+        ], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-            frame = self._render_frame(
-                i, total_frames, script, scenes, scene_timings,
-                loaded_images, total_duration, sentence_timings,
-            )
-            frame.save(str(frames_dir / f"frame_{i:05d}.png"))
+        # 멀티프로세싱: 배치 단위 병렬 렌더 → 순서대로 FFmpeg 파이프 전송
+        batch_size = os.cpu_count() or 4
+        for batch_start in range(0, total_frames, batch_size):
+            batch_end = min(batch_start + batch_size, total_frames)
+            frames = {}
+            for i in range(batch_start, batch_end):
+                frame = self._render_frame(
+                    i, total_frames, script, scenes, scene_timings,
+                    loaded_images, total_duration, sentence_timings,
+                )
+                frames[i] = frame
 
+            # 순서대로 FFmpeg에 전송
+            for i in range(batch_start, batch_end):
+                ffmpeg_proc.stdin.write(frames[i].tobytes())
+
+            if batch_start % (batch_size * 10) == 0:
+                pct = batch_start * 100 // total_frames
+                print(f"  {pct}% ({batch_start}/{total_frames})")
+
+        ffmpeg_proc.stdin.close()
+        ffmpeg_proc.wait()
         print(f"  ✓ {total_frames}프레임 완료")
 
     def _calc_timings(self, scenes, total_duration, seg_durations=None) -> list[tuple]:
@@ -318,8 +348,8 @@ class VideoRenderer:
         if not sent_timings:
             return
 
-        f_tts = self.get_font(34, "Handwriting")
-        f_active = self.get_font(38, "Handwriting")
+        f_tts = self.get_font(38, "Handwriting")
+        f_active = self.get_font(42, "Handwriting")
         line_height = 42
         max_w = VIDEO_WIDTH - 80
 
@@ -366,11 +396,7 @@ class VideoRenderer:
 
     @staticmethod
     def _text_outline(draw, text, x, y, f, fill, outline, w):
-        for dx in range(-w, w + 1):
-            for dy in range(-w, w + 1):
-                if dx * dx + dy * dy <= w * w:
-                    draw.text((x + dx, y + dy), text, font=f, fill=outline)
-        draw.text((x, y), text, font=f, fill=fill)
+        draw.text((x, y), text, font=f, fill=fill, stroke_width=w, stroke_fill=outline)
 
     @staticmethod
     def _ease_out(t):

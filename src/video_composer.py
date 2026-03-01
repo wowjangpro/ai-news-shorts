@@ -19,9 +19,10 @@ class VideoComposer:
         narration_vol: float = 3.0,
         bgm_vol: float = 0.2,
     ):
-        """최종 영상 합성"""
+        """최종 영상 합성 — FFmpeg 파이프 영상 + 오디오 믹싱"""
         output_path.parent.mkdir(parents=True, exist_ok=True)
         mixed_audio = frames_dir.parent / "mixed_audio.wav"
+        video_only = frames_dir / "video_only.mp4"
 
         # 1. 오디오 믹싱 (나레이션 + BGM)
         subprocess.run([
@@ -37,37 +38,63 @@ class VideoComposer:
             str(mixed_audio),
         ], capture_output=True)
 
-        # 2. 영상 + 오디오 합성
-        subprocess.run([
-            "ffmpeg", "-y",
-            "-framerate", str(VIDEO_FPS),
-            "-i", str(frames_dir / "frame_%05d.png"),
-            "-i", str(mixed_audio),
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-crf", str(VIDEO_CRF),
-            "-preset", "medium",
-            "-c:a", "aac",
-            "-b:a", "192k",
-            "-shortest",
-            str(output_path),
-        ], capture_output=True)
+        # 2. 파이프 렌더된 영상 + 오디오 합성
+        if video_only.exists():
+            subprocess.run([
+                "ffmpeg", "-y",
+                "-i", str(video_only),
+                "-i", str(mixed_audio),
+                "-c:v", "copy",
+                "-c:a", "aac",
+                "-b:a", "192k",
+                "-shortest",
+                str(output_path),
+            ], capture_output=True)
+        else:
+            # fallback: 기존 PNG 프레임 방식
+            subprocess.run([
+                "ffmpeg", "-y",
+                "-framerate", str(VIDEO_FPS),
+                "-i", str(frames_dir / "frame_%05d.png"),
+                "-i", str(mixed_audio),
+                "-c:v", "libx264",
+                "-pix_fmt", "yuv420p",
+                "-crf", str(VIDEO_CRF),
+                "-preset", "medium",
+                "-c:a", "aac",
+                "-b:a", "192k",
+                "-shortest",
+                str(output_path),
+            ], capture_output=True)
 
     def compose_simple(self, frames_dir: Path, bgm_path: Path, output_path: Path):
         """TTS 없이 BGM만으로 합성"""
         output_path.parent.mkdir(parents=True, exist_ok=True)
+        video_only = frames_dir / "video_only.mp4"
 
-        subprocess.run([
-            "ffmpeg", "-y",
-            "-framerate", str(VIDEO_FPS),
-            "-i", str(frames_dir / "frame_%05d.png"),
-            "-i", str(bgm_path),
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-crf", str(VIDEO_CRF),
-            "-preset", "fast",
-            "-c:a", "aac",
-            "-b:a", "128k",
-            "-shortest",
-            str(output_path),
-        ], capture_output=True)
+        if video_only.exists():
+            subprocess.run([
+                "ffmpeg", "-y",
+                "-i", str(video_only),
+                "-i", str(bgm_path),
+                "-c:v", "copy",
+                "-c:a", "aac",
+                "-b:a", "128k",
+                "-shortest",
+                str(output_path),
+            ], capture_output=True)
+        else:
+            subprocess.run([
+                "ffmpeg", "-y",
+                "-framerate", str(VIDEO_FPS),
+                "-i", str(frames_dir / "frame_%05d.png"),
+                "-i", str(bgm_path),
+                "-c:v", "libx264",
+                "-pix_fmt", "yuv420p",
+                "-crf", str(VIDEO_CRF),
+                "-preset", "fast",
+                "-c:a", "aac",
+                "-b:a", "128k",
+                "-shortest",
+                str(output_path),
+            ], capture_output=True)

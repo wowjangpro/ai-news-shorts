@@ -222,10 +222,21 @@ async def main(json_path: Path):
         script_out = OUTPUT_DIR / f"{safe_title}_script_{timestamp}.json"
         script_out.write_text(json.dumps(script, ensure_ascii=False, indent=2))
 
-        # 6. 미리보기
+        # 6. 미리보기 및 YouTube 업로드
         subprocess.run(["open", str(output_path)])
+        try:
+            answer = input("\n   👀 영상을 확인하세요. YouTube에 업로드하시겠습니까? (y/n): ").strip().lower()
+        except EOFError:
+            answer = "n"
+        if answer == "y":
+            print("   📤 YouTube 업로드 중...")
+            from src.youtube_uploader import YouTubeUploader
+            video_id = YouTubeUploader().authenticate().upload(output_path, script)
+            print(f"  🔗 https://youtu.be/{video_id}")
+        else:
+            print("   ⏭️  업로드를 건너뜁니다.")
+
         print(f"\n🎉 완료! 영상: {output_path}")
-        print(f"   업로드: python scripts/upload.py {output_path}")
         return str(output_path)
 
     finally:

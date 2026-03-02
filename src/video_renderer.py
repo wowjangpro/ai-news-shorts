@@ -212,7 +212,7 @@ class VideoRenderer:
 
         # ── 배경 위 얇은 오버레이 (가독성 보조) ──
         if self._bg_img is not None:
-            overlay = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), (0, 0, 0, 85))
+            overlay = Image.new("RGBA", (VIDEO_WIDTH, VIDEO_HEIGHT), (0, 0, 0, 140))
             img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
             draw = ImageDraw.Draw(img)
 
@@ -257,6 +257,11 @@ class VideoRenderer:
             draw.rectangle([0, VIDEO_HEIGHT - BOTTOM_BAR_HEIGHT, VIDEO_WIDTH, VIDEO_HEIGHT], fill=BLACK)
         f = self.get_font(22, "Regular")
         draw.text((30, VIDEO_HEIGHT - 42), "AI로 생성되어 사실과 다를 수 있습니다.", font=f, fill=(120, 120, 130))
+        # 출처 표기 (우측)
+        source_text = "공개된 언론 보도를 참고하여 재구성되었습니다."
+        bbox = f.getbbox(source_text)
+        sw = bbox[2] - bbox[0]
+        draw.text((VIDEO_WIDTH - sw - 30, VIDEO_HEIGHT - 42), source_text, font=f, fill=(120, 120, 130))
 
         return img
 
@@ -279,7 +284,7 @@ class VideoRenderer:
         draw.rectangle([35, 20, 35 + tw + pad * 2, 20 + th + pad * 2], fill=ACCENT_RED)
         draw.text((35 + pad, 20 + pad - 2), tag, font=f_tag, fill=WHITE)
 
-        f_title = self.get_font(64, "Black")
+        f_title = self.get_font(96, "Black")
         title = script.get("title", "오늘의 뉴스")
         bbox = draw.textbbox((0, 0), title, font=f_title)
         tw = bbox[2] - bbox[0]

@@ -26,7 +26,7 @@
 | `tone` | 커스텀 RGB 색상 (기사마다 새롭게 지정) |
 | `bg_prompt` | 영문 일러스트 프롬프트 (생명체 포함 가능, 국기/종교/브랜드 제외) |
 | `youtube_title` | 유튜브 제목 (클릭 유도, 70자 이내) |
-| `youtube_description` | 기사 요약 |
+| `youtube_description` | 기사 요약 + 하단에 `\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.` 필수 |
 | `youtube_tags` | 관련 태그 배열 |
 
 ### tone 색상 가이드

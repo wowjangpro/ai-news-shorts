@@ -2,7 +2,7 @@
 import os
 import re
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -241,11 +241,7 @@ class VideoRenderer:
         # ── 2. 상단 헤더 ──
         self._draw_header(draw, script, scenes, scene_idx, fade)
 
-        # ── 3. 씬 요약 자막 (헤더 바로 아래) ──
-        if 0 <= scene_idx < len(scenes):
-            self._draw_subtitle(draw, scenes[scene_idx], local_t, fade)
-
-        # ── 4. 하단 통합 배경 ──
+        # ── 3. 하단 통합 배경 ──
         self._draw_lower_bg(draw)
 
         # ── 5. TTS 실시간 자막 (하단) ──
@@ -267,9 +263,11 @@ class VideoRenderer:
 
     def _draw_header(self, draw, script, scenes, scene_idx, fade):
         """상단 헤더 영역"""
-        # 배경은 _render_frame에서 오버레이 처리
-        if self._bg_img is None:
-            draw.rectangle([0, 0, VIDEO_WIDTH, HEADER_HEIGHT], fill=BLACK)
+        # 헤더 반투명 검정 배경
+        header_overlay = Image.new("RGBA", (VIDEO_WIDTH, HEADER_HEIGHT), (0, 0, 0, 128))
+        base_img = draw._image
+        base_region = base_img.crop((0, 0, VIDEO_WIDTH, HEADER_HEIGHT)).convert("RGBA")
+        base_img.paste(Image.alpha_composite(base_region, header_overlay).convert("RGB"), (0, 0))
         draw.rectangle([0, 0, VIDEO_WIDTH, 5], fill=ACCENT_RED)
 
         if 0 <= scene_idx < len(scenes):
@@ -289,7 +287,7 @@ class VideoRenderer:
         bbox = draw.textbbox((0, 0), title, font=f_title)
         tw = bbox[2] - bbox[0]
         x = (VIDEO_WIDTH - tw) // 2
-        self._text_outline(draw, title, x, 100, f_title, WHITE, BLACK, 4)
+        self._text_outline(draw, title, x, 100, f_title, GOLD, BLACK, 4)
 
         f_date = self.get_font(24, "Regular")
         from datetime import datetime

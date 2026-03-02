@@ -8,8 +8,11 @@ import os
 
 # ── 유틸리티 ──
 
+FONT_SCALE = 1.25  # 인포그래픽 전체 폰트 스케일
+
 def _get_font(size, weight="Bold"):
     """시스템 한글 폰트 로드 (.ttc 인덱스 지원)"""
+    size = int(size * FONT_SCALE)
     paths = {
         "Black": [("/System/Library/Fonts/AppleSDGothicNeo.ttc", 16),
                    "/Library/Fonts/NanumSquareRoundEB.ttf",

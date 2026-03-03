@@ -351,9 +351,9 @@ class VideoRenderer:
         if not sent_timings:
             return
 
-        f_tts = self.get_font(38, "Handwriting")
-        f_active = self.get_font(42, "Handwriting")
-        line_height = 42
+        f_tts = self.get_font(48, "Handwriting")
+        f_active = self.get_font(54, "Handwriting")
+        line_height = 68
         max_w = VIDEO_WIDTH - 80
 
         # 표시 영역

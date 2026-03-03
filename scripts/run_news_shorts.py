@@ -130,11 +130,21 @@ async def main(json_path: Path):
         bg_prompt = script.get("bg_prompt")
         bg_cache_path = OUTPUT_DIR / "bg_cache.png"
         if bg_prompt:
-            # 캐시된 배경이 있으면 재사용
+            # 캐시된 배경이 있으면 확인 후 재사용
             if bg_cache_path.exists():
-                fullscreen_bg = Image.open(bg_cache_path)
-                print(f"\n🎨 1단계: 캐시된 배경 일러스트 사용")
-            else:
+                print(f"\n🎨 1단계: 캐시된 배경 일러스트 발견")
+                subprocess.run(["open", str(bg_cache_path)])
+                try:
+                    answer = input("  👀 캐시된 일러스트를 사용할까요? (y=사용 / n=새로 생성): ").strip().lower()
+                except EOFError:
+                    answer = "y"
+                if answer == "y":
+                    fullscreen_bg = Image.open(bg_cache_path)
+                    print(f"  ✓ 캐시된 일러스트 사용")
+                else:
+                    bg_cache_path.unlink()
+                    print(f"  🔄 새로 생성합니다...")
+            if not bg_cache_path.exists():
                 while True:
                     print(f"\n🎨 1단계: 배경 일러스트 생성 (ollama {OLLAMA_IMAGE_MODEL})...")
                     bg_path = work_dir / "bg_fullscreen.png"
@@ -248,10 +258,19 @@ async def main(json_path: Path):
         script_out = OUTPUT_DIR / f"{safe_title}_script_{timestamp}.json"
         script_out.write_text(json.dumps(script, ensure_ascii=False, indent=2))
 
-        # 6. 미리보기 및 YouTube 업로드
+        # 6. 미리보기 프레임 추출 + 영상 확인
+        preview_path = OUTPUT_DIR / "preview_frame.png"
+        subprocess.run([
+            "ffmpeg", "-y", "-i", str(output_path),
+            "-vf", "select='eq(n,200)'", "-frames:v", "1", str(preview_path),
+        ], capture_output=True)
+        if preview_path.exists():
+            subprocess.run(["open", str(preview_path)])
         subprocess.run(["open", str(output_path)])
+
+        # 7. YouTube 업로드 확인
         try:
-            answer = input("\n   👀 영상을 확인하세요. YouTube에 업로드하시겠습니까? (y/n): ").strip().lower()
+            answer = input("\n   👀 영상을 확인하세요. YouTube에 업로드하시겠습니까? (y=업로드 / n=건너뛰기): ").strip().lower()
         except EOFError:
             answer = "n"
         if answer == "y":

@@ -1,85 +1,82 @@
 {
-    "title": "양도세 중과 유예 종료",
+    "title": "국민의힘 장외투쟁 돌입",
     "tone": {
-        "bg_top": [20, 15, 10],
-        "bg_bottom": [10, 7, 4],
-        "glow": [200, 100, 60],
-        "card_bg": [24, 18, 12],
-        "card_outline": [50, 35, 22]
+        "bg_top": [15, 15, 35],
+        "bg_bottom": [5, 5, 18],
+        "glow": [100, 100, 200],
+        "card_bg": [18, 18, 38],
+        "card_outline": [40, 40, 70]
     },
-    "bg_prompt": "Flat editorial illustration of a modern Korean apartment complex skyline at dusk, stacks of official tax documents and calculator on a desk in foreground, golden sunset light with warm orange and deep brown tones, tense financial atmosphere, clean minimal editorial style",
-    "youtube_title": "다주택자 양도세 중과 5월 종료! 세금 3배, 지금 팔아야 할까?",
-    "youtube_description": "2022년부터 유예됐던 다주택자 양도소득세 중과가 5월 9일 최종 종료됩니다. 유예 종료 후 2주택자는 세금이 2.3배, 3주택자는 2.7배로 늘어납니다. 구리·용인 등 비규제지역 풍선효과 조짐과 대응 전략을 정리했습니다.\n\n#양도세 #다주택자 #부동산 #세금 #중과유예 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["양도세", "다주택자", "양도소득세", "중과유예", "부동산", "세금", "아파트", "풍선효과", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of a group of politicians in dark formal suits all wearing matching crimson red neckties walking together along a wide city boulevard, tall modern buildings on both sides, dramatic cloudy sky overhead, cool gray and indigo tones with warm golden street lamp lighting, determined solemn atmosphere, clean minimal editorial style",
+    "youtube_title": "국민의힘 장외투쟁! 국회→청와대 도보행진 돌입",
+    "youtube_description": "국민의힘이 사법개혁 3법(법왜곡죄·재판소원·대법관 증원) 통과에 반발해 장외투쟁에 돌입했습니다. 장동혁 대표와 송언석 원내대표가 이끄는 국민대장정이 여의도 국회에서 청와대까지 도보행진을 진행하고, 이재명 대통령의 재의요구권 행사를 촉구했습니다.\n\n#국민의힘 #사법개혁 #장외투쟁 #도보행진 #정치 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["국민의힘", "사법개혁", "장외투쟁", "도보행진", "장동혁", "송언석", "법왜곡죄", "재판소원", "대법관증원", "정치", "뉴스"],
     "scenes": [
         {
             "tag": "속보",
-            "subtitle": "다주택자 양도세 중과\n5월 9일 종료 확정",
+            "subtitle": "국민의힘\n장외투쟁 돌입",
             "highlight_lines": [2],
-            "tts_text": "이천이십이년부터 미뤄져 왔던 다주택자 양도소득세 중과 유예 조치가 오월 구일 최종 종료됩니다. 정부는 연장 없이 예정대로 종료한다고 확인했습니다.",
+            "tts_text": "국민의힘이 사법개혁 3법 통과에 반발해 장외투쟁에 돌입했습니다. 장동혁 대표와 송언석 원내대표를 비롯한 국회의원들이 여의도 국회에서 청와대까지 도보행진을 진행했습니다.",
             "image_prompt": "headline",
-            "duration": 9,
+            "duration": 10,
             "infographic_data": {
                 "type": "headline",
-                "text": "양도세 중과 유예\n5월 9일 종료",
-                "sub_text": "2022년부터 4년간 유예 · 연장 없이 확정",
+                "text": "국민의힘\n장외투쟁 돌입",
+                "sub_text": "사법개혁 3법 규탄 · 국회→청와대 도보행진",
                 "style": "breaking",
-                "accent_color": [200, 100, 60]
+                "accent_color": [100, 100, 200]
             }
         },
         {
-            "tag": "세율",
-            "subtitle": "2주택 +20%p\n3주택 +30%p",
-            "highlight_lines": [1, 2],
-            "tts_text": "유예가 끝나면 조정대상지역 내 주택 매도 시, 이주택자는 기본세율에 이십 퍼센트포인트, 삼주택 이상은 삼십 퍼센트포인트가 추가됩니다. 세금 부담이 이주택자는 이점삼배, 삼주택자는 이점칠배로 늘어납니다.",
-            "image_prompt": "numbers",
-            "duration": 12,
+            "tag": "배경",
+            "subtitle": "사법개혁 3법\n법왜곡죄·소원·증원",
+            "highlight_lines": [1],
+            "tts_text": "국민의힘이 반발하는 사법개혁 3법은 법왜곡죄 신설, 재판소원제 도입, 대법관 14명에서 26명으로 증원입니다. 국민의힘은 이를 사법파괴 3대 악법이라 규정하고 이재명 대통령의 재의요구권 행사를 촉구하고 있습니다.",
+            "image_prompt": "list",
+            "duration": 13,
             "infographic_data": {
-                "type": "numbers",
+                "type": "list",
+                "title": "사법개혁 3법 쟁점",
                 "items": [
-                    {"label": "2주택 추가세율", "value": "+20%p", "color": [255, 150, 50]},
-                    {"label": "3주택 추가세율", "value": "+30%p", "color": [255, 80, 80]},
-                    {"label": "2주택 세금 증가", "value": "2.3배", "color": [255, 150, 50]},
-                    {"label": "3주택 세금 증가", "value": "2.7배", "color": [255, 80, 80]}
+                    {"text": "법왜곡죄 신설", "icon": "blue"},
+                    {"text": "재판소원제 도입", "icon": "blue"},
+                    {"text": "대법관 14명 → 26명 증원", "icon": "yellow"},
+                    {"text": "국민의힘: '사법파괴 악법'", "icon": "red"}
                 ],
-                "accent_color": [200, 100, 60]
+                "accent_color": [100, 100, 200]
             }
         },
         {
-            "tag": "보완",
-            "subtitle": "5월 9일 전 계약 시\n잔금 최장 6개월 유예",
+            "tag": "발언",
+            "subtitle": "장동혁 대표\n거부권 행사 촉구",
             "highlight_lines": [2],
-            "tts_text": "정부는 보완방안도 마련했습니다. 오월 구일까지 매매계약을 완료하면, 기존 조정대상지역인 강남 서초 송파 용산은 사개월, 신규 조정대상지역은 육개월 안에 잔금을 치르면 중과가 면제됩니다.",
+            "tts_text": "장동혁 국민의힘 대표는 이재명 대통령에게 일말의 양심이라도 있다면 3대 악법 모두 거부권을 행사해야 한다고 촉구했습니다. 송언석 원내대표도 사법독립과 헌정질서 수호를 위한 연대를 이루겠다고 밝혔습니다.",
+            "image_prompt": "quote",
+            "duration": 13,
+            "infographic_data": {
+                "type": "quote",
+                "quote": "일말의 양심이라도\n있다면 3대 악법 모두\n거부권을 행사해야",
+                "speaker": "장동혁 국민의힘 대표",
+                "accent_color": [100, 100, 200]
+            }
+        },
+        {
+            "tag": "일정",
+            "subtitle": "전국 순회 투쟁\n본격 시작",
+            "highlight_lines": [1],
+            "tts_text": "국민의힘은 삼일 국회에서 청와대까지 도보행진을 시작으로, 사일 국회 앞 규탄대회, 오일부터는 전국 순회 장외투쟁에 돌입할 예정입니다. 사법개혁 3법 철폐를 내걸고 대국민 여론전을 본격화합니다.",
             "image_prompt": "list",
             "duration": 12,
             "infographic_data": {
                 "type": "list",
-                "title": "유예 종료 보완방안",
+                "title": "장외투쟁 일정",
                 "items": [
-                    {"text": "5월 9일까지 매매계약 필수", "icon": "red"},
-                    {"text": "강남·서초·송파·용산: 4개월", "icon": "yellow"},
-                    {"text": "신규 조정지역: 6개월 유예", "icon": "yellow"},
-                    {"text": "기한 내 잔금 시 중과 면제", "icon": "blue"}
+                    {"text": "3일: 국회→청와대 도보행진", "icon": "blue"},
+                    {"text": "4일: 국회 앞 규탄대회", "icon": "blue"},
+                    {"text": "5일~: 전국 순회 장외투쟁", "icon": "yellow"},
+                    {"text": "이재명 대통령 거부권 촉구", "icon": "red"}
                 ],
-                "accent_color": [200, 100, 60]
-            }
-        },
-        {
-            "tag": "시장",
-            "subtitle": "구리·용인 들썩\n풍선효과 조짐",
-            "highlight_lines": [1],
-            "tts_text": "유예 종료 소식에 비규제지역으로 수요가 이동하는 풍선효과 조짐이 나타나고 있습니다. 이월 셋째 주 경기도 구리시 아파트 매매가 상승률은 영점삼팔 퍼센트로 수도권 이위를 기록했고, 용인시 기흥구도 서울 상승률을 웃돌았습니다.",
-            "image_prompt": "numbers",
-            "duration": 13,
-            "infographic_data": {
-                "type": "numbers",
-                "items": [
-                    {"label": "구리시 상승률", "value": "0.38%", "color": [255, 100, 80]},
-                    {"label": "수도권 순위", "value": "2위", "color": [255, 150, 50]},
-                    {"label": "용인 기흥구", "value": "0.17%", "color": [255, 150, 50]},
-                    {"label": "서울 대비", "value": "상회", "color": [200, 100, 60]}
-                ],
-                "accent_color": [200, 100, 60]
+                "accent_color": [100, 100, 200]
             }
         }
     ]

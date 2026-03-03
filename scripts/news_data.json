@@ -1,82 +1,86 @@
 {
-    "title": "국민의힘 장외투쟁 돌입",
+    "title": "WBC 2026 한국 대표팀 출격",
     "tone": {
-        "bg_top": [15, 15, 35],
-        "bg_bottom": [5, 5, 18],
-        "glow": [100, 100, 200],
-        "card_bg": [18, 18, 38],
-        "card_outline": [40, 40, 70]
+        "bg_top": [10, 15, 40],
+        "bg_bottom": [5, 8, 20],
+        "glow": [220, 50, 50],
+        "card_bg": [15, 20, 50],
+        "card_outline": [40, 50, 90]
     },
-    "bg_prompt": "Flat editorial illustration of a group of politicians in dark formal suits all wearing matching crimson red neckties walking together along a wide city boulevard, tall modern buildings on both sides, dramatic cloudy sky overhead, cool gray and indigo tones with warm golden street lamp lighting, determined solemn atmosphere, clean minimal editorial style",
-    "youtube_title": "국민의힘 장외투쟁! 국회→청와대 도보행진 돌입",
-    "youtube_description": "국민의힘이 사법개혁 3법(법왜곡죄·재판소원·대법관 증원) 통과에 반발해 장외투쟁에 돌입했습니다. 장동혁 대표와 송언석 원내대표가 이끄는 국민대장정이 여의도 국회에서 청와대까지 도보행진을 진행하고, 이재명 대통령의 재의요구권 행사를 촉구했습니다.\n\n#국민의힘 #사법개혁 #장외투쟁 #도보행진 #정치 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["국민의힘", "사법개혁", "장외투쟁", "도보행진", "장동혁", "송언석", "법왜곡죄", "재판소원", "대법관증원", "정치", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of a dramatic baseball stadium at night filled with passionate cheering crowd waving red and blue flags, bright stadium floodlights illuminating the field, a powerful baseball pitcher in mid-throw on the mound, electric atmosphere with confetti and spotlights, vibrant red and deep blue color scheme, energetic and triumphant mood, clean minimal editorial style",
+    "youtube_title": "WBC 2026 개막! 이정후·김도영 도쿄돔 출격",
+    "youtube_description": "2026 월드베이스볼클래식이 3월 5일 개막합니다. 이정후 주장을 필두로 김도영, 류현진, 김혜성, 고우석 등 역대급 로스터가 도쿄돔에서 태극마크를 답니다. 3월 7일 한일전이 최대 승부처입니다.\n\n#WBC #WBC2026 #야구 #이정후 #김도영 #류현진 #한일전 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["WBC", "WBC2026", "야구", "이정후", "김도영", "류현진", "한일전", "도쿄돔", "대표팀", "스포츠"],
     "scenes": [
         {
-            "tag": "속보",
-            "subtitle": "국민의힘\n장외투쟁 돌입",
-            "highlight_lines": [2],
-            "tts_text": "국민의힘이 사법개혁 3법 통과에 반발해 장외투쟁에 돌입했습니다. 장동혁 대표와 송언석 원내대표를 비롯한 국회의원들이 여의도 국회에서 청와대까지 도보행진을 진행했습니다.",
+            "tag": "개막",
+            "subtitle": "WBC 2026\n3월 5일 개막",
+            "highlight_lines": [1],
+            "tts_text": "2026 월드베이스볼클래식이 3월 5일 개막합니다. 20개국이 참가하는 이번 대회에서 한국은 도쿄돔 C조에 배정되어 일본, 대만, 호주, 체코와 맞붙습니다. MLB닷컴 파워랭킹에서 한국은 7위에 올랐습니다.",
             "image_prompt": "headline",
-            "duration": 10,
+            "duration": 12,
             "infographic_data": {
                 "type": "headline",
-                "text": "국민의힘\n장외투쟁 돌입",
-                "sub_text": "사법개혁 3법 규탄 · 국회→청와대 도보행진",
+                "text": "WBC 2026\n3월 5일 개막",
+                "sub_text": "20개국 참가 · 도쿄돔 C조 · 파워랭킹 7위",
                 "style": "breaking",
-                "accent_color": [100, 100, 200]
+                "accent_color": [220, 50, 50]
             }
         },
         {
-            "tag": "배경",
-            "subtitle": "사법개혁 3법\n법왜곡죄·소원·증원",
+            "tag": "로스터",
+            "subtitle": "역대급 로스터\nMLB 6명 합류",
             "highlight_lines": [1],
-            "tts_text": "국민의힘이 반발하는 사법개혁 3법은 법왜곡죄 신설, 재판소원제 도입, 대법관 14명에서 26명으로 증원입니다. 국민의힘은 이를 사법파괴 3대 악법이라 규정하고 이재명 대통령의 재의요구권 행사를 촉구하고 있습니다.",
+            "tts_text": "이정후 주장을 필두로 김혜성, 고우석 등 MLB 선수 3명과 한국계 빅리거 3명이 합류해 역대 최다 메이저리거가 태극마크를 답니다. 김도영이 1번 타자, 이정후가 3번 타자로 출격하며, 류현진은 16년 만에 대표팀에 복귀합니다.",
             "image_prompt": "list",
-            "duration": 13,
+            "duration": 14,
             "infographic_data": {
                 "type": "list",
-                "title": "사법개혁 3법 쟁점",
+                "title": "대표팀 핵심 라인업",
                 "items": [
-                    {"text": "법왜곡죄 신설", "icon": "blue"},
-                    {"text": "재판소원제 도입", "icon": "blue"},
-                    {"text": "대법관 14명 → 26명 증원", "icon": "yellow"},
-                    {"text": "국민의힘: '사법파괴 악법'", "icon": "red"}
+                    {"text": "이정후 (SF) — 주장 · 3번 우익수", "icon": "red"},
+                    {"text": "김도영 (KIA) — 1번 · 3루수", "icon": "red"},
+                    {"text": "김혜성 (LAD) · 고우석 (DET)", "icon": "blue"},
+                    {"text": "류현진 — 16년 만의 대표팀 복귀", "icon": "blue"}
                 ],
-                "accent_color": [100, 100, 200]
-            }
-        },
-        {
-            "tag": "발언",
-            "subtitle": "장동혁 대표\n거부권 행사 촉구",
-            "highlight_lines": [2],
-            "tts_text": "장동혁 국민의힘 대표는 이재명 대통령에게 일말의 양심이라도 있다면 3대 악법 모두 거부권을 행사해야 한다고 촉구했습니다. 송언석 원내대표도 사법독립과 헌정질서 수호를 위한 연대를 이루겠다고 밝혔습니다.",
-            "image_prompt": "quote",
-            "duration": 13,
-            "infographic_data": {
-                "type": "quote",
-                "quote": "일말의 양심이라도\n있다면 3대 악법 모두\n거부권을 행사해야",
-                "speaker": "장동혁 국민의힘 대표",
-                "accent_color": [100, 100, 200]
+                "accent_color": [220, 50, 50]
             }
         },
         {
             "tag": "일정",
-            "subtitle": "전국 순회 투쟁\n본격 시작",
-            "highlight_lines": [1],
-            "tts_text": "국민의힘은 삼일 국회에서 청와대까지 도보행진을 시작으로, 사일 국회 앞 규탄대회, 오일부터는 전국 순회 장외투쟁에 돌입할 예정입니다. 사법개혁 3법 철폐를 내걸고 대국민 여론전을 본격화합니다.",
+            "subtitle": "C조 4경기\n한일전이 승부처",
+            "highlight_lines": [2],
+            "tts_text": "한국은 3월 5일 체코전을 시작으로 7일 한일전, 8일 대만전, 9일 호주전까지 4경기를 치릅니다. 디펜딩 챔피언 일본과의 한일전이 8강 진출을 좌우할 최대 승부처입니다. 지상파 3사와 CGV에서 전 경기 생중계됩니다.",
             "image_prompt": "list",
-            "duration": 12,
+            "duration": 14,
             "infographic_data": {
                 "type": "list",
-                "title": "장외투쟁 일정",
+                "title": "C조 경기 일정 (도쿄돔)",
                 "items": [
-                    {"text": "3일: 국회→청와대 도보행진", "icon": "blue"},
-                    {"text": "4일: 국회 앞 규탄대회", "icon": "blue"},
-                    {"text": "5일~: 전국 순회 장외투쟁", "icon": "yellow"},
-                    {"text": "이재명 대통령 거부권 촉구", "icon": "red"}
+                    {"text": "3/5(수) 19시  vs 체코", "icon": "green"},
+                    {"text": "3/7(금) 19시  vs 일본 ★한일전", "icon": "red"},
+                    {"text": "3/8(토) 12시  vs 대만", "icon": "yellow"},
+                    {"text": "3/9(일) 19시  vs 호주", "icon": "green"}
                 ],
-                "accent_color": [100, 100, 200]
+                "accent_color": [220, 50, 50]
+            }
+        },
+        {
+            "tag": "도전",
+            "subtitle": "2009 준우승 이후\n3대회 연속 탈락",
+            "highlight_lines": [2],
+            "tts_text": "한국은 2009년 WBC 준우승 이후 3대회 연속 조별리그에서 탈락했습니다. 통산 전적은 26경기 17승 9패로 승률 6할5푼3리입니다. 역대 최다 메이저리거와 초호화 코칭스태프로 무장한 이번 대회에서 설욕에 나섭니다.",
+            "image_prompt": "numbers",
+            "duration": 13,
+            "infographic_data": {
+                "type": "numbers",
+                "title": "한국 역대 WBC 성적",
+                "items": [
+                    {"label": "2009년", "value": "준우승", "unit": "역대 최고"},
+                    {"label": "통산 전적", "value": "17승 9패", "unit": "승률 .653"},
+                    {"label": "최근 3대회", "value": "조별 탈락", "unit": "설욕 도전"}
+                ],
+                "accent_color": [220, 50, 50]
             }
         }
     ]

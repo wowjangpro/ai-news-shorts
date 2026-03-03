@@ -771,7 +771,15 @@ def _draw_info_list(w, h, data, bg_img=None):
     draw = ImageDraw.Draw(img)
 
     margin = 50
-    y_offset = margin
+
+    # 리스트 아이템 크기 계산
+    n = len(items)
+    gap = 15
+    title_h = 70 if title else 0
+    max_card_h = 85
+    card_h = min(max_card_h, (h - title_h - margin * 2 - gap * (n - 1)) // max(n, 1))
+    total_block_h = title_h + n * card_h + (n - 1) * gap
+    y_offset = (h - total_block_h) // 2  # 세로 가운데 정렬
 
     # 제목
     if title:
@@ -780,13 +788,8 @@ def _draw_info_list(w, h, data, bg_img=None):
             _text_outline(draw, title, margin + 10, y_offset, f_title, accent, (0, 0, 0), 3)
         else:
             draw.text((margin + 10, y_offset), title, font=f_title, fill=accent)
-        y_offset += 70
+        y_offset += title_h
 
-    # 리스트 아이템
-    n = len(items)
-    gap = 15
-    available_h = h - y_offset - margin
-    card_h = min(85, (available_h - gap * (n - 1)) // max(n, 1))
     f_text = _get_font(min(34, card_h - 30), "Bold")
 
     # 카드 색상 (투명 모드: 반투명)
@@ -838,27 +841,33 @@ def _draw_quote_visual(w, h, data, bg_img=None):
     if not transparent:
         _center_glow(draw, 80, h // 3, 400, tone["glow"])
 
-    # 대형 따옴표
-    f_quote_mark = _get_font(160, "Black")
-    qm_fill = tuple(c // 3 for c in accent)
-    if transparent:
-        _text_outline(draw, "\u201C", 60, 60, f_quote_mark, qm_fill, (0, 0, 0), 3)
-    else:
-        draw.text((60, 60), "\u201C", font=f_quote_mark, fill=qm_fill)
-
-    # 인용문 텍스트
+    # 콘텐츠 높이 사전 계산 (세로 가운데 정렬)
     text = data.get("text", "")
     lines = text.split("\n")
     max_len = max(len(l) for l in lines) if lines else 1
     font_size = min(48, max(34, w // max(max_len + 2, 1)))
-    f_text = _get_font(font_size, "Bold")
-
-    text_x = 90
-    text_y = 250
     line_gap = font_size + 18
+    quote_mark_h = 180  # 따옴표 높이 + 간격
+    total_text_h = len(lines) * line_gap
+    speaker = data.get("speaker", "")
+    speaker_h = 80 if speaker else 0  # 화자 정보 높이
+    total_block_h = quote_mark_h + total_text_h + speaker_h
+    base_y = (h - total_block_h) // 2  # 세로 가운데 정렬
+
+    # 대형 따옴표
+    f_quote_mark = _get_font(160, "Black")
+    qm_fill = tuple(c // 3 for c in accent)
+    if transparent:
+        _text_outline(draw, "\u201C", 60, base_y, f_quote_mark, qm_fill, (0, 0, 0), 3)
+    else:
+        draw.text((60, base_y), "\u201C", font=f_quote_mark, fill=qm_fill)
+
+    # 인용문 텍스트
+    f_text = _get_font(font_size, "Bold")
+    text_x = 90
+    text_y = base_y + quote_mark_h
 
     # 좌측 악센트 바
-    total_text_h = len(lines) * line_gap
     draw.rectangle([65, text_y - 5, 72, text_y + total_text_h], fill=accent)
 
     for i, line in enumerate(lines):
@@ -869,7 +878,6 @@ def _draw_quote_visual(w, h, data, bg_img=None):
             draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
 
     # 화자 정보
-    speaker = data.get("speaker", "")
     affiliation = data.get("affiliation", "")
     if speaker:
         f_speaker = _get_font(32, "Bold")
@@ -908,10 +916,14 @@ def _draw_comparison(w, h, data, bg_img=None):
         return img
 
     max_val = max(item["value"] for item in items) * 1.15
-    margin_y = 60
     bar_x = 220
     max_bar_w = w - bar_x - 80
-    gap = (h - margin_y * 2) // (len(items) + 1)
+    bar_h = 47  # 바 높이 (55 - 8)
+    bar_gap = 25  # 바 사이 간격
+    baseline_h = 45 if baseline else 0  # 기준선 라벨 높이
+    total_block_h = baseline_h + len(items) * (bar_h + bar_gap) - bar_gap
+    margin_y = (h - total_block_h) // 2  # 세로 가운데 정렬
+    gap = bar_h + bar_gap
 
     f_name = _get_font(32, "Bold")
     f_val = _get_font(36, "Black")
@@ -921,13 +933,13 @@ def _draw_comparison(w, h, data, bg_img=None):
     # 기준선
     if baseline:
         bx = bar_x + int(baseline["value"] / max_val * max_bar_w)
-        draw.line([(bx, margin_y - 10), (bx, h - 40)], fill=(80, 200, 120), width=2)
+        draw.line([(bx, margin_y), (bx, margin_y + total_block_h)], fill=(80, 200, 120), width=2)
         f_base = _get_font(24, "Medium")
         label = f"{baseline['label']} {baseline['value']:,}{unit}"
         if transparent:
-            _text_outline(draw, label, bx - 50, margin_y - 35, f_base, (80, 200, 120), (0, 0, 0), 2)
+            _text_outline(draw, label, bx - 50, margin_y - 30, f_base, (80, 200, 120), (0, 0, 0), 2)
         else:
-            draw.text((bx - 50, margin_y - 35), label, font=f_base, fill=(80, 200, 120))
+            draw.text((bx - 50, margin_y - 30), label, font=f_base, fill=(80, 200, 120))
 
     # 바 색상 그라데이션 생성
     default_colors = [
@@ -935,8 +947,9 @@ def _draw_comparison(w, h, data, bg_img=None):
         (255, 190, 50), (210, 210, 70), (140, 200, 90),
     ]
 
+    bar_start_y = margin_y + baseline_h
     for i, item in enumerate(items):
-        y = margin_y + (i + 1) * gap
+        y = bar_start_y + i * gap
         bw = int(item["value"] / max_val * max_bar_w)
         color = tuple(item.get("color", list(default_colors[i % len(default_colors)])))
 
@@ -969,7 +982,7 @@ def _draw_comparison(w, h, data, bg_img=None):
 
     # 첫 바 글로우 (어두운 배경에서만)
     if not transparent:
-        first_y = margin_y + gap
+        first_y = bar_start_y
         first_bw = int(items[0]["value"] / max_val * max_bar_w)
         first_color = tuple(items[0].get("color", list(default_colors[0])))
         img = _add_glow(img, lambda d: d.rounded_rectangle(

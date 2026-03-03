@@ -282,10 +282,18 @@ class VideoRenderer:
         draw.rectangle([35, 20, 35 + tw + pad * 2, 20 + th + pad * 2], fill=ACCENT_RED)
         draw.text((35 + pad, 20 + pad - 2), tag, font=f_tag, fill=WHITE)
 
-        f_title = self.get_font(96, "Black")
         title = script.get("title", "오늘의 뉴스")
+        max_w = VIDEO_WIDTH - 70  # 좌우 여백 35px씩
+        title_size = 96
+        f_title = self.get_font(title_size, "Black")
         bbox = draw.textbbox((0, 0), title, font=f_title)
         tw = bbox[2] - bbox[0]
+        # 제목이 화면을 넘으면 폰트 자동 축소
+        while tw > max_w and title_size > 40:
+            title_size -= 4
+            f_title = self.get_font(title_size, "Black")
+            bbox = draw.textbbox((0, 0), title, font=f_title)
+            tw = bbox[2] - bbox[0]
         x = (VIDEO_WIDTH - tw) // 2
         self._text_outline(draw, title, x, 100, f_title, GOLD, BLACK, 4)
 

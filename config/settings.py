@@ -26,7 +26,7 @@ VIDEO_CRF = int(os.getenv("VIDEO_CRF", "20"))
 HEADER_HEIGHT = 250        # 상단 제목 영역 (0~250)
 IMAGE_AREA_TOP = HEADER_HEIGHT  # 인포그래픽 상단 (250, 요약자막 제거)
 IMAGE_AREA_BOTTOM = IMAGE_AREA_TOP + 1060          # 인포그래픽 하단 (1310)
-TTS_SUB_TOP = 1175         # TTS 실시간 자막 시작 (유튜브 타이틀 회피)
+TTS_SUB_TOP = 975          # TTS 실시간 자막 시작 (유튜브 타이틀 회피)
 TTS_SUB_HEIGHT = 295       # TTS 자막 높이 (1275~1570)
 BOTTOM_BAR_HEIGHT = 55     # 하단 AI 고지 바 (1865~1920)
 

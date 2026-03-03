@@ -1,86 +1,86 @@
 {
-    "title": "WBC 2026 한국 대표팀 출격",
+    "title": "검은 화요일 코스피 폭락",
     "tone": {
-        "bg_top": [10, 15, 40],
-        "bg_bottom": [5, 8, 20],
-        "glow": [220, 50, 50],
-        "card_bg": [15, 20, 50],
-        "card_outline": [40, 50, 90]
+        "bg_top": [30, 5, 5],
+        "bg_bottom": [15, 2, 2],
+        "glow": [200, 40, 40],
+        "card_bg": [35, 8, 8],
+        "card_outline": [60, 20, 20]
     },
-    "bg_prompt": "Flat editorial illustration of a dramatic baseball stadium at night filled with passionate cheering crowd waving red and blue flags, bright stadium floodlights illuminating the field, a powerful baseball pitcher in mid-throw on the mound, electric atmosphere with confetti and spotlights, vibrant red and deep blue color scheme, energetic and triumphant mood, clean minimal editorial style",
-    "youtube_title": "WBC 2026 개막! 이정후·김도영 도쿄돔 출격",
-    "youtube_description": "2026 월드베이스볼클래식이 3월 5일 개막합니다. 이정후 주장을 필두로 김도영, 류현진, 김혜성, 고우석 등 역대급 로스터가 도쿄돔에서 태극마크를 답니다. 3월 7일 한일전이 최대 승부처입니다.\n\n#WBC #WBC2026 #야구 #이정후 #김도영 #류현진 #한일전 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["WBC", "WBC2026", "야구", "이정후", "김도영", "류현진", "한일전", "도쿄돔", "대표팀", "스포츠"],
+    "bg_prompt": "Flat editorial illustration of a dark chaotic stock trading floor at night, giant red downward arrows crashing through the floor, scattered papers flying everywhere, panicked traders in suits running, red warning lights flashing, stock chart screens showing sharp decline, ominous dark red and black atmosphere, tense desperate mood, clean minimal editorial style",
+    "youtube_title": "검은 화요일! 코스피 7% 역대 최대 폭락",
+    "youtube_description": "코스피가 452포인트 폭락하며 역대 최대 낙폭을 기록한 '검은 화요일'입니다. 외국인이 하루 5.1조원을 투매했고 공포지수는 6년 만에 최고치를 찍었습니다. 삼성전자는 20만원 선이 무너졌고, 방산주와 정유주만 폭등했습니다.\n\n#코스피 #주식 #폭락 #검은화요일 #삼성전자 #방산주 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["코스피", "주식", "폭락", "검은화요일", "삼성전자", "SK하이닉스", "방산주", "정유주", "외국인매도", "증시"],
     "scenes": [
         {
-            "tag": "개막",
-            "subtitle": "WBC 2026\n3월 5일 개막",
-            "highlight_lines": [1],
-            "tts_text": "2026 월드베이스볼클래식이 3월 5일 개막합니다. 20개국이 참가하는 이번 대회에서 한국은 도쿄돔 C조에 배정되어 일본, 대만, 호주, 체코와 맞붙습니다. MLB닷컴 파워랭킹에서 한국은 7위에 올랐습니다.",
+            "tag": "폭락",
+            "subtitle": "코스피 -7.24%\n역대 최대 낙폭",
+            "highlight_lines": [2],
+            "tts_text": "코스피가 452포인트 폭락하며 포인트 기준 역대 최대 낙폭을 기록했습니다. 종가 5791포인트로 6000선이 무너졌고, 코스닥도 4.62퍼센트 급락했습니다. 장중 매도 사이드카가 발동되며 공포지수는 62.98로 코로나 팬데믹 이후 6년 만에 최고치를 기록했습니다.",
             "image_prompt": "headline",
-            "duration": 12,
+            "duration": 14,
             "infographic_data": {
                 "type": "headline",
-                "text": "WBC 2026\n3월 5일 개막",
-                "sub_text": "20개국 참가 · 도쿄돔 C조 · 파워랭킹 7위",
+                "text": "검은 화요일\n코스피 -7.24%",
+                "sub_text": "-452pt · 역대 최대 낙폭 · 공포지수 6년 최고",
                 "style": "breaking",
-                "accent_color": [220, 50, 50]
+                "accent_color": [200, 40, 40]
             }
         },
         {
-            "tag": "로스터",
-            "subtitle": "역대급 로스터\nMLB 6명 합류",
+            "tag": "투매",
+            "subtitle": "외국인 5.1조 투매\n개인 5.7조 매수",
             "highlight_lines": [1],
-            "tts_text": "이정후 주장을 필두로 김혜성, 고우석 등 MLB 선수 3명과 한국계 빅리거 3명이 합류해 역대 최다 메이저리거가 태극마크를 답니다. 김도영이 1번 타자, 이정후가 3번 타자로 출격하며, 류현진은 16년 만에 대표팀에 복귀합니다.",
-            "image_prompt": "list",
-            "duration": 14,
-            "infographic_data": {
-                "type": "list",
-                "title": "대표팀 핵심 라인업",
-                "items": [
-                    {"text": "이정후 (SF) — 주장 · 3번 우익수", "icon": "red"},
-                    {"text": "김도영 (KIA) — 1번 · 3루수", "icon": "red"},
-                    {"text": "김혜성 (LAD) · 고우석 (DET)", "icon": "blue"},
-                    {"text": "류현진 — 16년 만의 대표팀 복귀", "icon": "blue"}
-                ],
-                "accent_color": [220, 50, 50]
-            }
-        },
-        {
-            "tag": "일정",
-            "subtitle": "C조 4경기\n한일전이 승부처",
-            "highlight_lines": [2],
-            "tts_text": "한국은 3월 5일 체코전을 시작으로 7일 한일전, 8일 대만전, 9일 호주전까지 4경기를 치릅니다. 디펜딩 챔피언 일본과의 한일전이 8강 진출을 좌우할 최대 승부처입니다. 지상파 3사와 CGV에서 전 경기 생중계됩니다.",
-            "image_prompt": "list",
-            "duration": 14,
-            "infographic_data": {
-                "type": "list",
-                "title": "C조 경기 일정 (도쿄돔)",
-                "items": [
-                    {"text": "3/5(수) 19시  vs 체코", "icon": "green"},
-                    {"text": "3/7(금) 19시  vs 일본 ★한일전", "icon": "red"},
-                    {"text": "3/8(토) 12시  vs 대만", "icon": "yellow"},
-                    {"text": "3/9(일) 19시  vs 호주", "icon": "green"}
-                ],
-                "accent_color": [220, 50, 50]
-            }
-        },
-        {
-            "tag": "도전",
-            "subtitle": "2009 준우승 이후\n3대회 연속 탈락",
-            "highlight_lines": [2],
-            "tts_text": "한국은 2009년 WBC 준우승 이후 3대회 연속 조별리그에서 탈락했습니다. 통산 전적은 26경기 17승 9패로 승률 6할5푼3리입니다. 역대 최다 메이저리거와 초호화 코칭스태프로 무장한 이번 대회에서 설욕에 나섭니다.",
+            "tts_text": "외국인이 하루 만에 5조1731억 원을 순매도하며 역대 2위 매도 기록을 세웠습니다. 반면 개인 투자자들은 5조7000억 원을 매수하며 반등에 베팅했습니다. 원달러 환율은 26.4원 급등해 1466원을 기록했습니다.",
             "image_prompt": "numbers",
             "duration": 13,
             "infographic_data": {
                 "type": "numbers",
-                "title": "한국 역대 WBC 성적",
+                "title": "수급 동향",
                 "items": [
-                    {"label": "2009년", "value": "준우승", "unit": "역대 최고"},
-                    {"label": "통산 전적", "value": "17승 9패", "unit": "승률 .653"},
-                    {"label": "최근 3대회", "value": "조별 탈락", "unit": "설욕 도전"}
+                    {"label": "외국인 매도", "value": "-5.1조", "unit": "역대 2위"},
+                    {"label": "개인 매수", "value": "+5.7조", "unit": "반등 베팅"},
+                    {"label": "원/달러", "value": "1,466원", "unit": "+26.4원"}
                 ],
-                "accent_color": [220, 50, 50]
+                "accent_color": [200, 40, 40]
+            }
+        },
+        {
+            "tag": "종목",
+            "subtitle": "삼성 -9.88%\n하이닉스 -11.5%",
+            "highlight_lines": [1],
+            "tts_text": "삼성전자가 9.88퍼센트 급락하며 20만원 선이 무너졌고, SK하이닉스는 11.5퍼센트 폭락하며 100만원 선을 상실했습니다. 현대차와 기아도 11퍼센트대 하락했습니다. 신용거래 융자 잔고가 30조원을 넘어 반대매매 공포도 확산되고 있습니다.",
+            "image_prompt": "list",
+            "duration": 14,
+            "infographic_data": {
+                "type": "list",
+                "title": "주요 종목 등락",
+                "items": [
+                    {"text": "삼성전자 -9.88%  (20만원 붕괴)", "icon": "red"},
+                    {"text": "SK하이닉스 -11.5%  (100만원 상실)", "icon": "red"},
+                    {"text": "현대차 -11.7% · 기아 -11.3%", "icon": "red"},
+                    {"text": "빚투 잔고 30조 — 반대매매 공포", "icon": "yellow"}
+                ],
+                "accent_color": [200, 40, 40]
+            }
+        },
+        {
+            "tag": "수혜",
+            "subtitle": "방산·정유주만\n역대 최고가",
+            "highlight_lines": [2],
+            "tts_text": "코스피 폭락 속에서도 방산주와 정유주는 역대 최고가를 경신했습니다. 한화시스템이 29퍼센트, 한화에어로스페이스가 25퍼센트 급등했고, 엘아이지넥스원은 상한가에 도달했습니다. 에스오일도 28퍼센트 폭등하며 신고가를 기록했습니다.",
+            "image_prompt": "list",
+            "duration": 13,
+            "infographic_data": {
+                "type": "list",
+                "title": "폭락장 속 수혜주",
+                "items": [
+                    {"text": "한화시스템 +29.4%  (역대 최고가)", "icon": "green"},
+                    {"text": "한화에어로 +24.8%  (시총 9위)", "icon": "green"},
+                    {"text": "LIG넥스원 +27.1%  (상한가)", "icon": "green"},
+                    {"text": "S-Oil +28.4%  (52주 신고가)", "icon": "green"}
+                ],
+                "accent_color": [200, 40, 40]
             }
         }
     ]

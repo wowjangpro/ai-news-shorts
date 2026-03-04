@@ -1,86 +1,86 @@
 {
-    "title": "이재명 대통령 한필 정상회담",
+    "title": "3월 국회 비상입법 체제",
     "tone": {
-        "bg_top": [10, 20, 35],
-        "bg_bottom": [5, 10, 18],
-        "glow": [50, 140, 200],
-        "card_bg": [12, 22, 40],
-        "card_outline": [30, 50, 80]
+        "bg_top": [15, 15, 35],
+        "bg_bottom": [8, 8, 20],
+        "glow": [60, 100, 200],
+        "card_bg": [18, 18, 38],
+        "card_outline": [35, 40, 70]
     },
-    "bg_prompt": "Flat editorial illustration of a grand diplomatic meeting scene at a magnificent palace, two leaders shaking hands warmly in front of their national flags, elegant golden chandeliers overhead, marble columns and red carpet, warm golden light streaming through tall windows, dignified and hopeful atmosphere with warm gold and deep blue tones, clean minimal editorial style",
-    "youtube_title": "이재명 대통령 한필 정상회담! 원전·방산 10건 협약",
-    "youtube_description": "이재명 대통령이 수교 77주년 기념일에 필리핀 마르코스 대통령과 정상회담을 개최했습니다. 원전, 방산, 조선, 핵심광물, AI 등 10건의 협약을 체결하며 전략적 동반자 관계를 강화했습니다.\n\n#이재명 #필리핀 #정상회담 #원전 #방산 #외교 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["이재명", "필리핀", "정상회담", "마르코스", "원전", "방산", "외교", "수교77주년", "조선", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of the Korean National Assembly building at night with dramatic spotlights illuminating the large domed roof, serious tense atmosphere, deep navy blue sky with dark clouds gathering, warm amber light glowing from tall windows, wide stone steps leading to the entrance, solemn and important mood, clean minimal editorial style",
+    "youtube_title": "3월 국회 비상체제! 중수청·대미투자법 속전속결",
+    "youtube_description": "3월 임시국회가 비상입법 체제로 돌입합니다. 12일 첫 본회의를 시작으로 중수청·공소청 설치법과 대미투자특별법 처리에 나서며, 경제 6단체는 대미투자법 조속 통과를 긴급 호소했습니다.\n\n#국회 #중수청 #대미투자 #임시국회 #정치 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["국회", "중수청", "공소청", "대미투자특별법", "임시국회", "민주당", "국민의힘", "정치", "뉴스"],
     "scenes": [
         {
-            "tag": "외교",
-            "subtitle": "한필 수교 77주년\n말라카냥궁 정상회담",
+            "tag": "국회",
+            "subtitle": "3월 임시국회\n비상입법 체제 돌입",
             "highlight_lines": [2],
-            "tts_text": "이재명 대통령이 수교 77주년 기념일인 3월 3일 필리핀 말라카냥궁에서 마르코스 대통령과 정상회담을 개최했습니다. 원전, 방산, 조선, 핵심광물, AI 등 전 분야에 걸쳐 10건의 협약을 체결하며 전략적 동반자 관계를 한층 강화했습니다.",
+            "tts_text": "3월 5일 임시국회가 소집되어 12일 첫 본회의가 열립니다. 더불어민주당은 3월 국회 전체를 비상체제로 운영하며, 매주 목요일 본회의를 열어 검찰개혁 후속 법안과 민생 법안을 일괄 처리하겠다고 선언했습니다.",
             "image_prompt": "headline",
             "duration": 14,
             "infographic_data": {
                 "type": "headline",
-                "text": "한필 정상회담\n수교 77주년",
-                "sub_text": "말라카냥궁 · MOU 10건 체결 · 전략적 동반자",
+                "text": "3월 국회\n비상입법 체제",
+                "sub_text": "5일 소집 · 12일 첫 본회의 · 매주 목요일 처리",
                 "style": "breaking",
-                "accent_color": [50, 140, 200]
+                "accent_color": [60, 100, 200]
             }
         },
         {
-            "tag": "협력",
-            "subtitle": "원전·방산·조선\n5대 분야 협약",
+            "tag": "법안",
+            "subtitle": "중수청·공소청법\n검찰개혁 후속 처리",
             "highlight_lines": [1],
-            "tts_text": "핵심 협력 분야는 원전, 방산, 조선, 핵심광물, AI 다섯 가지입니다. 한국수력원자력이 바탄원전 재개 타당성 조사를 진행 중이며, 신규 원전 건설 협력도 합의했습니다. 방산 분야에서는 필리핀군 현대화에 한국 기업 참여를 확대하기로 했습니다.",
+            "tts_text": "핵심 법안은 중대범죄수사청 설치법과 공소청 설치법입니다. 중수청은 검찰의 직접 수사권을 이관받아 9대 중대범죄를 전담하고, 공소청은 검사의 역할을 공소와 공판 중심으로 전환합니다. 국민의힘은 권력 집중과 형사사법 혼란을 우려하며 전면 반대하고 있습니다.",
             "image_prompt": "list",
-            "duration": 14,
+            "duration": 15,
             "infographic_data": {
                 "type": "list",
-                "title": "5대 핵심 협력 분야",
+                "title": "검찰개혁 후속 핵심 법안",
                 "items": [
-                    {"text": "원전 — 바탄원전 재개 + 신규 건설", "icon": "blue"},
-                    {"text": "방산 — 필리핀군 현대화 참여", "icon": "blue"},
-                    {"text": "조선 — 세계 2위·4위 협력", "icon": "green"},
-                    {"text": "핵심광물·AI — 니켈 2위국 협력", "icon": "green"}
+                    {"text": "중수청 — 9대 중대범죄 수사 전담", "icon": "blue"},
+                    {"text": "공소청 — 공소·공판 중심 전환", "icon": "blue"},
+                    {"text": "국민의힘 전면 반대 + 장외투쟁", "icon": "red"},
+                    {"text": "민주당 단독 처리 가능성", "icon": "yellow"}
                 ],
-                "accent_color": [50, 140, 200]
+                "accent_color": [60, 100, 200]
             }
         },
         {
-            "tag": "성과",
-            "subtitle": "MOU 10건 체결\nFTA 투자 5배 증가",
+            "tag": "경제",
+            "subtitle": "대미투자특별법\n3500억불 투자 관리",
             "highlight_lines": [1],
-            "tts_text": "이번 정상회담에서 양해각서 9건과 방산 시행약정 1건 등 총 10건을 체결했습니다. 지난해 한필 FTA 발효 이후 한국의 대필리핀 투자는 5배 이상 증가했으며, 연간 200만 명이 양국을 오가고 있습니다.",
+            "tts_text": "대미투자특별법은 3500억 달러 규모의 한미 전략적 투자를 관리하는 법안입니다. 특위 활동 기한이 3월 9일까지로 촉박한 가운데, 경제 6단체가 긴급 호소문을 발표하며 조속한 입법을 촉구했습니다. 자동차 관세 25퍼센트에서 15퍼센트 인하 효과도 기대됩니다.",
             "image_prompt": "numbers",
-            "duration": 13,
+            "duration": 15,
             "infographic_data": {
                 "type": "numbers",
-                "title": "정상회담 주요 성과",
+                "title": "대미투자특별법 핵심",
                 "items": [
-                    {"label": "협약 체결", "value": "10건", "unit": "MOU+시행약정"},
-                    {"label": "FTA 효과", "value": "투자 5배", "unit": "증가"},
-                    {"label": "인적 교류", "value": "200만명", "unit": "연간"}
+                    {"label": "투자 규모", "value": "3,500억$", "unit": "한미 전략투자"},
+                    {"label": "특위 기한", "value": "3월 9일", "unit": "D-5"},
+                    {"label": "車 관세", "value": "25→15%", "unit": "인하 효과"}
                 ],
-                "accent_color": [50, 140, 200]
+                "accent_color": [60, 100, 200]
             }
         },
         {
-            "tag": "순방",
-            "subtitle": "동남아 순방 성과\n싱가포르+필리핀",
+            "tag": "대립",
+            "subtitle": "여야 전면 충돌\n국정조사 vs 장외투쟁",
             "highlight_lines": [1],
-            "tts_text": "이재명 대통령은 싱가포르에서 FTA 개선협상 합의와 AI 커넥트 서밋을 공동 개최한 데 이어, 필리핀에서 원전과 방산 수출의 교두보를 확보했습니다. 중동 전쟁 위기 속에서 동남아 전략적 동반자 관계를 강화하는 세일즈 외교 성과를 거뒀습니다.",
+            "tts_text": "민주당은 12일 본회의에서 대장동, 쌍방울 대북송금, 서해 공무원 피격 사건의 국정조사 요구서를 보고할 계획입니다. 반면 국민의힘은 사법 파괴를 규탄하며 국회에서 청와대까지 9킬로미터 도보행진에 이어 전국순회 장외투쟁에 돌입했습니다.",
             "image_prompt": "list",
-            "duration": 14,
+            "duration": 15,
             "infographic_data": {
                 "type": "list",
-                "title": "동남아 순방 종합 성과",
+                "title": "여야 대립 구도",
                 "items": [
-                    {"text": "싱가포르: FTA 개선 + AI 서밋", "icon": "green"},
-                    {"text": "필리핀: 원전·방산 10건 협약", "icon": "green"},
-                    {"text": "원전 수출 교두보 확보", "icon": "blue"},
-                    {"text": "전략적 동반자 관계 강화", "icon": "blue"}
+                    {"text": "민주당: 비상입법 + 국정조사 추진", "icon": "blue"},
+                    {"text": "국민의힘: 장외투쟁 + 필리버스터", "icon": "red"},
+                    {"text": "대장동·쌍방울·서해 국정조사 요구", "icon": "blue"},
+                    {"text": "국회→청와대 9km 도보행진", "icon": "red"}
                 ],
-                "accent_color": [50, 140, 200]
+                "accent_color": [60, 100, 200]
             }
         }
     ]

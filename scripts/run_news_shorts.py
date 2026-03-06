@@ -20,7 +20,6 @@ from config.settings import (
     VIDEO_WIDTH, VIDEO_HEIGHT, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
     TTS_VOICE, TTS_RATE,
     OLLAMA_URL, OLLAMA_IMAGE_MODEL,
-    MFLUX_MODEL, MFLUX_QUANTIZE, MFLUX_STEPS,
 )
 from src.graphics.infographic import generate_infographic
 from src.bgm_generator import BGMGenerator

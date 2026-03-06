@@ -41,18 +41,9 @@ DARK_BG = (15, 15, 25)
 TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")
 TTS_RATE = os.getenv("TTS_RATE", "+15%")
 
-# ── 이미지 생성 ──
-IMAGE_SOURCE = os.getenv("IMAGE_SOURCE", "graphic")  # graphic | local | replicate | stock
-REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
-
 # ── 일러스트 생성 (ollama) ──
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_IMAGE_MODEL = os.getenv("OLLAMA_IMAGE_MODEL", "x/z-image-turbo")
-
-# ── mflux (로컬 FLUX, fallback) ──
-MFLUX_MODEL = os.getenv("MFLUX_MODEL", "dev")  # schnell(빠름) | dev(고품질)
-MFLUX_QUANTIZE = int(os.getenv("MFLUX_QUANTIZE", "4"))  # 3|4|5|6|8 비트 양자화
-MFLUX_STEPS = int(os.getenv("MFLUX_STEPS", "20"))  # schnell: 4, dev: 20
 
 # ── YouTube ──
 YOUTUBE_UPLOAD = os.getenv("YOUTUBE_UPLOAD", "true").lower() == "true"
@@ -60,8 +51,6 @@ YOUTUBE_CATEGORY = "25"  # News & Politics
 CLIENT_SECRET_PATH = CONFIG_DIR / "client_secret.json"
 TOKEN_PATH = CONFIG_DIR / "youtube_token.json"
 
-# ── Claude API (기사 요약) ──
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 
 # ── 폰트 (Mac / Linux) ──
 # .ttc 파일은 (경로, 인덱스) 튜플로 지정

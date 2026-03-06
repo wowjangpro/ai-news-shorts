@@ -1,86 +1,81 @@
 {
-    "title": "3월 국회 비상입법 체제",
+    "title": "미 잠수함 이란 호위함 어뢰로 격침",
     "tone": {
-        "bg_top": [15, 15, 35],
-        "bg_bottom": [8, 8, 20],
-        "glow": [60, 100, 200],
-        "card_bg": [18, 18, 38],
-        "card_outline": [35, 40, 70]
+        "bg_top": [12, 15, 30],
+        "bg_bottom": [5, 8, 18],
+        "glow": [100, 160, 240],
+        "card_bg": [14, 18, 35],
+        "card_outline": [30, 40, 65]
     },
-    "bg_prompt": "Flat editorial illustration of the Korean National Assembly building at night with dramatic spotlights illuminating the large domed roof, serious tense atmosphere, deep navy blue sky with dark clouds gathering, warm amber light glowing from tall windows, wide stone steps leading to the entrance, solemn and important mood, clean minimal editorial style",
-    "youtube_title": "3월 국회 비상체제! 중수청·대미투자법 속전속결",
-    "youtube_description": "3월 임시국회가 비상입법 체제로 돌입합니다. 12일 첫 본회의를 시작으로 중수청·공소청 설치법과 대미투자특별법 처리에 나서며, 경제 6단체는 대미투자법 조속 통과를 긴급 호소했습니다.\n\n#국회 #중수청 #대미투자 #임시국회 #정치 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["국회", "중수청", "공소청", "대미투자특별법", "임시국회", "민주당", "국민의힘", "정치", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of a dark ocean scene at night with a large military warship silhouette sinking into rough dark waves, dramatic searchlights cutting through fog and smoke, distant naval vessels on the horizon, tense and somber atmosphere, deep navy blue and dark grey tones, clean minimal editorial style",
+    "youtube_title": "2차대전 이후 처음! 미 잠수함 이란 호위함 어뢰로 격침",
+    "youtube_description": "미 해군 잠수함이 스리랑카 인근 인도양에서 이란 최신예 호위함 IRIS 데나를 Mk48 어뢰로 격침했습니다. 2차대전 이후 미 잠수함이 적 수상함을 격침한 최초 사례로, 87명이 사망하고 61명이 실종됐습니다.\n\n#이란 #미국 #잠수함 #호위함 #중동전쟁 #국제 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["이란", "미국", "잠수함", "호위함", "중동전쟁", "해군", "국제", "뉴스"],
     "scenes": [
         {
-            "tag": "국회",
-            "subtitle": "3월 임시국회\n비상입법 체제 돌입",
-            "highlight_lines": [2],
-            "tts_text": "3월 5일 임시국회가 소집되어 12일 첫 본회의가 열립니다. 더불어민주당은 3월 국회 전체를 비상체제로 운영하며, 매주 목요일 본회의를 열어 검찰개혁 후속 법안과 민생 법안을 일괄 처리하겠다고 선언했습니다.",
+            "tag": "격침",
+            "subtitle": "미 잠수함 어뢰 1발\n이란 호위함 격침",
+            "highlight_lines": [1],
+            "tts_text": "미 해군 잠수함이 3월 4일 스리랑카 인근 인도양에서 이란 최신예 호위함 아이리스 데나를 엠케이 48 어뢰 1발로 격침했습니다. 2차 세계대전 이후 미국 잠수함이 적 수상 함정을 어뢰로 격침한 것은 이번이 처음입니다.",
             "image_prompt": "headline",
             "duration": 14,
             "infographic_data": {
                 "type": "headline",
-                "text": "3월 국회\n비상입법 체제",
-                "sub_text": "5일 소집 · 12일 첫 본회의 · 매주 목요일 처리",
+                "text": "미 잠수함 어뢰 1발\n이란 호위함 격침",
+                "sub_text": "IRIS 데나 · Mk48 어뢰 · 2차대전 이후 최초",
                 "style": "breaking",
-                "accent_color": [60, 100, 200]
+                "accent_color": [100, 160, 240]
             }
         },
         {
-            "tag": "법안",
-            "subtitle": "중수청·공소청법\n검찰개혁 후속 처리",
+            "tag": "피해",
+            "subtitle": "승조원 180명 중\n87명 사망 61명 실종",
             "highlight_lines": [1],
-            "tts_text": "핵심 법안은 중대범죄수사청 설치법과 공소청 설치법입니다. 중수청은 검찰의 직접 수사권을 이관받아 9대 중대범죄를 전담하고, 공소청은 검사의 역할을 공소와 공판 중심으로 전환합니다. 국민의힘은 권력 집중과 형사사법 혼란을 우려하며 전면 반대하고 있습니다.",
-            "image_prompt": "list",
-            "duration": 15,
-            "infographic_data": {
-                "type": "list",
-                "title": "검찰개혁 후속 핵심 법안",
-                "items": [
-                    {"text": "중수청 — 9대 중대범죄 수사 전담", "icon": "blue"},
-                    {"text": "공소청 — 공소·공판 중심 전환", "icon": "blue"},
-                    {"text": "국민의힘 전면 반대 + 장외투쟁", "icon": "red"},
-                    {"text": "민주당 단독 처리 가능성", "icon": "yellow"}
-                ],
-                "accent_color": [60, 100, 200]
-            }
-        },
-        {
-            "tag": "경제",
-            "subtitle": "대미투자특별법\n3500억불 투자 관리",
-            "highlight_lines": [1],
-            "tts_text": "대미투자특별법은 3500억 달러 규모의 한미 전략적 투자를 관리하는 법안입니다. 특위 활동 기한이 3월 9일까지로 촉박한 가운데, 경제 6단체가 긴급 호소문을 발표하며 조속한 입법을 촉구했습니다. 자동차 관세 25퍼센트에서 15퍼센트 인하 효과도 기대됩니다.",
+            "tts_text": "격침 당시 호위함에는 약 180명이 탑승해 있었습니다. 87명이 사망하고 61명이 실종됐으며, 스리랑카 해군이 32명을 구조해 갈레 국립병원으로 이송했습니다. 데나함은 인도가 주최한 다국적 해군 훈련에 참가한 뒤 귀국하던 중이었습니다.",
             "image_prompt": "numbers",
             "duration": 15,
             "infographic_data": {
                 "type": "numbers",
-                "title": "대미투자특별법 핵심",
+                "title": "IRIS 데나 피해 현황",
                 "items": [
-                    {"label": "투자 규모", "value": "3,500억$", "unit": "한미 전략투자"},
-                    {"label": "특위 기한", "value": "3월 9일", "unit": "D-5"},
-                    {"label": "車 관세", "value": "25→15%", "unit": "인하 효과"}
+                    {"label": "사망", "value": "87명", "unit": "승조원 180명 중"},
+                    {"label": "실종", "value": "61명", "unit": "수색 진행 중"},
+                    {"label": "구조", "value": "32명", "unit": "스리랑카 해군"}
                 ],
-                "accent_color": [60, 100, 200]
+                "accent_color": [100, 160, 240]
             }
         },
         {
-            "tag": "대립",
-            "subtitle": "여야 전면 충돌\n국정조사 vs 장외투쟁",
+            "tag": "논란",
+            "subtitle": "교전 중 아닌 함정\n공해상 공격 논란",
             "highlight_lines": [1],
-            "tts_text": "민주당은 12일 본회의에서 대장동, 쌍방울 대북송금, 서해 공무원 피격 사건의 국정조사 요구서를 보고할 계획입니다. 반면 국민의힘은 사법 파괴를 규탄하며 국회에서 청와대까지 9킬로미터 도보행진에 이어 전국순회 장외투쟁에 돌입했습니다.",
+            "tts_text": "이 사건은 국제적 논란을 일으키고 있습니다. 데나함은 직접 교전에 참여하지 않은 상태에서 자국 영해에서 2천 마일 떨어진 공해상에서 공격받았습니다. 씨엔엔은 이것이 정당한 군사 목표였는지에 대한 법적 논란이 불가피하다고 분석했습니다.",
             "image_prompt": "list",
             "duration": 15,
             "infographic_data": {
                 "type": "list",
-                "title": "여야 대립 구도",
+                "title": "국제 논란 쟁점",
                 "items": [
-                    {"text": "민주당: 비상입법 + 국정조사 추진", "icon": "blue"},
-                    {"text": "국민의힘: 장외투쟁 + 필리버스터", "icon": "red"},
-                    {"text": "대장동·쌍방울·서해 국정조사 요구", "icon": "blue"},
-                    {"text": "국회→청와대 9km 도보행진", "icon": "red"}
+                    {"text": "직접 교전 미참여 함정 공격", "icon": "red"},
+                    {"text": "자국 영해서 2,000마일 떨어진 공해", "icon": "red"},
+                    {"text": "다국적 해군 훈련 후 귀환 중", "icon": "yellow"},
+                    {"text": "정당한 군사 목표 여부 법적 논란", "icon": "yellow"}
                 ],
-                "accent_color": [60, 100, 200]
+                "accent_color": [100, 160, 240]
+            }
+        },
+        {
+            "tag": "의미",
+            "subtitle": "포클랜드 이후 최초\n핵잠수함 수상함 격침",
+            "highlight_lines": [1],
+            "tts_text": "이번 격침은 1982년 포클랜드 전쟁에서 영국 핵잠수함이 아르헨티나 순양함을 격침한 이후, 핵잠수함이 적 수상함을 격침한 첫 사례입니다. 미국과 이란 간 전쟁이 해상으로까지 확전되면서, 인도양 항로 안전에 대한 우려가 크게 높아지고 있습니다.",
+            "image_prompt": "quote",
+            "duration": 14,
+            "infographic_data": {
+                "type": "quote",
+                "text": "포클랜드 전쟁 이후 44년 만에\n핵잠수함이 적 수상함을\n어뢰로 격침한 최초 사례",
+                "author": "미 국방부 공식 확인",
+                "accent_color": [100, 160, 240]
             }
         }
     ]

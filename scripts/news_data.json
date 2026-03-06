@@ -1,81 +1,88 @@
 {
-    "title": "미 잠수함 이란 호위함 어뢰로 격침",
+    "title": "이란 전쟁 장기화 미군 100일 작전",
     "tone": {
-        "bg_top": [12, 15, 30],
-        "bg_bottom": [5, 8, 18],
-        "glow": [100, 160, 240],
-        "card_bg": [14, 18, 35],
-        "card_outline": [30, 40, 65]
+        "bg_top": [20, 10, 8],
+        "bg_bottom": [8, 4, 2],
+        "glow": [220, 120, 40],
+        "card_bg": [25, 12, 8],
+        "card_outline": [50, 28, 15]
     },
-    "bg_prompt": "Flat editorial illustration of a dark ocean scene at night with a large military warship silhouette sinking into rough dark waves, dramatic searchlights cutting through fog and smoke, distant naval vessels on the horizon, tense and somber atmosphere, deep navy blue and dark grey tones, clean minimal editorial style",
-    "youtube_title": "2차대전 이후 처음! 미 잠수함 이란 호위함 어뢰로 격침",
-    "youtube_description": "미 해군 잠수함이 스리랑카 인근 인도양에서 이란 최신예 호위함 IRIS 데나를 Mk48 어뢰로 격침했습니다. 2차대전 이후 미 잠수함이 적 수상함을 격침한 최초 사례로, 87명이 사망하고 61명이 실종됐습니다.\n\n#이란 #미국 #잠수함 #호위함 #중동전쟁 #국제 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["이란", "미국", "잠수함", "호위함", "중동전쟁", "해군", "국제", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of a vast desert landscape at dusk with dark orange and crimson sky, distant military aircraft silhouettes flying in formation over rugged mountain terrain, scattered smoke plumes rising from the horizon, tense wartime atmosphere, dark warm tones with deep shadows, clean minimal editorial style",
+    "youtube_title": "트럼프 4주면 끝난다더니 미군 9월까지 100일 작전 돌입",
+    "youtube_description": "트럼프 대통령이 4~5주면 끝난다고 공언한 이란 전쟁이 장기화 조짐을 보이고 있습니다. 미 중부사령부는 9월까지 정보장교 추가 파견을 요청했고, 쿠르드족 수천 명이 이란 국경을 넘어 지상전을 개시했습니다.\n\n#이란전쟁 #트럼프 #미군 #쿠르드족 #중동 #국제 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["이란전쟁", "트럼프", "미군", "쿠르드족", "중동", "장기화", "국제", "뉴스"],
     "scenes": [
         {
-            "tag": "격침",
-            "subtitle": "미 잠수함 어뢰 1발\n이란 호위함 격침",
+            "tag": "장기화",
+            "subtitle": "트럼프 4~5주 공언\n미군 9월까지 작전 요청",
             "highlight_lines": [1],
-            "tts_text": "미 해군 잠수함이 3월 4일 스리랑카 인근 인도양에서 이란 최신예 호위함 아이리스 데나를 엠케이 48 어뢰 1발로 격침했습니다. 2차 세계대전 이후 미국 잠수함이 적 수상 함정을 어뢰로 격침한 것은 이번이 처음입니다.",
+            "tts_text": "트럼프 대통령이 4에서 5주면 끝난다고 공언한 이란 전쟁이 장기화 조짐을 보이고 있습니다. 미 중부사령부는 국방부에 최소 100일간, 9월까지 군사정보 장교를 추가 파견해달라고 요청한 것으로 알려졌습니다.",
             "image_prompt": "headline",
-            "duration": 14,
+            "duration": 13,
             "infographic_data": {
                 "type": "headline",
-                "text": "미 잠수함 어뢰 1발\n이란 호위함 격침",
-                "sub_text": "IRIS 데나 · Mk48 어뢰 · 2차대전 이후 최초",
+                "text": "이란 전쟁 장기화\n미군 100일 작전 돌입",
+                "sub_text": "트럼프 4~5주 공언 vs 미군 9월까지 작전",
                 "style": "breaking",
-                "accent_color": [100, 160, 240]
+                "accent_color": [220, 120, 40]
             }
         },
         {
-            "tag": "피해",
-            "subtitle": "승조원 180명 중\n87명 사망 61명 실종",
+            "tag": "전과",
+            "subtitle": "100시간 만에\n이란 목표물 2천 곳 타격",
             "highlight_lines": [1],
-            "tts_text": "격침 당시 호위함에는 약 180명이 탑승해 있었습니다. 87명이 사망하고 61명이 실종됐으며, 스리랑카 해군이 32명을 구조해 갈레 국립병원으로 이송했습니다. 데나함은 인도가 주최한 다국적 해군 훈련에 참가한 뒤 귀국하던 중이었습니다.",
+            "tts_text": "미 중부사령부는 장대한 분노 작전 첫 100시간 만에 이란 내 2천 개가 넘는 목표물을 타격했다고 밝혔습니다. 이란 해군 함정 20척 이상이 격침됐고, 브래드 쿠퍼 중부사령관은 작전이 이란의 미사일 재건 능력을 파괴하는 다음 단계로 전환됐다고 발표했습니다.",
             "image_prompt": "numbers",
             "duration": 15,
             "infographic_data": {
                 "type": "numbers",
-                "title": "IRIS 데나 피해 현황",
+                "title": "장대한 분노 작전 전과",
                 "items": [
-                    {"label": "사망", "value": "87명", "unit": "승조원 180명 중"},
-                    {"label": "실종", "value": "61명", "unit": "수색 진행 중"},
-                    {"label": "구조", "value": "32명", "unit": "스리랑카 해군"}
+                    {"label": "타격 목표물", "value": "2,000+", "unit": "첫 100시간"},
+                    {"label": "격침 함정", "value": "20척+", "unit": "이란 해군"},
+                    {"label": "작전 기간", "value": "100일", "unit": "9월까지 예상"}
                 ],
-                "accent_color": [100, 160, 240]
+                "accent_color": [220, 120, 40]
             }
         },
         {
-            "tag": "논란",
-            "subtitle": "교전 중 아닌 함정\n공해상 공격 논란",
+            "tag": "지상전",
+            "subtitle": "쿠르드족 수천 명\n이란 국경 넘어 지상전",
             "highlight_lines": [1],
-            "tts_text": "이 사건은 국제적 논란을 일으키고 있습니다. 데나함은 직접 교전에 참여하지 않은 상태에서 자국 영해에서 2천 마일 떨어진 공해상에서 공격받았습니다. 씨엔엔은 이것이 정당한 군사 목표였는지에 대한 법적 논란이 불가피하다고 분석했습니다.",
+            "tts_text": "전쟁이 지상전으로 확대되고 있습니다. 미국 폭스뉴스는 정부 관계자를 인용해 쿠르드족 수천 명이 이라크에서 이란으로 건너가 지상 공격 작전을 개시했다고 보도했습니다. 씨아이에이가 수개월 전부터 이들을 지원해온 것으로 알려졌으며, 이스라엘도 쿠르드 민병대를 지원하고 있습니다.",
             "image_prompt": "list",
             "duration": 15,
             "infographic_data": {
                 "type": "list",
-                "title": "국제 논란 쟁점",
+                "title": "쿠르드족 지상전 개시",
                 "items": [
-                    {"text": "직접 교전 미참여 함정 공격", "icon": "red"},
-                    {"text": "자국 영해서 2,000마일 떨어진 공해", "icon": "red"},
-                    {"text": "다국적 해군 훈련 후 귀환 중", "icon": "yellow"},
-                    {"text": "정당한 군사 목표 여부 법적 논란", "icon": "yellow"}
+                    {"text": "쿠르드족 수천 명 이란 국경 진입", "icon": "red"},
+                    {"text": "CIA 수개월 전부터 지원", "icon": "red"},
+                    {"text": "이스라엘도 쿠르드 민병대 지원", "icon": "yellow"},
+                    {"text": "이란·이라크 쿠르드 자치정부 부인", "icon": "yellow"}
                 ],
-                "accent_color": [100, 160, 240]
+                "accent_color": [220, 120, 40]
             }
         },
         {
-            "tag": "의미",
-            "subtitle": "포클랜드 이후 최초\n핵잠수함 수상함 격침",
+            "tag": "전망",
+            "subtitle": "4~5주 단기전 공언\n100일 장기전으로 전환",
             "highlight_lines": [1],
-            "tts_text": "이번 격침은 1982년 포클랜드 전쟁에서 영국 핵잠수함이 아르헨티나 순양함을 격침한 이후, 핵잠수함이 적 수상함을 격침한 첫 사례입니다. 미국과 이란 간 전쟁이 해상으로까지 확전되면서, 인도양 항로 안전에 대한 우려가 크게 높아지고 있습니다.",
-            "image_prompt": "quote",
-            "duration": 14,
+            "tts_text": "트럼프 대통령은 전쟁 개시 당시 4에서 5주면 끝난다고 공언했지만, 미군은 이미 장기전을 준비하고 있습니다. 전문가들은 공습에서 지상전으로 확전되면서 전쟁이 수개월 이상 지속될 가능성을 경고하고 있으며, 유가 급등과 글로벌 공급망 불안이 심화될 전망입니다.",
+            "image_prompt": "comparison",
+            "duration": 15,
             "infographic_data": {
-                "type": "quote",
-                "text": "포클랜드 전쟁 이후 44년 만에\n핵잠수함이 적 수상함을\n어뢰로 격침한 최초 사례",
-                "author": "미 국방부 공식 확인",
-                "accent_color": [100, 160, 240]
+                "type": "comparison",
+                "title": "단기전 vs 장기전",
+                "left": {
+                    "label": "트럼프 공언",
+                    "items": ["4~5주 단기전", "목표 달성 후 철수", "신속한 작전 종료"]
+                },
+                "right": {
+                    "label": "미군 현실",
+                    "items": ["100일+ 장기 작전", "9월까지 장교 파견", "지상전 확전 조짐"]
+                },
+                "accent_color": [220, 120, 40]
             }
         }
     ]

@@ -1,88 +1,81 @@
 {
-    "title": "이란 전쟁 장기화 미군 100일 작전",
+    "title": "중동 전쟁 중소기업 1.4만곳 피해",
     "tone": {
-        "bg_top": [20, 10, 8],
-        "bg_bottom": [8, 4, 2],
-        "glow": [220, 120, 40],
-        "card_bg": [25, 12, 8],
-        "card_outline": [50, 28, 15]
+        "bg_top": [15, 15, 22],
+        "bg_bottom": [6, 6, 10],
+        "glow": [180, 140, 200],
+        "card_bg": [18, 18, 28],
+        "card_outline": [35, 35, 50]
     },
-    "bg_prompt": "Flat editorial illustration of a vast desert landscape at dusk with dark orange and crimson sky, distant military aircraft silhouettes flying in formation over rugged mountain terrain, scattered smoke plumes rising from the horizon, tense wartime atmosphere, dark warm tones with deep shadows, clean minimal editorial style",
-    "youtube_title": "트럼프 4주면 끝난다더니 미군 9월까지 100일 작전 돌입",
-    "youtube_description": "트럼프 대통령이 4~5주면 끝난다고 공언한 이란 전쟁이 장기화 조짐을 보이고 있습니다. 미 중부사령부는 9월까지 정보장교 추가 파견을 요청했고, 쿠르드족 수천 명이 이란 국경을 넘어 지상전을 개시했습니다.\n\n#이란전쟁 #트럼프 #미군 #쿠르드족 #중동 #국제 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
-    "youtube_tags": ["이란전쟁", "트럼프", "미군", "쿠르드족", "중동", "장기화", "국제", "뉴스"],
+    "bg_prompt": "Flat editorial illustration of a cargo shipping port with stacked containers and idle cranes, a cargo ship waiting offshore unable to dock, overcast grey sky with distant smoke, stalled trade and economic disruption atmosphere, muted grey and purple tones, clean minimal editorial style",
+    "youtube_title": "중동 전쟁 직격탄 중소기업 1.4만곳 수출입 차질",
+    "youtube_description": "이란 전쟁으로 중동에 수출하는 국내 중소기업 1만 4천여 곳이 물류비 급등과 수출입 차질 등 직격탄을 맞고 있습니다. 대중동 교역액 1,200억 달러 규모의 무역이 흔들리고 있습니다.\n\n#중소기업 #중동전쟁 #수출 #물류 #경제 #Shorts\n\n※ 본 영상은 공개된 언론 보도를 참고하여 재구성되었습니다.",
+    "youtube_tags": ["중소기업", "중동전쟁", "수출", "물류", "경제", "뉴스"],
     "scenes": [
         {
-            "tag": "장기화",
-            "subtitle": "트럼프 4~5주 공언\n미군 9월까지 작전 요청",
+            "tag": "직격탄",
+            "subtitle": "중소기업 1.4만곳\n중동 전쟁 직격탄",
             "highlight_lines": [1],
-            "tts_text": "트럼프 대통령이 4에서 5주면 끝난다고 공언한 이란 전쟁이 장기화 조짐을 보이고 있습니다. 미 중부사령부는 국방부에 최소 100일간, 9월까지 군사정보 장교를 추가 파견해달라고 요청한 것으로 알려졌습니다.",
+            "tts_text": "이란 전쟁의 여파가 국내 중소기업에 직격탄을 날리고 있습니다. 중동 지역에 수출하는 국내 중소기업 1만 4천여 곳이 물류비 급등과 수출입 차질 등의 영향을 받게 될 수 있다고 전문가들은 경고합니다.",
             "image_prompt": "headline",
             "duration": 13,
             "infographic_data": {
                 "type": "headline",
-                "text": "이란 전쟁 장기화\n미군 100일 작전 돌입",
-                "sub_text": "트럼프 4~5주 공언 vs 미군 9월까지 작전",
+                "text": "중소기업 1.4만곳\n중동 전쟁 직격탄",
+                "sub_text": "물류비 급등 · 수출입 차질 · 교역 1,200억$ 위기",
                 "style": "breaking",
-                "accent_color": [220, 120, 40]
+                "accent_color": [180, 140, 200]
             }
         },
         {
-            "tag": "전과",
-            "subtitle": "100시간 만에\n이란 목표물 2천 곳 타격",
+            "tag": "규모",
+            "subtitle": "대중동 교역 1,200억 달러\n원유 의존도 62%",
             "highlight_lines": [1],
-            "tts_text": "미 중부사령부는 장대한 분노 작전 첫 100시간 만에 이란 내 2천 개가 넘는 목표물을 타격했다고 밝혔습니다. 이란 해군 함정 20척 이상이 격침됐고, 브래드 쿠퍼 중부사령관은 작전이 이란의 미사일 재건 능력을 파괴하는 다음 단계로 전환됐다고 발표했습니다.",
+            "tts_text": "한국의 대중동 교역액은 1,200억 달러에 달합니다. 중동 원유 의존도는 62%이며, 원유뿐 아니라 건설, 플랜트, 전자, 자동차 등 다양한 분야에서 중동 시장에 의존하고 있어 전쟁의 충격이 광범위하게 번지고 있습니다.",
             "image_prompt": "numbers",
-            "duration": 15,
+            "duration": 14,
             "infographic_data": {
                 "type": "numbers",
-                "title": "장대한 분노 작전 전과",
+                "title": "한국-중동 경제 의존도",
                 "items": [
-                    {"label": "타격 목표물", "value": "2,000+", "unit": "첫 100시간"},
-                    {"label": "격침 함정", "value": "20척+", "unit": "이란 해군"},
-                    {"label": "작전 기간", "value": "100일", "unit": "9월까지 예상"}
+                    {"label": "대중동 교역액", "value": "1,200억$", "unit": "연간"},
+                    {"label": "원유 의존도", "value": "62%", "unit": "중동산"},
+                    {"label": "영향 중소기업", "value": "1.4만곳", "unit": "수출 기업"}
                 ],
-                "accent_color": [220, 120, 40]
+                "accent_color": [180, 140, 200]
             }
         },
         {
-            "tag": "지상전",
-            "subtitle": "쿠르드족 수천 명\n이란 국경 넘어 지상전",
+            "tag": "피해",
+            "subtitle": "물류비 폭등\n해상 운임 2배 이상 급등",
             "highlight_lines": [1],
-            "tts_text": "전쟁이 지상전으로 확대되고 있습니다. 미국 폭스뉴스는 정부 관계자를 인용해 쿠르드족 수천 명이 이라크에서 이란으로 건너가 지상 공격 작전을 개시했다고 보도했습니다. 씨아이에이가 수개월 전부터 이들을 지원해온 것으로 알려졌으며, 이스라엘도 쿠르드 민병대를 지원하고 있습니다.",
+            "tts_text": "가장 큰 타격은 물류비 폭등입니다. 호르무즈 해협 통행량이 70% 급감하면서 우회 항로를 이용해야 하고, 해상 운임이 2배 이상 급등했습니다. 납기 지연과 원자재 가격 상승도 중소기업의 경영을 압박하고 있습니다.",
             "image_prompt": "list",
-            "duration": 15,
+            "duration": 14,
             "infographic_data": {
                 "type": "list",
-                "title": "쿠르드족 지상전 개시",
+                "title": "중소기업 피해 유형",
                 "items": [
-                    {"text": "쿠르드족 수천 명 이란 국경 진입", "icon": "red"},
-                    {"text": "CIA 수개월 전부터 지원", "icon": "red"},
-                    {"text": "이스라엘도 쿠르드 민병대 지원", "icon": "yellow"},
-                    {"text": "이란·이라크 쿠르드 자치정부 부인", "icon": "yellow"}
+                    {"text": "해상 운임 2배 이상 급등", "icon": "red"},
+                    {"text": "호르무즈 우회로 납기 지연", "icon": "red"},
+                    {"text": "원자재 가격 상승 전이", "icon": "yellow"},
+                    {"text": "중동 바이어 계약 취소 우려", "icon": "yellow"}
                 ],
-                "accent_color": [220, 120, 40]
+                "accent_color": [180, 140, 200]
             }
         },
         {
-            "tag": "전망",
-            "subtitle": "4~5주 단기전 공언\n100일 장기전으로 전환",
+            "tag": "대책",
+            "subtitle": "정부 긴급 지원 필요\n중소기업 생존 위기",
             "highlight_lines": [1],
-            "tts_text": "트럼프 대통령은 전쟁 개시 당시 4에서 5주면 끝난다고 공언했지만, 미군은 이미 장기전을 준비하고 있습니다. 전문가들은 공습에서 지상전으로 확전되면서 전쟁이 수개월 이상 지속될 가능성을 경고하고 있으며, 유가 급등과 글로벌 공급망 불안이 심화될 전망입니다.",
-            "image_prompt": "comparison",
-            "duration": 15,
+            "tts_text": "업계에서는 전쟁 장기화 시 중소기업의 연쇄 도산이 우려된다며, 긴급 금융 지원과 물류비 보조, 대체 시장 개척 지원 등 정부의 신속한 대응을 촉구하고 있습니다. 중동 전쟁의 경제적 파급력이 갈수록 커지고 있습니다.",
+            "image_prompt": "quote",
+            "duration": 14,
             "infographic_data": {
-                "type": "comparison",
-                "title": "단기전 vs 장기전",
-                "left": {
-                    "label": "트럼프 공언",
-                    "items": ["4~5주 단기전", "목표 달성 후 철수", "신속한 작전 종료"]
-                },
-                "right": {
-                    "label": "미군 현실",
-                    "items": ["100일+ 장기 작전", "9월까지 장교 파견", "지상전 확전 조짐"]
-                },
-                "accent_color": [220, 120, 40]
+                "type": "quote",
+                "text": "전쟁 장기화 시\n중소기업 연쇄 도산 우려\n긴급 지원이 시급하다",
+                "author": "중소기업 업계 호소",
+                "accent_color": [180, 140, 200]
             }
         }
     ]

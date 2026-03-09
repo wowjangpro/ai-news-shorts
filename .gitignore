@@ -5,6 +5,9 @@ output/
 *.mp3
 *.wav
 
+# 뉴스 데이터 (매번 덮어쓰기)
+scripts/news_data.json
+
 # 환경 설정
 config/.env
 config/client_secret.json

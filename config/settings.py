@@ -38,7 +38,12 @@ BLACK = (0, 0, 0)
 DARK_BG = (15, 15, 25)
 
 # ── TTS ──
-TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")
+TTS_VOICES = [
+    "ko-KR-InJoonNeural",           # 남성
+    "ko-KR-HyunsuMultilingualNeural", # 남성 2
+    "ko-KR-SunHiNeural",            # 여성
+]
+TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")  # fallback
 TTS_RATE = os.getenv("TTS_RATE", "+15%")
 
 # ── 일러스트 생성 (ollama) ──

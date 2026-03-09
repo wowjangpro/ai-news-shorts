@@ -6,6 +6,25 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
 import os
 
 
+# ── 카드 스타일 (5종) ──
+_card_style = 0
+# 0: Classic(둥근카드), 1: Circle(원형), 2: Banner(배너바),
+# 3: Timeline(타임라인), 4: Grid(그리드타일)
+
+def set_card_style(style: int):
+    """카드 스타일 설정 (0~4)"""
+    global _card_style
+    _card_style = style % 5
+
+def get_random_card_style() -> int:
+    """랜덤 카드 스타일 선택 후 반환"""
+    global _card_style
+    _card_style = random.randint(0, 4)
+    return _card_style
+
+CARD_STYLE_NAMES = ["Classic", "Circle", "Banner", "Timeline", "Grid"]
+
+
 # ── 유틸리티 ──
 
 FONT_SCALE = 1.25  # 인포그래픽 전체 폰트 스케일
@@ -620,7 +639,7 @@ def _draw_generic_news(w, h):
 
 
 def _draw_headline_visual(w, h, data, bg_img=None):
-    """대형 헤드라인 텍스트 + 드라마틱 배경"""
+    """대형 헤드라인 텍스트 (5개 스타일)"""
     accent = tuple(data.get("accent_color", [255, 60, 60]))
     tone = _get_tone(data)
     transparent = bg_img is not None
@@ -630,59 +649,162 @@ def _draw_headline_visual(w, h, data, bg_img=None):
     if not transparent:
         _center_glow(draw, w // 2, h // 3, min(w, h), tone["glow"])
 
-    # 메인 텍스트
     text = data.get("text", "")
     lines = text.split("\n")
-
-    # 폰트 크기 자동 결정 (텍스트 길이에 따라)
-    max_len = max(len(l) for l in lines) if lines else 1
-    font_size = min(100, max(60, w // max(max_len, 1) - 10))
-    f_main = _get_font(font_size, "Black")
-
-    total_line_h = len(lines) * (font_size + 20)
-    start_y = (h - total_line_h) // 2 - 40
-
-    if not transparent:
-        # 어두운 배경: 글로우 효과
-        def glow_fn(gd):
-            for i, line in enumerate(lines):
-                bbox = gd.textbbox((0, 0), line, font=f_main)
-                tw = bbox[2] - bbox[0]
-                x = (w - tw) // 2
-                y = start_y + i * (font_size + 20)
-                gd.text((x, y), line, font=f_main, fill=accent)
-        img = _add_glow(img, glow_fn, blur_radius=20)
-        draw = ImageDraw.Draw(img)
-
-    # 텍스트 렌더링
-    for i, line in enumerate(lines):
-        bbox = draw.textbbox((0, 0), line, font=f_main)
-        tw = bbox[2] - bbox[0]
-        x = (w - tw) // 2
-        y = start_y + i * (font_size + 20)
-        if transparent:
-            _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
-        else:
-            draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
-
-    # 부제
     sub_text = data.get("sub_text", "")
-    if sub_text:
+    max_len = max(len(l) for l in lines) if lines else 1
+
+    def _render_sub(draw, sub_text, center_x, y, transparent, accent):
+        if not sub_text:
+            return
         f_sub = _get_font(34, "Medium")
         bbox = draw.textbbox((0, 0), sub_text, font=f_sub)
         tw = bbox[2] - bbox[0]
-        sub_x = (w - tw) // 2
-        sub_y = start_y + total_line_h + 30
+        sx = center_x - tw // 2
         if transparent:
-            _text_outline(draw, sub_text, sub_x, sub_y, f_sub, accent, (0, 0, 0), 3)
+            _text_outline(draw, sub_text, sx, y, f_sub, accent, (0, 0, 0), 3)
         else:
-            draw.text((sub_x, sub_y), sub_text, font=f_sub, fill=accent)
+            draw.text((sx, y), sub_text, font=f_sub, fill=accent)
+
+    if _card_style == 0:
+        # Classic: 중앙 대형 텍스트 + 글로우
+        font_size = min(100, max(60, w // max(max_len, 1) - 10))
+        f_main = _get_font(font_size, "Black")
+        total_line_h = len(lines) * (font_size + 20)
+        start_y = (h - total_line_h) // 2 - 40
+
+        if not transparent:
+            def glow_fn(gd):
+                for i, line in enumerate(lines):
+                    bbox = gd.textbbox((0, 0), line, font=f_main)
+                    tw = bbox[2] - bbox[0]
+                    gd.text(((w - tw) // 2, start_y + i * (font_size + 20)), line, font=f_main, fill=accent)
+            img = _add_glow(img, glow_fn, blur_radius=20)
+            draw = ImageDraw.Draw(img)
+
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_main)
+            tw = bbox[2] - bbox[0]
+            x, y = (w - tw) // 2, start_y + i * (font_size + 20)
+            if transparent:
+                _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+            else:
+                draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+
+        _render_sub(draw, sub_text, w // 2, start_y + total_line_h + 30, transparent, accent)
+
+    elif _card_style == 1:
+        # Circle: 대형 원 안에 텍스트
+        cx, cy = w // 2, h // 2 - 30
+        radius = min(w, h) // 2 - 60
+        circle_bg = (*accent[:3], 35) if transparent else tuple(c // 8 for c in accent)
+        circle_ol = (*accent[:3], 120) if transparent else accent
+        draw.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
+                     fill=circle_bg, outline=circle_ol, width=4)
+        inner_r = radius - 30
+        inner_ol = (*accent[:3], 60) if transparent else tuple(c // 3 for c in accent)
+        draw.ellipse([cx - inner_r, cy - inner_r, cx + inner_r, cy + inner_r],
+                     outline=inner_ol, width=2)
+
+        font_size = min(80, max(50, (radius * 2) // max(max_len + 1, 1)))
+        f_main = _get_font(font_size, "Black")
+        total_line_h = len(lines) * (font_size + 15)
+        start_y = cy - total_line_h // 2
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_main)
+            tw = bbox[2] - bbox[0]
+            x, y = (w - tw) // 2, start_y + i * (font_size + 15)
+            if transparent:
+                _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+            else:
+                draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+        _render_sub(draw, sub_text, w // 2, cy + radius + 25, transparent, accent)
+
+    elif _card_style == 2:
+        # Banner: 가로 풀폭 배너 바
+        font_size = min(90, max(55, w // max(max_len, 1) - 10))
+        f_main = _get_font(font_size, "Black")
+        total_line_h = len(lines) * (font_size + 30)
+        banner_h = total_line_h + 60
+        banner_y = (h - banner_h) // 2 - 20
+        banner_bg = (*accent[:3], 50) if transparent else tuple(c // 6 for c in accent)
+        draw.rectangle([0, banner_y, w, banner_y + banner_h], fill=banner_bg)
+        draw.rectangle([0, banner_y, w, banner_y + 5], fill=accent)
+        draw.rectangle([0, banner_y + banner_h - 5, w, banner_y + banner_h], fill=accent)
+
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_main)
+            tw = bbox[2] - bbox[0]
+            x, y = (w - tw) // 2, banner_y + 30 + i * (font_size + 30)
+            if transparent:
+                _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+            else:
+                draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+        _render_sub(draw, sub_text, w // 2, banner_y + banner_h + 25, transparent, accent)
+
+    elif _card_style == 3:
+        # Timeline: 왼쪽 수직선 + 큰 노드 + 텍스트
+        font_size = min(85, max(55, w // max(max_len + 2, 1)))
+        f_main = _get_font(font_size, "Black")
+        total_line_h = len(lines) * (font_size + 20)
+        start_y = (h - total_line_h) // 2 - 30
+        line_x = 80
+        line_color = (*accent[:3], 100) if transparent else tuple(c // 2 for c in accent)
+        draw.rectangle([line_x - 2, start_y - 40, line_x + 2, start_y + total_line_h + 60], fill=line_color)
+        node_y = start_y + total_line_h // 2
+        draw.ellipse([line_x - 18, node_y - 18, line_x + 18, node_y + 18], fill=accent)
+        draw.ellipse([line_x - 8, node_y - 8, line_x + 8, node_y + 8], fill=(255, 255, 255))
+
+        text_x = line_x + 50
+        for i, line in enumerate(lines):
+            y = start_y + i * (font_size + 20)
+            if transparent:
+                _text_outline(draw, line, text_x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+            else:
+                draw.text((text_x, y), line, font=f_main, fill=(255, 255, 255))
+        if sub_text:
+            f_sub = _get_font(32, "Medium")
+            if transparent:
+                _text_outline(draw, sub_text, text_x, start_y + total_line_h + 30, f_sub, accent, (0, 0, 0), 3)
+            else:
+                draw.text((text_x, start_y + total_line_h + 30), sub_text, font=f_sub, fill=accent)
+
+    elif _card_style == 4:
+        # Grid: 격자 프레임 + 꼭짓점 L자 장식
+        font_size = min(90, max(55, w // max(max_len, 1) - 10))
+        f_main = _get_font(font_size, "Black")
+        total_line_h = len(lines) * (font_size + 20)
+        frame_pad = 50
+        frame_x0 = 40
+        frame_y0 = (h - total_line_h) // 2 - frame_pad - 20
+        frame_x1 = w - 40
+        frame_y1 = (h + total_line_h) // 2 + frame_pad - 20
+        frame_bg = (*tone["card_bg"], 150) if transparent else tone["card_bg"]
+        draw.rectangle([frame_x0, frame_y0, frame_x1, frame_y1], fill=frame_bg)
+        corner_len = 50
+        for (cx, cy, dx, dy) in [
+            (frame_x0, frame_y0, 1, 1), (frame_x1, frame_y0, -1, 1),
+            (frame_x0, frame_y1, 1, -1), (frame_x1, frame_y1, -1, -1),
+        ]:
+            draw.line([(cx, cy), (cx + corner_len * dx, cy)], fill=accent, width=4)
+            draw.line([(cx, cy), (cx, cy + corner_len * dy)], fill=accent, width=4)
+
+        start_y = (h - total_line_h) // 2 - 20
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_main)
+            tw = bbox[2] - bbox[0]
+            x, y = (w - tw) // 2, start_y + i * (font_size + 20)
+            if transparent:
+                _text_outline(draw, line, x, y, f_main, (255, 255, 255), (0, 0, 0), 5)
+            else:
+                draw.text((x, y), line, font=f_main, fill=(255, 255, 255))
+        _render_sub(draw, sub_text, w // 2, frame_y1 + 25, transparent, accent)
 
     return img
 
 
 def _draw_key_numbers(w, h, data, bg_img=None):
-    """핵심 수치를 카드 형태로 강조 표시"""
+    """핵심 수치 강조 (5개 스타일)"""
     accent = tuple(data.get("accent_color", [80, 160, 255]))
     items = data.get("items", [])
     tone = _get_tone(data)
@@ -693,69 +815,207 @@ def _draw_key_numbers(w, h, data, bg_img=None):
     if not transparent:
         _center_glow(draw, w // 2, h // 3, 500, tone["glow"])
 
-    margin = 50
-    gap = 30
     n = len(items)
     if n == 0:
         return img
+    margin = 50
 
-    # 카드 높이 계산
-    available_h = h - margin * 2 - gap * (n - 1)
-    card_h = min(240, available_h // n)
+    if _card_style == 0:
+        # Classic: 둥근 사각형 카드 세로 배치
+        gap = 30
+        card_h = min(240, (h - margin * 2 - gap * (n - 1)) // n)
+        val_size = min(80, card_h - 70)
+        f_label = _get_font(30, "Medium")
+        f_val = _get_font(val_size, "Black")
+        total_block = n * card_h + (n - 1) * gap
+        start_y = (h - total_block) // 2
+        card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+        card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
 
-    # 폰트 크기 (카드 크기에 비례)
-    val_size = min(80, card_h - 70)
-    f_label = _get_font(30, "Medium")
-    f_val = _get_font(val_size, "Black")
+        for i, item in enumerate(items):
+            y = start_y + i * (card_h + gap)
+            color = tuple(item.get("color", list(accent)))
+            draw.rounded_rectangle([margin, y, w - margin, y + card_h],
+                                   radius=14, fill=card_bg, outline=card_ol, width=2)
+            label_text = item.get("label", "")
+            if transparent:
+                _text_outline(draw, label_text, margin + 25, y + 18, f_label, (200, 210, 230), (0, 0, 0), 2)
+            else:
+                draw.text((margin + 25, y + 18), label_text, font=f_label, fill=(160, 170, 190))
+            val_text = item.get("value", "")
+            bbox = draw.textbbox((0, 0), val_text, font=f_val)
+            tw = bbox[2] - bbox[0]
+            if transparent:
+                _text_outline(draw, val_text, (w - tw) // 2, y + card_h - val_size - 20, f_val, color, (0, 0, 0), 3)
+            else:
+                draw.text(((w - tw) // 2, y + card_h - val_size - 20), val_text, font=f_val, fill=color)
 
-    total_block = n * card_h + (n - 1) * gap
-    start_y = (h - total_block) // 2
+        if not transparent:
+            first_color = tuple(items[0].get("color", list(accent)))
+            img = _add_glow(img, lambda d: d.rounded_rectangle(
+                [margin, start_y, w - margin, start_y + card_h],
+                radius=14, fill=tuple(c // 4 for c in first_color)
+            ), blur_radius=18)
 
-    # 카드 색상 (투명 모드: 반투명)
-    card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
-    card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
+    elif _card_style == 1:
+        # Circle: 각 수치를 원 안에 배치
+        circle_r = min(160, (h - 60) // (n + 1) // 2)
+        gap = circle_r * 2 + 30
+        total_h = n * gap - 30
+        start_y = (h - total_h) // 2 + circle_r
 
-    for i, item in enumerate(items):
-        y = start_y + i * (card_h + gap)
-        color = tuple(item.get("color", list(accent)))
+        for i, item in enumerate(items):
+            cy = start_y + i * gap
+            cx = w // 2
+            color = tuple(item.get("color", list(accent)))
+            circle_bg = (*color[:3], 30) if transparent else tuple(c // 8 for c in color)
+            circle_ol = (*color[:3], 150) if transparent else color
+            draw.ellipse([cx - circle_r, cy - circle_r, cx + circle_r, cy + circle_r],
+                         fill=circle_bg, outline=circle_ol, width=3)
+            val_text = item.get("value", "")
+            val_size = min(55, circle_r - 20)
+            f_val = _get_font(val_size, "Black")
+            bbox = draw.textbbox((0, 0), val_text, font=f_val)
+            tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+            if transparent:
+                _text_outline(draw, val_text, cx - tw // 2, cy - th // 2 - 10, f_val, color, (0, 0, 0), 3)
+            else:
+                draw.text((cx - tw // 2, cy - th // 2 - 10), val_text, font=f_val, fill=color)
+            label_text = item.get("label", "")
+            f_label = _get_font(26, "Medium")
+            bbox2 = draw.textbbox((0, 0), label_text, font=f_label)
+            tw2 = bbox2[2] - bbox2[0]
+            if transparent:
+                _text_outline(draw, label_text, cx - tw2 // 2, cy + th // 2 + 5, f_label, (200, 210, 230), (0, 0, 0), 2)
+            else:
+                draw.text((cx - tw2 // 2, cy + th // 2 + 5), label_text, font=f_label, fill=(180, 190, 210))
 
-        # 카드 배경
-        draw.rounded_rectangle(
-            [margin, y, w - margin, y + card_h],
-            radius=14, fill=card_bg, outline=card_ol, width=1
-        )
+    elif _card_style == 2:
+        # Banner: 풀폭 가로 배너 바
+        bar_h = min(150, (h - 40) // n - 20)
+        gap = bar_h + 20
+        total_h = n * gap - 20
+        start_y = (h - total_h) // 2
 
-        # 라벨
-        label_text = item.get("label", "")
-        if transparent:
-            _text_outline(draw, label_text, margin + 25, y + 18, f_label, (200, 210, 230), (0, 0, 0), 2)
-        else:
-            draw.text((margin + 25, y + 18), label_text, font=f_label, fill=(160, 170, 190))
+        for i, item in enumerate(items):
+            y = start_y + i * gap
+            color = tuple(item.get("color", list(accent)))
+            bar_bg = (*color[:3], 40) if transparent else tuple(c // 7 for c in color)
+            draw.rectangle([0, y, w, y + bar_h], fill=bar_bg)
+            draw.rectangle([0, y, 8, y + bar_h], fill=color)
+            f_label = _get_font(28, "Medium")
+            label_text = item.get("label", "")
+            if transparent:
+                _text_outline(draw, label_text, 30, y + 15, f_label, (200, 210, 230), (0, 0, 0), 2)
+            else:
+                draw.text((30, y + 15), label_text, font=f_label, fill=(160, 170, 190))
+            val_text = item.get("value", "")
+            val_size = min(65, bar_h - 50)
+            f_val = _get_font(val_size, "Black")
+            if transparent:
+                _right_text_outline(draw, val_text, w - 30, y + bar_h - val_size - 20, f_val, color, (0, 0, 0), 3)
+            else:
+                _right_text(draw, val_text, w - 30, y + bar_h - val_size - 20, f_val, color)
 
-        # 대형 수치
-        val_text = item.get("value", "")
-        bbox = draw.textbbox((0, 0), val_text, font=f_val)
-        tw = bbox[2] - bbox[0]
-        val_x = (w - tw) // 2
-        val_y = y + card_h - val_size - 20
-        if transparent:
-            _text_outline(draw, val_text, val_x, val_y, f_val, color, (0, 0, 0), 3)
-        else:
-            draw.text((val_x, val_y), val_text, font=f_val, fill=color)
+    elif _card_style == 3:
+        # Timeline: 수직 타임라인 + 노드에 수치
+        line_x = 100
+        gap = min(250, (h - 80) // n)
+        total_h = n * gap
+        start_y = (h - total_h) // 2 + 30
+        line_color = (*accent[:3], 80) if transparent else tuple(c // 3 for c in accent)
+        draw.rectangle([line_x - 2, start_y - 30, line_x + 2, start_y + total_h - 30], fill=line_color)
 
-    # 첫 카드 글로우 (어두운 배경에서만)
-    if items and not transparent:
-        first_color = tuple(items[0].get("color", list(accent)))
-        img = _add_glow(img, lambda d: d.rounded_rectangle(
-            [margin, start_y, w - margin, start_y + card_h],
-            radius=14, fill=tuple(c // 4 for c in first_color)
-        ), blur_radius=18)
+        for i, item in enumerate(items):
+            node_y = start_y + i * gap
+            color = tuple(item.get("color", list(accent)))
+            draw.ellipse([line_x - 14, node_y - 14, line_x + 14, node_y + 14], fill=color)
+            draw.ellipse([line_x - 6, node_y - 6, line_x + 6, node_y + 6], fill=(255, 255, 255))
+            conn_color = (*color[:3], 60) if transparent else tuple(c // 4 for c in color)
+            draw.line([(line_x + 14, node_y), (line_x + 50, node_y)], fill=conn_color, width=2)
+            f_label = _get_font(28, "Medium")
+            label_text = item.get("label", "")
+            if transparent:
+                _text_outline(draw, label_text, line_x + 55, node_y - 35, f_label, (200, 210, 230), (0, 0, 0), 2)
+            else:
+                draw.text((line_x + 55, node_y - 35), label_text, font=f_label, fill=(180, 190, 210))
+            val_text = item.get("value", "")
+            val_size = min(60, gap - 80)
+            f_val = _get_font(val_size, "Black")
+            if transparent:
+                _text_outline(draw, val_text, line_x + 55, node_y + 5, f_val, color, (0, 0, 0), 3)
+            else:
+                draw.text((line_x + 55, node_y + 5), val_text, font=f_val, fill=color)
+
+    elif _card_style == 4:
+        # Grid: 세로 타일 배치
+        pad = 20
+        tile_w = w - margin * 2
+        tile_h = min(280, (h - margin * 2 - pad * (n - 1)) // n)
+        total_h = n * tile_h + (n - 1) * pad
+        base_x = margin
+        base_y = (h - total_h) // 2
+
+        for slot in range(n):
+            tx = base_x
+            ty = base_y + slot * (tile_h + pad)
+
+            item = items[slot]
+            color = tuple(item.get("color", list(accent)))
+            tile_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+            tile_ol = (*color[:3], 150) if transparent else color
+            draw.rounded_rectangle([tx, ty, tx + tile_w, ty + tile_h],
+                                   radius=10, fill=tile_bg, outline=tile_ol, width=2)
+            draw.rectangle([tx, ty, tx + tile_w, ty + 6], fill=color)
+
+            # 콘텐츠 높이 계산 (라벨 + 수치 + unit) → 상하 가운데 정렬
+            f_label = _get_font(24, "Medium")
+            f_val = _get_font(min(50, tile_h - 80), "Black")
+            label_text = item.get("label", "")
+            val_text = item.get("value", "")
+            unit_text = item.get("unit", "")
+
+            label_bbox = draw.textbbox((0, 0), label_text, font=f_label)
+            label_h = label_bbox[3] - label_bbox[1]
+            val_bbox = draw.textbbox((0, 0), val_text, font=f_val)
+            val_h = val_bbox[3] - val_bbox[1]
+            val_tw = val_bbox[2] - val_bbox[0]
+            unit_h = 0
+            if unit_text:
+                f_unit = _get_font(20, "Regular")
+                unit_bbox = draw.textbbox((0, 0), unit_text, font=f_unit)
+                unit_h = unit_bbox[3] - unit_bbox[1]
+
+            content_gap = 12
+            content_h = label_h + content_gap + val_h + (content_gap + unit_h if unit_text else 0)
+            top_pad = 6  # 상단 컬러 바 높이
+            content_y = ty + top_pad + (tile_h - top_pad - content_h) // 2
+
+            if transparent:
+                _text_outline(draw, label_text, tx + 15, content_y, f_label, (200, 210, 230), (0, 0, 0), 2)
+            else:
+                draw.text((tx + 15, content_y), label_text, font=f_label, fill=(160, 170, 190))
+
+            val_y = content_y + label_h + content_gap
+            if transparent:
+                _text_outline(draw, val_text, tx + (tile_w - val_tw) // 2, val_y, f_val, color, (0, 0, 0), 3)
+            else:
+                draw.text((tx + (tile_w - val_tw) // 2, val_y), val_text, font=f_val, fill=color)
+
+            if unit_text:
+                unit_bbox2 = draw.textbbox((0, 0), unit_text, font=f_unit)
+                unit_tw = unit_bbox2[2] - unit_bbox2[0]
+                unit_y = val_y + val_h + content_gap
+                if transparent:
+                    _text_outline(draw, unit_text, tx + (tile_w - unit_tw) // 2, unit_y, f_unit, (150, 160, 180), (0, 0, 0), 2)
+                else:
+                    draw.text((tx + (tile_w - unit_tw) // 2, unit_y), unit_text, font=f_unit, fill=(120, 130, 150))
 
     return img
 
 
 def _draw_info_list(w, h, data, bg_img=None):
-    """스타일링된 불릿 리스트"""
+    """불릿 리스트 (5개 스타일)"""
     accent = tuple(data.get("accent_color", [60, 120, 255]))
     items = data.get("items", [])
     title = data.get("title", "")
@@ -771,124 +1031,207 @@ def _draw_info_list(w, h, data, bg_img=None):
     draw = ImageDraw.Draw(img)
 
     margin = 50
-
-    # 리스트 아이템 크기 계산
     n = len(items)
-    gap = 15
-    title_h = 70 if title else 0
-    max_card_h = 85
-    card_h = min(max_card_h, (h - title_h - margin * 2 - gap * (n - 1)) // max(n, 1))
-    total_block_h = title_h + n * card_h + (n - 1) * gap
-    y_offset = (h - total_block_h) // 2  # 세로 가운데 정렬
+    if n == 0:
+        return img
 
-    # 제목
-    if title:
+    def _draw_title(draw, title, x, y, transparent, accent):
+        if not title:
+            return
         f_title = _get_font(38, "Bold")
         if transparent:
-            _text_outline(draw, title, margin + 10, y_offset, f_title, accent, (0, 0, 0), 3)
+            _text_outline(draw, title, x, y, f_title, accent, (0, 0, 0), 3)
         else:
-            draw.text((margin + 10, y_offset), title, font=f_title, fill=accent)
+            draw.text((x, y), title, font=f_title, fill=accent)
+
+    if _card_style == 0:
+        # Classic: 둥근 사각형 카드 + 상태 원
+        gap = 15
+        title_h = 70 if title else 0
+        card_h = min(85, (h - title_h - margin * 2 - gap * (n - 1)) // max(n, 1))
+        total_block_h = title_h + n * card_h + (n - 1) * gap
+        y_offset = (h - total_block_h) // 2
+        _draw_title(draw, title, margin + 10, y_offset, transparent, accent)
+        y_offset += title_h
+        f_text = _get_font(min(34, card_h - 30), "Bold")
+        card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+        card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
+
+        for i, item in enumerate(items):
+            y = y_offset + i * (card_h + gap)
+            icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+            draw.rounded_rectangle([margin, y, w - margin, y + card_h],
+                                   radius=10, fill=card_bg, outline=card_ol, width=2)
+            dot_x = margin + 20
+            dot_y = y + card_h // 2
+            draw.ellipse([dot_x, dot_y - 10, dot_x + 20, dot_y + 10], fill=icon)
+            item_text = item.get("text", "")
+            if transparent:
+                _text_outline(draw, item_text, dot_x + 35, y + (card_h - 34) // 2, f_text, (240, 240, 250), (0, 0, 0), 2)
+            else:
+                draw.text((dot_x + 35, y + (card_h - 34) // 2), item_text, font=f_text, fill=(230, 230, 240))
+
+        if not transparent:
+            img = _add_glow(img, lambda d: d.rounded_rectangle(
+                [margin, y_offset, w - margin, y_offset + card_h],
+                radius=10, fill=tuple(c // 5 for c in accent)
+            ), blur_radius=15)
+
+    elif _card_style == 1:
+        # Circle: 번호 원 + 텍스트
+        title_h = 70 if title else 0
+        gap = min(120, (h - title_h - margin * 2) // n)
+        total_h = title_h + n * gap
+        y_offset = (h - total_h) // 2
+        _draw_title(draw, title, margin + 10, y_offset, transparent, accent)
+        y_offset += title_h
+        f_text = _get_font(32, "Bold")
+
+        for i, item in enumerate(items):
+            y = y_offset + i * gap
+            icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+            cx, cy = margin + 40, y + gap // 2
+            r = 28
+            draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=icon)
+            f_num = _get_font(28, "Black")
+            num_text = str(i + 1)
+            bbox = draw.textbbox((0, 0), num_text, font=f_num)
+            tw = bbox[2] - bbox[0]
+            draw.text((cx - tw // 2, cy - 18), num_text, font=f_num, fill=(255, 255, 255))
+            item_text = item.get("text", "")
+            if transparent:
+                _text_outline(draw, item_text, cx + r + 25, cy - 18, f_text, (240, 240, 250), (0, 0, 0), 2)
+            else:
+                draw.text((cx + r + 25, cy - 18), item_text, font=f_text, fill=(230, 230, 240))
+
+    elif _card_style == 2:
+        # Banner: 풀폭 가로 배너 스트립
+        title_h = 70 if title else 0
+        bar_h = min(90, (h - title_h - 40) // n - 15)
+        gap = bar_h + 15
+        total_h = title_h + n * gap - 15
+        y_offset = (h - total_h) // 2
+        _draw_title(draw, title, 30, y_offset, transparent, accent)
+        y_offset += title_h
+        f_text = _get_font(min(32, bar_h - 25), "Bold")
+
+        for i, item in enumerate(items):
+            y = y_offset + i * gap
+            icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+            bar_bg = (*icon[:3], 35) if transparent else tuple(c // 8 for c in icon)
+            draw.rectangle([0, y, w, y + bar_h], fill=bar_bg)
+            draw.rectangle([0, y, 6, y + bar_h], fill=icon)
+            item_text = item.get("text", "")
+            if transparent:
+                _text_outline(draw, item_text, 30, y + (bar_h - 32) // 2, f_text, (240, 240, 250), (0, 0, 0), 2)
+            else:
+                draw.text((30, y + (bar_h - 32) // 2), item_text, font=f_text, fill=(230, 230, 240))
+
+    elif _card_style == 3:
+        # Timeline: 수직 타임라인 + 노드
+        title_h = 70 if title else 0
+        line_x = 80
+        gap = min(150, (h - title_h - 80) // n)
+        total_h = title_h + n * gap
+        y_offset = (h - total_h) // 2
+        _draw_title(draw, title, line_x + 40, y_offset, transparent, accent)
         y_offset += title_h
 
-    f_text = _get_font(min(34, card_h - 30), "Bold")
+        line_color = (*accent[:3], 80) if transparent else tuple(c // 3 for c in accent)
+        draw.rectangle([line_x - 2, y_offset, line_x + 2, y_offset + n * gap - 20], fill=line_color)
+        f_text = _get_font(30, "Bold")
 
-    # 카드 색상 (투명 모드: 반투명)
-    card_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
-    card_ol = (*tone["card_outline"], 200) if transparent else tone["card_outline"]
+        for i, item in enumerate(items):
+            node_y = y_offset + i * gap + gap // 2
+            icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+            draw.ellipse([line_x - 12, node_y - 12, line_x + 12, node_y + 12], fill=icon)
+            draw.ellipse([line_x - 5, node_y - 5, line_x + 5, node_y + 5], fill=(255, 255, 255))
+            item_text = item.get("text", "")
+            if transparent:
+                _text_outline(draw, item_text, line_x + 35, node_y - 18, f_text, (240, 240, 250), (0, 0, 0), 2)
+            else:
+                draw.text((line_x + 35, node_y - 18), item_text, font=f_text, fill=(230, 230, 240))
 
-    for i, item in enumerate(items):
-        y = y_offset + i * (card_h + gap)
-        icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+    elif _card_style == 4:
+        # Grid: 세로 타일
+        title_h = 70 if title else 0
+        pad = 15
+        tile_w = w - margin * 2
+        tile_h = min(180, (h - title_h - margin * 2 - pad * (n - 1)) // n)
+        total_h_block = n * tile_h + (n - 1) * pad
+        base_x = margin
+        y_offset = (h - title_h - total_h_block) // 2
+        _draw_title(draw, title, base_x, y_offset, transparent, accent)
+        y_offset += title_h
 
-        # 카드 배경
-        draw.rounded_rectangle(
-            [margin, y, w - margin, y + card_h],
-            radius=10, fill=card_bg, outline=card_ol, width=1
-        )
-
-        # 상태 원
-        dot_y = y + card_h // 2
-        draw.ellipse([margin + 20, dot_y - 10, margin + 40, dot_y + 10], fill=icon)
-
-        # 텍스트
-        item_text = item.get("text", "")
-        text_y = y + (card_h - 34) // 2
-        if transparent:
-            _text_outline(draw, item_text, margin + 55, text_y, f_text, (240, 240, 250), (0, 0, 0), 2)
-        else:
-            draw.text((margin + 55, text_y), item_text, font=f_text, fill=(230, 230, 240))
-
-    # 첫 아이템 글로우 (어두운 배경에서만)
-    if items and not transparent:
-        img = _add_glow(img, lambda d: d.rounded_rectangle(
-            [margin, y_offset, w - margin, y_offset + card_h],
-            radius=10, fill=tuple(c // 5 for c in accent)
-        ), blur_radius=15)
+        f_text = _get_font(min(28, tile_h - 40), "Bold")
+        for slot in range(n):
+            tx = base_x
+            ty = y_offset + slot * (tile_h + pad)
+            item = items[slot]
+            icon = icon_colors.get(item.get("icon", "blue"), (60, 120, 255))
+            tile_bg = (*tone["card_bg"], 180) if transparent else tone["card_bg"]
+            draw.rounded_rectangle([tx, ty, tx + tile_w, ty + tile_h],
+                                   radius=10, fill=tile_bg, outline=(*icon[:3], 120) if transparent else icon, width=2)
+            draw.rectangle([tx, ty, tx + tile_w, ty + 5], fill=icon)
+            item_text = item.get("text", "")
+            # 텍스트 높이 계산 → 상하 가운데 정렬
+            text_bbox = draw.textbbox((0, 0), item_text, font=f_text)
+            text_h = text_bbox[3] - text_bbox[1]
+            max_chars = max(1, (tile_w - 30) // 20)
+            top_pad = 5
+            if len(item_text) > max_chars:
+                line1 = item_text[:max_chars]
+                line2 = item_text[max_chars:]
+                total_text_h = text_h * 2 + 8
+                text_y = ty + top_pad + (tile_h - top_pad - total_text_h) // 2
+                if transparent:
+                    _text_outline(draw, line1, tx + 15, text_y, f_text, (240, 240, 250), (0, 0, 0), 2)
+                    _text_outline(draw, line2, tx + 15, text_y + text_h + 8, f_text, (240, 240, 250), (0, 0, 0), 2)
+                else:
+                    draw.text((tx + 15, text_y), line1, font=f_text, fill=(230, 230, 240))
+                    draw.text((tx + 15, text_y + text_h + 8), line2, font=f_text, fill=(230, 230, 240))
+            else:
+                text_y = ty + top_pad + (tile_h - top_pad - text_h) // 2
+                if transparent:
+                    _text_outline(draw, item_text, tx + 15, text_y, f_text, (240, 240, 250), (0, 0, 0), 2)
+                else:
+                    draw.text((tx + 15, text_y), item_text, font=f_text, fill=(230, 230, 240))
 
     return img
 
 
 def _draw_quote_visual(w, h, data, bg_img=None):
-    """인용문 + 화자 정보 카드"""
+    """인용문 + 화자 정보 (5개 스타일)"""
     accent = tuple(data.get("accent_color", [100, 180, 255]))
     tone = _get_tone(data)
     transparent = bg_img is not None
 
     img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)
-
-    # 측면 글로우
     if not transparent:
         _center_glow(draw, 80, h // 3, 400, tone["glow"])
 
-    # 콘텐츠 높이 사전 계산 (세로 가운데 정렬)
     text = data.get("text", "")
     lines = text.split("\n")
+    speaker = data.get("speaker", data.get("author", ""))
+    affiliation = data.get("affiliation", "")
     max_len = max(len(l) for l in lines) if lines else 1
     font_size = min(48, max(34, w // max(max_len + 2, 1)))
     line_gap = font_size + 18
-    quote_mark_h = 180  # 따옴표 높이 + 간격
     total_text_h = len(lines) * line_gap
-    speaker = data.get("speaker", "")
-    speaker_h = 80 if speaker else 0  # 화자 정보 높이
-    total_block_h = quote_mark_h + total_text_h + speaker_h
-    base_y = (h - total_block_h) // 2  # 세로 가운데 정렬
 
-    # 대형 따옴표
-    f_quote_mark = _get_font(160, "Black")
-    qm_fill = tuple(c // 3 for c in accent)
-    if transparent:
-        _text_outline(draw, "\u201C", 60, base_y, f_quote_mark, qm_fill, (0, 0, 0), 3)
-    else:
-        draw.text((60, base_y), "\u201C", font=f_quote_mark, fill=qm_fill)
-
-    # 인용문 텍스트
-    f_text = _get_font(font_size, "Bold")
-    text_x = 90
-    text_y = base_y + quote_mark_h
-
-    # 좌측 악센트 바
-    draw.rectangle([65, text_y - 5, 72, text_y + total_text_h], fill=accent)
-
-    for i, line in enumerate(lines):
-        y = text_y + i * line_gap
-        if transparent:
-            _text_outline(draw, line, text_x, y, f_text, (240, 240, 250), (0, 0, 0), 3)
-        else:
-            draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
-
-    # 화자 정보
-    affiliation = data.get("affiliation", "")
-    if speaker:
+    def _render_speaker(draw, text_x, speaker_y, transparent, accent):
+        if not speaker:
+            return
         f_speaker = _get_font(32, "Bold")
-        f_aff = _get_font(28, "Regular")
-        speaker_y = text_y + total_text_h + 50
         sp_text = f"— {speaker}"
         if transparent:
             _text_outline(draw, sp_text, text_x, speaker_y, f_speaker, accent, (0, 0, 0), 2)
         else:
             draw.text((text_x, speaker_y), sp_text, font=f_speaker, fill=accent)
         if affiliation:
+            f_aff = _get_font(28, "Regular")
             bbox = draw.textbbox((0, 0), sp_text, font=f_speaker)
             sw = bbox[2] - bbox[0]
             aff_text = f"| {affiliation}"
@@ -896,6 +1239,145 @@ def _draw_quote_visual(w, h, data, bg_img=None):
                 _text_outline(draw, aff_text, text_x + sw + 15, speaker_y + 4, f_aff, (160, 170, 190), (0, 0, 0), 2)
             else:
                 draw.text((text_x + sw + 15, speaker_y + 4), aff_text, font=f_aff, fill=(120, 130, 150))
+
+    if _card_style == 0:
+        # Classic: 대형 따옴표 + 좌측 악센트 바
+        quote_mark_h = 180
+        speaker_h = 80 if speaker else 0
+        total_block_h = quote_mark_h + total_text_h + speaker_h
+        base_y = (h - total_block_h) // 2
+        f_quote_mark = _get_font(160, "Black")
+        qm_fill = tuple(c // 3 for c in accent)
+        if transparent:
+            _text_outline(draw, "\u201C", 60, base_y, f_quote_mark, qm_fill, (0, 0, 0), 3)
+        else:
+            draw.text((60, base_y), "\u201C", font=f_quote_mark, fill=qm_fill)
+        f_text = _get_font(font_size, "Bold")
+        text_x, text_y = 90, base_y + quote_mark_h
+        draw.rectangle([65, text_y - 5, 72, text_y + total_text_h], fill=accent)
+        for i, line in enumerate(lines):
+            y = text_y + i * line_gap
+            if transparent:
+                _text_outline(draw, line, text_x, y, f_text, (240, 240, 250), (0, 0, 0), 3)
+            else:
+                draw.text((text_x, y), line, font=f_text, fill=(240, 240, 250))
+        _render_speaker(draw, text_x, text_y + total_text_h + 50, transparent, accent)
+
+    elif _card_style == 1:
+        # Circle: 대형 원 안에 인용문
+        cx, cy = w // 2, h // 2 - 20
+        radius = min(w, h) // 2 - 50
+        circle_bg = (*accent[:3], 25) if transparent else tuple(c // 10 for c in accent)
+        circle_ol = (*accent[:3], 80) if transparent else tuple(c // 2 for c in accent)
+        draw.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
+                     fill=circle_bg, outline=circle_ol, width=3)
+        # 따옴표
+        f_qm = _get_font(120, "Black")
+        qm_fill = (*accent[:3], 80) if transparent else tuple(c // 4 for c in accent)
+        bbox = draw.textbbox((0, 0), "\u201C", font=f_qm)
+        draw.text((cx - (bbox[2] - bbox[0]) // 2, cy - radius + 30), "\u201C", font=f_qm, fill=qm_fill)
+        # 텍스트
+        f_text = _get_font(min(font_size, 42), "Bold")
+        text_start_y = cy - total_text_h // 2
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_text)
+            tw = bbox[2] - bbox[0]
+            lx = (w - tw) // 2
+            ly = text_start_y + i * line_gap
+            if transparent:
+                _text_outline(draw, line, lx, ly, f_text, (240, 240, 250), (0, 0, 0), 3)
+            else:
+                draw.text((lx, ly), line, font=f_text, fill=(240, 240, 250))
+        _render_speaker(draw, 90, cy + radius + 20, transparent, accent)
+
+    elif _card_style == 2:
+        # Banner: 풀폭 배너 안에 인용문
+        banner_pad = 40
+        speaker_h = 60 if speaker else 0
+        banner_h = total_text_h + banner_pad * 2 + 80 + speaker_h
+        banner_y = (h - banner_h) // 2
+        banner_bg = (*accent[:3], 40) if transparent else tuple(c // 7 for c in accent)
+        draw.rectangle([0, banner_y, w, banner_y + banner_h], fill=banner_bg)
+        draw.rectangle([0, banner_y, w, banner_y + 4], fill=accent)
+        draw.rectangle([0, banner_y + banner_h - 4, w, banner_y + banner_h], fill=accent)
+        # 따옴표
+        f_qm = _get_font(80, "Black")
+        qm_fill = tuple(c // 3 for c in accent)
+        if transparent:
+            _text_outline(draw, "\u201C", 30, banner_y + 15, f_qm, qm_fill, (0, 0, 0), 2)
+        else:
+            draw.text((30, banner_y + 15), "\u201C", font=f_qm, fill=qm_fill)
+        f_text = _get_font(font_size, "Bold")
+        text_y = banner_y + banner_pad + 70
+        for i, line in enumerate(lines):
+            bbox = draw.textbbox((0, 0), line, font=f_text)
+            tw = bbox[2] - bbox[0]
+            lx = (w - tw) // 2
+            if transparent:
+                _text_outline(draw, line, lx, text_y + i * line_gap, f_text, (240, 240, 250), (0, 0, 0), 3)
+            else:
+                draw.text((lx, text_y + i * line_gap), line, font=f_text, fill=(240, 240, 250))
+        _render_speaker(draw, 60, text_y + total_text_h + 25, transparent, accent)
+
+    elif _card_style == 3:
+        # Timeline: 좌측 타임라인 + 인용문
+        line_x = 70
+        speaker_h = 80 if speaker else 0
+        total_block_h = 120 + total_text_h + speaker_h
+        base_y = (h - total_block_h) // 2
+        line_color = (*accent[:3], 80) if transparent else tuple(c // 3 for c in accent)
+        draw.rectangle([line_x - 2, base_y, line_x + 2, base_y + total_block_h], fill=line_color)
+        # 큰 노드
+        draw.ellipse([line_x - 16, base_y + 40, line_x + 16, base_y + 72], fill=accent)
+        # 따옴표
+        f_qm = _get_font(100, "Black")
+        qm_fill = tuple(c // 3 for c in accent)
+        if transparent:
+            _text_outline(draw, "\u201C", line_x + 40, base_y, f_qm, qm_fill, (0, 0, 0), 2)
+        else:
+            draw.text((line_x + 40, base_y), "\u201C", font=f_qm, fill=qm_fill)
+        f_text = _get_font(font_size, "Bold")
+        text_x = line_x + 40
+        text_y = base_y + 120
+        for i, line in enumerate(lines):
+            if transparent:
+                _text_outline(draw, line, text_x, text_y + i * line_gap, f_text, (240, 240, 250), (0, 0, 0), 3)
+            else:
+                draw.text((text_x, text_y + i * line_gap), line, font=f_text, fill=(240, 240, 250))
+        _render_speaker(draw, text_x, text_y + total_text_h + 30, transparent, accent)
+
+    elif _card_style == 4:
+        # Grid: 격자 프레임 + 꼭짓점 장식 안에 인용문
+        frame_pad = 40
+        speaker_h = 60 if speaker else 0
+        frame_h = total_text_h + 120 + speaker_h + frame_pad * 2
+        frame_x0, frame_y0 = 35, (h - frame_h) // 2
+        frame_x1, frame_y1 = w - 35, frame_y0 + frame_h
+        frame_bg = (*tone["card_bg"], 150) if transparent else tone["card_bg"]
+        draw.rectangle([frame_x0, frame_y0, frame_x1, frame_y1], fill=frame_bg)
+        corner_len = 45
+        for (cx, cy, dx, dy) in [
+            (frame_x0, frame_y0, 1, 1), (frame_x1, frame_y0, -1, 1),
+            (frame_x0, frame_y1, 1, -1), (frame_x1, frame_y1, -1, -1),
+        ]:
+            draw.line([(cx, cy), (cx + corner_len * dx, cy)], fill=accent, width=4)
+            draw.line([(cx, cy), (cx, cy + corner_len * dy)], fill=accent, width=4)
+        # 따옴표
+        f_qm = _get_font(100, "Black")
+        qm_fill = tuple(c // 3 for c in accent)
+        if transparent:
+            _text_outline(draw, "\u201C", frame_x0 + 20, frame_y0 + 15, f_qm, qm_fill, (0, 0, 0), 2)
+        else:
+            draw.text((frame_x0 + 20, frame_y0 + 15), "\u201C", font=f_qm, fill=qm_fill)
+        f_text = _get_font(font_size, "Bold")
+        text_x = frame_x0 + 40
+        text_y = frame_y0 + frame_pad + 100
+        for i, line in enumerate(lines):
+            if transparent:
+                _text_outline(draw, line, text_x, text_y + i * line_gap, f_text, (240, 240, 250), (0, 0, 0), 3)
+            else:
+                draw.text((text_x, text_y + i * line_gap), line, font=f_text, fill=(240, 240, 250))
+        _render_speaker(draw, text_x, text_y + total_text_h + 25, transparent, accent)
 
     return img
 

@@ -18,10 +18,10 @@ from PIL import Image
 
 from config.settings import (
     VIDEO_WIDTH, VIDEO_HEIGHT, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
-    TTS_VOICE, TTS_RATE,
+    TTS_VOICES, TTS_RATE,
     OLLAMA_URL, OLLAMA_IMAGE_MODEL,
 )
-from src.graphics.infographic import generate_infographic
+from src.graphics.infographic import generate_infographic, get_random_card_style, set_card_style, CARD_STYLE_NAMES
 from src.bgm_generator import BGMGenerator
 from src.video_renderer import VideoRenderer
 from src.video_composer import VideoComposer
@@ -41,6 +41,11 @@ SILENCE_GAP = 0.3  # 씬 사이 무음 (초)
 async def generate_tts(scenes: list[dict], work_dir: Path) -> tuple[Path, float, list[float], list[list[dict]]]:
     """edge-tts로 씬별 나레이션 생성 후 합치기. 씬별 TTS 길이 + 단어 타이밍 반환."""
     import edge_tts
+    import random
+
+    # 영상마다 랜덤 음성 선택
+    voice = random.choice(TTS_VOICES)
+    print(f"  🎙️ TTS 음성: {voice}")
 
     segments = []
     seg_durations = []
@@ -48,7 +53,7 @@ async def generate_tts(scenes: list[dict], work_dir: Path) -> tuple[Path, float,
     for i, scene in enumerate(scenes):
         seg_path = work_dir / f"tts_{i:02d}.mp3"
         meta_path = work_dir / f"tts_{i:02d}_meta.json"
-        comm = edge_tts.Communicate(scene["tts_text"], TTS_VOICE, rate=TTS_RATE)
+        comm = edge_tts.Communicate(scene["tts_text"], voice, rate=TTS_RATE)
         await comm.save(str(seg_path), metadata_fname=str(meta_path))
         segments.append(seg_path)
         dur = _get_audio_duration(seg_path)
@@ -214,7 +219,17 @@ async def main(json_path: Path):
 
         # 2. 인포그래픽 (데이터 오버레이)
         step = "2" if bg_prompt else "1"
-        print(f"\n🖼️  {step}단계: 인포그래픽 ({len(scenes)}개 씬)...")
+        # 카드 스타일 랜덤 선택 (--card-style 인자로 고정 가능)
+        card_style_arg = None
+        for arg in sys.argv:
+            if arg.startswith("--card-style="):
+                card_style_arg = int(arg.split("=")[1])
+        if card_style_arg is not None:
+            set_card_style(card_style_arg)
+            cs = card_style_arg
+        else:
+            cs = get_random_card_style()
+        print(f"\n🖼️  {step}단계: 인포그래픽 ({len(scenes)}개 씬) — 카드 스타일: {CARD_STYLE_NAMES[cs]}")
         images = []
         for i, sc in enumerate(scenes):
             p = work_dir / f"scene_{i:02d}.png"

@@ -20,6 +20,7 @@ from config.settings import (
     VIDEO_WIDTH, VIDEO_HEIGHT, IMAGE_AREA_TOP, IMAGE_AREA_BOTTOM, OUTPUT_DIR,
     TTS_VOICES, TTS_RATE,
     OLLAMA_URL, OLLAMA_IMAGE_MODEL,
+    TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
 )
 from src.graphics.infographic import generate_infographic, get_random_card_style, set_card_style, CARD_STYLE_NAMES
 from src.bgm_generator import BGMGenerator
@@ -291,7 +292,23 @@ async def main(json_path: Path):
             print("   📤 YouTube 업로드 중...")
             from src.youtube_uploader import YouTubeUploader
             video_id = YouTubeUploader().authenticate().upload(output_path, script)
-            print(f"  🔗 https://youtu.be/{video_id}")
+            yt_url = f"https://youtu.be/{video_id}"
+            print(f"  🔗 {yt_url}")
+
+            # 텔레그램 알림
+            if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+                try:
+                    import urllib.request
+                    tg_msg = f"📺 업로드 완료\n{title}\n{yt_url}"
+                    tg_data = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": tg_msg}).encode()
+                    tg_req = urllib.request.Request(
+                        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+                        data=tg_data, headers={"Content-Type": "application/json"},
+                    )
+                    urllib.request.urlopen(tg_req, timeout=10)
+                    print("  📩 텔레그램 알림 전송 완료")
+                except Exception as e:
+                    print(f"  ⚠️ 텔레그램 알림 실패: {e}")
         else:
             print("   ⏭️  업로드를 건너뜁니다.")
 

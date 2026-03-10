@@ -291,7 +291,7 @@ async def main(json_path: Path):
         if answer == "y":
             print("   📤 YouTube 업로드 중...")
             from src.youtube_uploader import YouTubeUploader
-            video_id = YouTubeUploader().authenticate().upload(output_path, script)
+            video_id = YouTubeUploader().authenticate().upload(output_path, script, privacy="private")
             yt_url = f"https://youtu.be/{video_id}"
             print(f"  🔗 {yt_url}")
 

@@ -66,7 +66,7 @@ def run_claude(prompt: str, continue_session: bool = False) -> str:
     try:
         result = subprocess.run(
             cmd, capture_output=True, text=True,
-            cwd=str(PROJECT_DIR), timeout=600,
+            cwd=str(PROJECT_DIR), timeout=3600,
         )
         output = result.stdout.strip()
         if result.returncode != 0:
@@ -74,7 +74,7 @@ def run_claude(prompt: str, continue_session: bool = False) -> str:
             return f"❌ Claude 실행 실패\n{error[:500]}"
         return output[-1000:] if len(output) > 1000 else output
     except subprocess.TimeoutExpired:
-        return "❌ Claude 실행 시간 초과 (10분)"
+        return "❌ Claude 실행 시간 초과 (60분)"
     except Exception as e:
         return f"❌ Claude 실행 오류: {e}"
 

@@ -12,8 +12,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from config.settings import CLIENT_SECRET_PATH, TOKEN_PATH, YOUTUBE_CATEGORY
 
 SCOPES = [
+    "https://www.googleapis.com/auth/youtube",
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 
 

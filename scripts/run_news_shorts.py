@@ -138,7 +138,7 @@ async def main(json_path: Path):
             # 캐시된 배경이 있으면 확인 후 재사용
             if bg_cache_path.exists():
                 print(f"\n🎨 1단계: 캐시된 배경 일러스트 발견")
-                subprocess.run(["open", str(bg_cache_path)])
+                # subprocess.run(["open", str(bg_cache_path)])  # 미리보기 생략
                 try:
                     answer = input("  👀 캐시된 일러스트를 사용할까요? (y=사용 / n=새로 생성): ").strip().lower()
                 except EOFError:
@@ -192,7 +192,7 @@ async def main(json_path: Path):
                             resized = raw_img.crop((left, top, left + VIDEO_WIDTH, top + VIDEO_HEIGHT))
                             resized.save(str(bg_path))
                             print(f"  ✓ 일러스트 생성 완료 ({raw_img.width}x{raw_img.height} → {VIDEO_WIDTH}x{VIDEO_HEIGHT})")
-                            subprocess.run(["open", str(bg_path)])
+                            # subprocess.run(["open", str(bg_path)])  # 미리보기 생략
                             try:
                                 answer = input("  👀 일러스트가 괜찮습니까? (y=사용 / n=재생성): ").strip().lower()
                             except EOFError:
@@ -279,9 +279,10 @@ async def main(json_path: Path):
             "ffmpeg", "-y", "-i", str(output_path),
             "-vf", "select='eq(n,200)'", "-frames:v", "1", str(preview_path),
         ], capture_output=True)
-        if preview_path.exists():
-            subprocess.run(["open", str(preview_path)])
-        subprocess.run(["open", str(output_path)])
+        # 미리보기 생략
+        # if preview_path.exists():
+        #     subprocess.run(["open", str(preview_path)])
+        # subprocess.run(["open", str(output_path)])
 
         # 7. YouTube 업로드 확인
         try:

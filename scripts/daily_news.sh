@@ -1,5 +1,5 @@
 #!/bin/bash
-# 매일 아침 뉴스 10개 자동 생성 + 공개 업로드
+# 하루 3회(07시, 12시, 17시) 뉴스 최대 10개 자동 생성 + 공개 업로드
 # LaunchAgent에서 호출됨
 
 PROJECT_DIR="/Users/jeniel/Works/ai-news-shorts"
@@ -24,16 +24,35 @@ for f in "$OUTPUT_DIR"/*.mp4 "$OUTPUT_DIR"/*_script_*.json; do
 done
 echo "$(date '+%Y-%m-%d %H:%M:%S') 이전 영상 ${deleted}개 삭제" >> "$LOG_FILE"
 
-PROMPT='오늘 주요 뉴스 10개를 선정해서 유튜브 쇼츠 영상을 만들고 공개 업로드해줘.
+# 텔레그램 시작 알림
+cd "$PROJECT_DIR"
+python3 -c "
+import urllib.request, json, sys
+sys.path.insert(0, '.')
+from config.settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+    msg = '📰 뉴스 자동 생성 시작 ($(date '+%H')시 배치)'
+    data = json.dumps({'chat_id': TELEGRAM_CHAT_ID, 'text': msg}).encode()
+    req = urllib.request.Request(f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage', data=data, headers={'Content-Type': 'application/json'})
+    urllib.request.urlopen(req, timeout=10)
+" >> "$LOG_FILE" 2>&1
+
+PROMPT='오늘 주요 뉴스를 선정해서 유튜브 쇼츠 영상을 만들고 공개 업로드해줘.
+
+규칙:
+- 최대 10개까지 생성하되, 추천할 만한 주제가 부족하면 10개를 채우지 않아도 됨
+- 하루 3회(07시, 12시, 17시) 실행되므로 같은 날 이미 다룬 주제는 절대 중복 금지
+- memory/generated_topics.md를 반드시 확인하여 오늘 날짜에 이미 기록된 주제 제외
 
 작업 순서:
 1. WebSearch로 오늘 한국 주요 뉴스 검색 (여러 매체가 동시에 보도하는 뉴스 우선)
-2. memory/generated_topics.md에서 이미 다룬 주제 확인 → 중복 제외
-3. 10개 뉴스 각각 scripts/batch_01.json ~ batch_10.json 작성 (script-format.md 참조)
-4. 각 뉴스별 팩트체크 (최소 3개 언론사 기사 대조)
-5. python scripts/batch_run.py 실행 (자동으로 공개 업로드됨)
-6. memory/generated_topics.md에 오늘 다룬 주제 기록
-7. 결과를 텔레그램으로 알려줘
+2. memory/generated_topics.md에서 오늘 이미 다룬 주제 확인 → 중복 제외
+3. 선정된 주제 목록을 텔레그램으로 미리 알림 (번호 + 제목 리스트)
+4. 선정된 뉴스 개수만큼 scripts/batch_01.json ~ batch_NN.json 작성 (script-format.md 참조)
+5. 각 뉴스별 팩트체크 (최소 3개 언론사 기사 대조)
+6. python scripts/batch_run.py 실행 (자동으로 공개 업로드됨)
+7. memory/generated_topics.md에 오늘 다룬 주제 기록 (기존 오늘 날짜 섹션에 추가)
+8. 결과를 텔레그램으로 알려줘
 
 텔레그램 전송 코드:
 import urllib.request, json

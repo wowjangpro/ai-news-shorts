@@ -150,7 +150,27 @@ def _flush(*args, **kwargs):
     print(*args, **kwargs, flush=True)
 
 
+def _check_duplicate():
+    """이미 실행 중인 텔레그램 봇이 있으면 종료"""
+    import os
+    my_pid = os.getpid()
+    try:
+        result = subprocess.run(
+            ["pgrep", "-f", "telegram_bot.py"],
+            capture_output=True, text=True,
+        )
+        pids = [int(p) for p in result.stdout.strip().split("\n") if p.strip()]
+        other_pids = [p for p in pids if p != my_pid]
+        if other_pids:
+            _flush(f"⚠️ 텔레그램 봇이 이미 실행 중 (PID: {other_pids}). 종료합니다.")
+            sys.exit(0)
+    except Exception:
+        pass
+
+
 def main():
+    _check_duplicate()
+
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         _flush("❌ TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID를 config/.env에 설정하세요")
         sys.exit(1)

@@ -37,7 +37,11 @@ if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
     urllib.request.urlopen(req, timeout=10)
 " >> "$LOG_FILE" 2>&1
 
+CURRENT_HOUR=$(date '+%H')
+
 PROMPT='오늘 주요 뉴스를 선정해서 유튜브 쇼츠 영상을 만들고 공개 업로드해줘.
+
+현재 시각: '"$CURRENT_HOUR"'시 배치
 
 규칙:
 - 최대 10개까지 생성하되, 추천할 만한 주제가 부족하면 10개를 채우지 않아도 됨

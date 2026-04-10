@@ -117,5 +117,5 @@ YouTube: 기본 비공개 업로드, #Shorts 자동 태그
 ## 파일 구조
 - `scripts/run_news_shorts.py` — 범용 파이프라인 (수정 불필요)
 - `scripts/news_data.json` — 뉴스 데이터 (매번 새로 작성, git 커밋 금지)
-- `scripts/telegram_bot.py` — 텔레그램 봇 데몬 (LaunchAgent 자동 시작)
+- `scripts/discord_bot.py` — 디스코드 봇 데몬 (LaunchAgent 자동 시작)
 - `config/settings.py` — 전역 설정 (레이아웃, 색상, 폰트, ollama 등)

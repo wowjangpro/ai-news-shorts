@@ -57,9 +57,9 @@ CLIENT_SECRET_PATH = CONFIG_DIR / "client_secret.json"
 TOKEN_PATH = CONFIG_DIR / "youtube_token.json"
 
 
-# ── Telegram ──
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+# ── Discord ──
+DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN", "")
+DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID", "")
 
 # ── 폰트 (Mac / Linux) ──
 # .ttc 파일은 (경로, 인덱스) 튜플로 지정

@@ -11,7 +11,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - TTS: edge-tts (ko-KR 남성/여성 랜덤, 속도 +15%)
 - 영상 렌더링: FFmpeg 파이프 (raw RGB24 stdin) + 배치 렌더링
 - 업로드: YouTube Data API v3 (기본 비공개)
-- 텔레그램 봇: 메시지 수신 → Claude Code 비대화 모드 실행
+- 디스코드 봇: 메시지 수신 → Claude Code 비대화 모드 실행
 
 ## 핵심 파이프라인
 `scripts/run_news_shorts.py` — 범용 파이프라인 (JSON 데이터 입력 → 영상 출력 → 비공개 업로드)
@@ -72,9 +72,9 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - `bg_prompt`: 영문 일러스트 프롬프트 (텍스트 유발 요소·민감 요소 제외)
 - `scripts/news_data.json`은 **git 커밋 금지** (.gitignore에 추가됨, 매번 덮어쓰는 파일)
 
-## 텔레그램 봇
-- `scripts/telegram_bot.py` — 메시지 수신 → Claude Code 비대화 모드로 작업 실행
-- macOS LaunchAgent로 자동 시작 (`~/Library/LaunchAgents/com.ainews.telegram-bot.plist`)
+## 디스코드 봇
+- `scripts/discord_bot.py` — 메시지 수신 → Claude Code 비대화 모드로 작업 실행
+- macOS LaunchAgent로 자동 시작 (`~/Library/LaunchAgents/com.ainews.discord-bot.plist`)
 - KeepAlive + RunAtLoad → 부팅/덮개 열 때 자동 실행
 - 사용자 요청을 그대로 전달 (검색만 요청하면 검색만, 생성 요청하면 생성)
 
@@ -102,7 +102,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - [x] YouTube 쇼츠 비공개 업로드 (OAuth 2.0, #Shorts 태그)
 - [x] 스킬 등록 (.claude/skills/news-shorts/)
 - [x] Agent Teams 활성화
-- [x] 텔레그램 봇 (LaunchAgent 자동 시작, Claude Code 비대화 모드 연동)
+- [x] 디스코드 봇 (LaunchAgent 자동 시작, Claude Code 비대화 모드 연동)
 
 ## GitHub
 - https://github.com/wowjangpro/ai-news-shorts

@@ -1,5 +1,6 @@
 """코드 기반 인포그래픽 배경 생성기 — 강화 버전
 글로우, 그라데이션, 카드 레이아웃으로 고품질 뉴스 비주얼 생성"""
+from __future__ import annotations
 import math
 import random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops

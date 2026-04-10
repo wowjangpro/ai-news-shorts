@@ -24,16 +24,16 @@ for f in "$OUTPUT_DIR"/*.mp4 "$OUTPUT_DIR"/*_script_*.json; do
 done
 echo "$(date '+%Y-%m-%d %H:%M:%S') 이전 영상 ${deleted}개 삭제" >> "$LOG_FILE"
 
-# 텔레그램 시작 알림
+# 디스코드 시작 알림
 cd "$PROJECT_DIR"
 python3 -c "
 import urllib.request, json, sys
 sys.path.insert(0, '.')
-from config.settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
-if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+from config.settings import DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
+if DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID:
     msg = '📰 뉴스 자동 생성 시작 ($(date '+%H')시 배치)'
-    data = json.dumps({'chat_id': TELEGRAM_CHAT_ID, 'text': msg}).encode()
-    req = urllib.request.Request(f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage', data=data, headers={'Content-Type': 'application/json'})
+    data = json.dumps({'content': msg}).encode()
+    req = urllib.request.Request(f'https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages', data=data, headers={'Authorization': f'Bot {DISCORD_BOT_TOKEN}', 'Content-Type': 'application/json', 'User-Agent': 'DiscordBot (ai-news-shorts, 1.0)'})
     urllib.request.urlopen(req, timeout=10)
 " >> "$LOG_FILE" 2>&1
 
@@ -51,18 +51,18 @@ PROMPT='오늘 주요 뉴스를 선정해서 유튜브 쇼츠 영상을 만들�
 작업 순서:
 1. WebSearch로 오늘 한국 주요 뉴스 검색 (여러 매체가 동시에 보도하는 뉴스 우선)
 2. memory/generated_topics.md에서 오늘 이미 다룬 주제 확인 → 중복 제외
-3. 선정된 주제 목록을 텔레그램으로 미리 알림 (번호 + 제목 리스트)
+3. 선정된 주제 목록을 디스코드로 미리 알림 (번호 + 제목 리스트)
 4. 선정된 뉴스 개수만큼 scripts/batch_01.json ~ batch_NN.json 작성 (script-format.md 참조)
 5. 각 뉴스별 팩트체크 (최소 3개 언론사 기사 대조)
 6. python scripts/batch_run.py 실행 (자동으로 공개 업로드됨)
 7. memory/generated_topics.md에 오늘 다룬 주제 기록 (기존 오늘 날짜 섹션에 추가)
-8. 결과를 텔레그램으로 알려줘
+8. 결과를 디스코드로 알려줘
 
-텔레그램 전송 코드:
+디스코드 전송 코드:
 import urllib.request, json
-from config.settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
-data = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": "메시지"}).encode()
-req = urllib.request.Request(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage", data=data, headers={"Content-Type": "application/json"})
+from config.settings import DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
+data = json.dumps({"content": "메시지"}).encode()
+req = urllib.request.Request(f"https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages", data=data, headers={"Authorization": f"Bot {DISCORD_BOT_TOKEN}", "Content-Type": "application/json", "User-Agent": "DiscordBot (ai-news-shorts, 1.0)"})
 urllib.request.urlopen(req, timeout=10)'
 
 cd "$PROJECT_DIR"

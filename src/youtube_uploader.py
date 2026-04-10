@@ -1,4 +1,5 @@
 """YouTube 자동 업로드 모듈 — OAuth 2.0 인증 + 업로드"""
+from __future__ import annotations
 from pathlib import Path
 
 from google.auth.transport.requests import Request

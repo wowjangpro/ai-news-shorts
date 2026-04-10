@@ -1,4 +1,5 @@
 """영상 프레임 렌더러 - 헤더 + 이미지 + 씬자막 + TTS자막"""
+from __future__ import annotations
 import os
 import re
 from pathlib import Path

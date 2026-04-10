@@ -9,7 +9,7 @@
 | Python | 3.11+ | pyenv 권장 |
 | FFmpeg | 6.0+ | libx264, aac, libmp3lame 인코더 필요 |
 | Ollama | 0.17+ | 배경 일러스트 생성용 |
-| Claude Code | 최신 | 텔레그램 봇 연동 시 필요 |
+| Claude Code | 최신 | 디스코드 봇 연동 시 필요 |
 
 ## 설치
 
@@ -48,9 +48,9 @@ cp config/.env.example config/.env
 `config/.env`를 열어 값을 채워 넣으세요:
 
 ```env
-# 텔레그램 봇 (선택)
-TELEGRAM_BOT_TOKEN=<BotFather에서 발급>
-TELEGRAM_CHAT_ID=<본인 채팅 ID>
+# 디스코드 봇 (선택)
+DISCORD_BOT_TOKEN=<Discord Developer Portal에서 발급>
+DISCORD_CHANNEL_ID=<봇이 메시지를 주고받을 채널 ID>
 
 # TTS
 TTS_VOICE=ko-KR-InJoonNeural
@@ -131,9 +131,9 @@ claude
 # 프롬프트: "오늘 주요 뉴스 검색해서 영상 올려줘"
 ```
 
-### 텔레그램 봇
+### 디스코드 봇
 
-텔레그램에서 봇에게 메시지를 보내면 Claude Code가 자동으로 작업을 수행합니다.
+디스코드 채널에서 메시지를 보내면 Claude Code가 자동으로 작업을 수행합니다.
 이어서 대화하면 이전 맥락이 유지됩니다.
 
 ```
@@ -146,12 +146,12 @@ claude
 
 **수동 실행:**
 ```bash
-python scripts/telegram_bot.py
+python scripts/discord_bot.py
 ```
 
 **macOS 자동 시작 (LaunchAgent):**
 
-`~/Library/LaunchAgents/com.ainews.telegram-bot.plist` 파일을 생성합니다.
+`~/Library/LaunchAgents/com.ainews.discord-bot.plist` 파일을 생성합니다.
 아래에서 `/path/to/` 부분을 실제 경로로 수정하세요.
 
 ```xml
@@ -160,11 +160,11 @@ python scripts/telegram_bot.py
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.ainews.telegram-bot</string>
+    <string>com.ainews.discord-bot</string>
     <key>ProgramArguments</key>
     <array>
         <string>/path/to/python3</string>
-        <string>/path/to/ai-news-shorts/scripts/telegram_bot.py</string>
+        <string>/path/to/ai-news-shorts/scripts/discord_bot.py</string>
     </array>
     <key>WorkingDirectory</key>
     <string>/path/to/ai-news-shorts</string>
@@ -188,23 +188,23 @@ python scripts/telegram_bot.py
 ```
 
 ```bash
-launchctl load ~/Library/LaunchAgents/com.ainews.telegram-bot.plist
+launchctl load ~/Library/LaunchAgents/com.ainews.discord-bot.plist
 ```
 
 **Linux 자동 시작 (systemd):**
 
-`/etc/systemd/system/ainews-telegram-bot.service` 파일을 생성합니다:
+`/etc/systemd/system/ainews-discord-bot.service` 파일을 생성합니다:
 
 ```ini
 [Unit]
-Description=AI News Shorts Telegram Bot
+Description=AI News Shorts Discord Bot
 After=network.target
 
 [Service]
 Type=simple
 User=<username>
 WorkingDirectory=/path/to/ai-news-shorts
-ExecStart=/path/to/python3 scripts/telegram_bot.py
+ExecStart=/path/to/python3 scripts/discord_bot.py
 Restart=always
 StandardOutput=append:/path/to/ai-news-shorts/output/bot.log
 StandardError=append:/path/to/ai-news-shorts/output/bot_error.log
@@ -215,8 +215,8 @@ WantedBy=multi-user.target
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable ainews-telegram-bot
-sudo systemctl start ainews-telegram-bot
+sudo systemctl enable ainews-discord-bot
+sudo systemctl start ainews-discord-bot
 ```
 
 ## 파이프라인 흐름
@@ -230,7 +230,7 @@ TTS 나레이션 (edge-tts) → BGM 합성
     ↓
 프레임 렌더링 (FFmpeg 파이프) → 최종 합성
     ↓
-YouTube 비공개 업로드 → 텔레그램 알림
+YouTube 비공개 업로드 → 디스코드 알림
 ```
 
 ## 영상 레이아웃 (1080×1920)
@@ -261,7 +261,7 @@ ai-news-shorts/
 ├── scripts/
 │   ├── run_news_shorts.py   # 메인 파이프라인
 │   ├── news_data.json       # 뉴스 데이터 (매번 덮어쓰기, git 제외)
-│   └── telegram_bot.py      # 텔레그램 봇 데몬
+│   └── discord_bot.py       # 디스코드 봇 데몬
 ├── src/
 │   ├── graphics/
 │   │   └── infographic.py   # 인포그래픽 렌더링 (5개 타입 × 5종 카드 스타일)
@@ -290,6 +290,6 @@ ai-news-shorts/
 - [ ] `cp config/.env.example config/.env` → 값 채우기
 - [ ] `mkdir -p output assets`
 - [ ] (선택) YouTube: `config/client_secret.json` 설정
-- [ ] (선택) 텔레그램 봇: LaunchAgent 또는 systemd 설정
-- [ ] (선택) Claude Code 설치 (텔레그램 봇 연동 시)
+- [ ] (선택) 디스코드 봇: LaunchAgent 또는 systemd 설정
+- [ ] (선택) Claude Code 설치 (디스코드 봇 연동 시)
 - [ ] 테스트: `rm -f output/bg_cache.png && yes | python scripts/run_news_shorts.py`

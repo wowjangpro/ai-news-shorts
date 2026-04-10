@@ -12,27 +12,34 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # 모든 input() 프롬프트에 자동 "y" 응답
 builtins.input = lambda *args: "y"
 
-from config.settings import OUTPUT_DIR, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+from config.settings import OUTPUT_DIR, DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
 
 
-def send_telegram(msg: str):
-    """텔레그램 메시지 전송"""
+def send_discord(msg: str):
+    """디스코드 메시지 전송"""
+    if not DISCORD_BOT_TOKEN or not DISCORD_CHANNEL_ID:
+        return
     try:
-        data = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": msg}).encode()
+        data = json.dumps({"content": msg[:2000]}).encode()
         req = urllib.request.Request(
-            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-            data=data, headers={"Content-Type": "application/json"},
+            f"https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages",
+            data=data,
+            headers={
+                "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+                "Content-Type": "application/json",
+                "User-Agent": "DiscordBot (ai-news-shorts, 1.0)",
+            },
         )
         urllib.request.urlopen(req, timeout=10)
     except Exception as e:
-        print(f"  ⚠️ 텔레그램 전송 실패: {e}")
+        print(f"  ⚠️ 디스코드 전송 실패: {e}")
 
 
 async def batch_run():
     json_files = sorted(Path(__file__).parent.glob("batch_*.json"))
     total = len(json_files)
     print(f"\n🚀 배치 실행 시작: {total}개 영상")
-    send_telegram(f"🚀 배치 생성 시작: {total}개 영상")
+    send_discord(f"🚀 배치 생성 시작: {total}개 영상")
 
     results = []
 
@@ -44,7 +51,7 @@ async def batch_run():
         print(f"\n{'='*55}")
         print(f"📰 [{num}/{total}] {title}")
         print(f"{'='*55}")
-        send_telegram(f"📰 [{num}/{total}] {title} 생성 시작...")
+        send_discord(f"📰 [{num}/{total}] {title} 생성 시작...")
 
         # 배경 캐시 삭제 (영상마다 새 일러스트)
         bg_cache = OUTPUT_DIR / "bg_cache.png"
@@ -57,7 +64,7 @@ async def batch_run():
             results.append({"num": num, "title": title, "status": "✅", "path": output_path})
         except Exception as e:
             print(f"  ❌ 실패: {e}")
-            send_telegram(f"❌ [{num}/{total}] {title} 실패: {e}")
+            send_discord(f"❌ [{num}/{total}] {title} 실패: {e}")
             results.append({"num": num, "title": title, "status": "❌", "error": str(e)})
 
     # 최종 결과 요약
@@ -67,7 +74,7 @@ async def batch_run():
         summary += f"{r['status']} {r['num']}. {r['title']}\n"
 
     print(f"\n{summary}")
-    send_telegram(summary)
+    send_discord(summary)
 
 
 if __name__ == "__main__":

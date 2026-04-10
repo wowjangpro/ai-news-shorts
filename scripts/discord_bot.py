@@ -32,7 +32,6 @@ async def send_discord(text: str, channel=None):
     if not channel:
         _flush("⚠️ 디스코드 채널을 찾을 수 없음")
         return
-    # 디스코드 메시지 2000자 제한
     while text:
         chunk, text = text[:2000], text[2000:]
         await channel.send(chunk)

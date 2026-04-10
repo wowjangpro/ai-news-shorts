@@ -166,12 +166,14 @@ def _flush(*args, **kwargs):
 
 
 def _check_duplicate():
-    """이미 실행 중인 디스코드 봇이 있으면 종료"""
+    """이미 실행 중인 같은 프로젝트의 디스코드 봇이 있으면 종료"""
     import os
     my_pid = os.getpid()
+    # 프로젝트 경로까지 포함하여 검색 (다른 프로젝트 봇과 구분)
+    script_path = str(Path(__file__).resolve())
     try:
         result = subprocess.run(
-            ["pgrep", "-f", "discord_bot.py"],
+            ["pgrep", "-f", script_path],
             capture_output=True, text=True,
         )
         pids = [int(p) for p in result.stdout.strip().split("\n") if p.strip()]

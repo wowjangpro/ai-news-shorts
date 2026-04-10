@@ -91,7 +91,12 @@ async def on_message(message: discord.Message):
     if str(message.channel.id) != str(DISCORD_CHANNEL_ID):
         return
 
-    text = message.content.strip()
+    # 봇이 멘션되었을 때만 반응 (@뉴스봇)
+    if client.user not in message.mentions:
+        return
+
+    # 멘션 태그 제거 후 텍스트 추출
+    text = message.content.replace(f"<@{client.user.id}>", "").strip()
     if not text:
         return
 

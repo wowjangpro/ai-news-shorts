@@ -54,6 +54,7 @@ PROMPT='오늘 주요 뉴스를 선정해서 유튜브 쇼츠 영상을 만들�
 3. 선정된 주제 목록을 디스코드로 미리 알림 (번호 + 제목 리스트)
 4. 선정된 뉴스 개수만큼 scripts/batch_01.json ~ batch_NN.json 작성 (script-format.md 참조)
 5. 각 뉴스별 팩트체크 (최소 3개 언론사 기사 대조)
+5-1. 작성된 JSON 파일 한글 깨짐 검증 — 각 batch JSON을 Read로 읽어서 \\ufffd 문자가 있으면 해당 파일을 다시 작성해줘. 깨진 글자가 없어질 때까지 재작성.
 6. python scripts/batch_run.py 실행 (자동으로 공개 업로드됨)
 7. memory/generated_topics.md에 오늘 다룬 주제 기록 (기존 오늘 날짜 섹션에 추가)
 8. 결과를 디스코드로 알려줘

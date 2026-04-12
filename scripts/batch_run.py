@@ -35,18 +35,41 @@ def send_discord(msg: str):
         print(f"  ⚠️ 디스코드 전송 실패: {e}")
 
 
+def _count_broken_chars(obj) -> int:
+    """JSON 데이터 내 깨진 유니코드(\ufffd) 개수"""
+    if isinstance(obj, str):
+        return obj.count("\ufffd")
+    if isinstance(obj, dict):
+        return sum(_count_broken_chars(v) for v in obj.values())
+    if isinstance(obj, list):
+        return sum(_count_broken_chars(v) for v in obj)
+    return 0
+
+
 async def batch_run():
     json_files = sorted(Path(__file__).parent.glob("batch_*.json"))
     total = len(json_files)
     print(f"\n🚀 배치 실행 시작: {total}개 영상")
     send_discord(f"🚀 배치 생성 시작: {total}개 영상")
 
+    # 사전 검증: 깨진 문자 체크
+    broken_files = []
+    for jf in json_files:
+        data = json.loads(jf.read_text(encoding="utf-8"))
+        n = _count_broken_chars(data)
+        if n > 0:
+            broken_files.append(f"{jf.name}: {n}개 깨짐")
+    if broken_files:
+        warn = "⚠️ 깨진 한글 감지 (자동 제거됨):\n" + "\n".join(broken_files)
+        print(warn)
+        send_discord(warn)
+
     results = []
 
     for i, jf in enumerate(json_files):
         num = i + 1
         script_data = json.loads(jf.read_text(encoding="utf-8"))
-        title = script_data.get("title", "뉴스")
+        title = script_data.get("title", "").replace("\ufffd", "")
 
         print(f"\n{'='*55}")
         print(f"📰 [{num}/{total}] {title}")

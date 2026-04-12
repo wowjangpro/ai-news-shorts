@@ -158,6 +158,7 @@ def generate_infographic(w: int, h: int, prompt: str, tag: str = "",
             "headline": _draw_headline_visual,
             "numbers": _draw_key_numbers,
             "stat": _draw_stat_visual,
+            "stats": _draw_stat_visual,
             "list": _draw_info_list,
             "timeline": _draw_timeline_visual,
             "quote": _draw_quote_visual,
@@ -1392,7 +1393,7 @@ def _draw_stat_visual(w, h, data, bg_img=None):
     transparent = bg_img is not None
     title = data.get("title", "")
     main_value = data.get("value", "")
-    sub_items = data.get("sub_items", [])
+    sub_items = data.get("sub_items", []) or data.get("items", [])
 
     img = _make_base(w, h, tone, bg_img)
     draw = ImageDraw.Draw(img)

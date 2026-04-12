@@ -32,10 +32,26 @@ IMAGE_W = VIDEO_WIDTH
 IMAGE_H = IMAGE_AREA_BOTTOM - IMAGE_AREA_TOP
 
 
+def _sanitize_text(obj):
+    """JSON 데이터 내 깨진 유니코드(\ufffd) 제거"""
+    if isinstance(obj, str):
+        if "\ufffd" in obj:
+            clean = obj.replace("\ufffd", "")
+            print(f"  ⚠️ 깨진 문자 제거: {obj[:50]}... → {clean[:50]}...")
+            return clean
+        return obj
+    if isinstance(obj, dict):
+        return {k: _sanitize_text(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_text(v) for v in obj]
+    return obj
+
+
 def load_script(json_path: Path) -> dict:
-    """JSON 파일에서 SCRIPT 데이터 로드"""
+    """JSON 파일에서 SCRIPT 데이터 로드 (깨진 문자 자동 제거)"""
     with open(json_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
+    return _sanitize_text(data)
 
 
 SILENCE_GAP = 0.3  # 씬 사이 무음 (초)

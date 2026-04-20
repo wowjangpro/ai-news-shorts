@@ -8,7 +8,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - Python 3.11+, Pillow, edge-tts, FFmpeg
 - 배경 일러스트: ollama Z-Image-Turbo (로컬 생성, ~2분, 1024x1024→1080x1920 center crop)
 - 인포그래픽: Pillow RGBA 투명 오버레이 (stroke_width 최적화, 5종 카드 스타일 랜덤)
-- TTS: edge-tts (ko-KR 남성/여성 랜덤, 속도 +15%)
+- TTS: edge-tts (ko-KR 남성/여성 랜덤, 속도 +40%)
 - 영상 렌더링: FFmpeg 파이프 (raw RGB24 stdin) + 배치 렌더링
 - 업로드: YouTube Data API v3 (기본 비공개)
 - 디스코드 봇: 메시지 수신 → Claude Code 비대화 모드 실행
@@ -95,7 +95,7 @@ Mac M1 Pro Max 환경에서 로컬 실행.
 - [x] 투명 RGBA 인포그래픽 오버레이 (5개 타입 × 5종 카드 스타일)
 - [x] BGM 합성기
 - [x] 영상 렌더러 (FFmpeg 파이프 + 배치 렌더링)
-- [x] TTS 연동 (edge-tts 남성/여성 랜덤, +15% 속도)
+- [x] TTS 연동 (edge-tts 남성/여성 랜덤, +40% 속도)
 - [x] TTS 실시간 자막 (교보 손글씨 필기체 38/42px)
 - [x] 씬 전환 최적화 (페이드인/아웃 0.2초, TTS 기반 씬 동기화)
 - [x] 범용 파이프라인 (run_news_shorts.py + news_data.json)

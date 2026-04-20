@@ -54,7 +54,7 @@ DISCORD_CHANNEL_ID=<봇이 메시지를 주고받을 채널 ID>
 
 # TTS
 TTS_VOICE=ko-KR-InJoonNeural
-TTS_RATE=+15%
+TTS_RATE=+40%
 
 # 영상
 VIDEO_FPS=24

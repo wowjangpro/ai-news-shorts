@@ -68,6 +68,7 @@ urllib.request.urlopen(req, timeout=10)'
 
 cd "$PROJECT_DIR"
 "$CLAUDE_PATH" -p "$PROMPT" \
+    --dangerously-skip-permissions \
     --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Agent,Skill" \
     >> "$LOG_FILE" 2>&1
 

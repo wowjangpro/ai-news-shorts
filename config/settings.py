@@ -44,7 +44,7 @@ TTS_VOICES = [
     "ko-KR-SunHiNeural",            # 여성
 ]
 TTS_VOICE = os.getenv("TTS_VOICE", "ko-KR-InJoonNeural")  # fallback
-TTS_RATE = os.getenv("TTS_RATE", "+15%")
+TTS_RATE = os.getenv("TTS_RATE", "+40%")
 
 # ── 일러스트 생성 (ollama) ──
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")

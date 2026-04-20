@@ -110,7 +110,7 @@ ffmpeg -y -i output/영상파일.mp4 -vf "select='eq(n,30)'" -frames:v 1 /tmp/ch
 | infographic | `src/graphics/infographic.py` | 투명 인포그래픽 생성 (5개 타입 × 5종 카드 스타일) |
 | YouTubeUploader | `src/youtube_uploader.py` | YouTube 쇼츠 비공개 업로드 |
 
-TTS: edge-tts (ko-KR 남성/여성 랜덤, 속도 +15%), 자막 폰트 38/42px (교보 손글씨)
+TTS: edge-tts (ko-KR 남성/여성 랜덤, 속도 +40%), 자막 폰트 38/42px (교보 손글씨)
 설정: `config/settings.py`
 YouTube: 기본 비공개 업로드, #Shorts 자동 태그
 

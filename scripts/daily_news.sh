@@ -67,9 +67,30 @@ req = urllib.request.Request(f"https://discord.com/api/v10/channels/{DISCORD_CHA
 urllib.request.urlopen(req, timeout=10)'
 
 cd "$PROJECT_DIR"
+
+# 행(hang) 상태 방지: 2시간 상한 watchdog
+TIMEOUT_SECS=7200
+
 "$CLAUDE_PATH" -p "$PROMPT" \
     --dangerously-skip-permissions \
     --allowedTools "Bash,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Agent,Skill" \
-    >> "$LOG_FILE" 2>&1
+    >> "$LOG_FILE" 2>&1 &
+CLAUDE_PID=$!
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') 데일리 뉴스 완료" >> "$LOG_FILE"
+(
+    sleep "$TIMEOUT_SECS"
+    if kill -0 "$CLAUDE_PID" 2>/dev/null; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') ⚠️ ${TIMEOUT_SECS}초 초과 — claude(PID $CLAUDE_PID) 강제 종료" >> "$LOG_FILE"
+        kill -TERM "$CLAUDE_PID" 2>/dev/null
+        sleep 30
+        kill -KILL "$CLAUDE_PID" 2>/dev/null
+    fi
+) &
+WATCHDOG_PID=$!
+
+wait "$CLAUDE_PID"
+CLAUDE_EXIT=$?
+kill "$WATCHDOG_PID" 2>/dev/null
+wait "$WATCHDOG_PID" 2>/dev/null
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') 데일리 뉴스 완료 (exit=$CLAUDE_EXIT)" >> "$LOG_FILE"

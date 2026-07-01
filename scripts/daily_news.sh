@@ -11,6 +11,31 @@ echo "======================================" >> "$LOG_FILE"
 echo "$(date '+%Y-%m-%d %H:%M:%S') 데일리 뉴스 시작" >> "$LOG_FILE"
 echo "======================================" >> "$LOG_FILE"
 
+# ── 인증 사전 체크 ──────────────────────────────────────────────
+# 헤드리스 claude(-p)는 OAuth 토큰이 만료·무효화되면 브라우저 재로그인을
+# 못 해 매 예약 실행이 조용히 401로 죽는다(6/28~7/1 4일 연속 0건 사례).
+# 본작업 전에 5초짜리 인증 확인을 하고, 실패하면 즉시 디스코드로 긴급
+# 경보를 보낸 뒤 중단한다. → "며칠 몰랐다"가 아니라 "그날 바로 알림".
+cd "$PROJECT_DIR"
+AUTH_OUT=$("$CLAUDE_PATH" -p "reply with exactly: OK" --dangerously-skip-permissions 2>&1)
+AUTH_RC=$?
+if [ "$AUTH_RC" -ne 0 ] || ! echo "$AUTH_OUT" | grep -q "OK"; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') 🔴 Claude 인증 실패 — 재로그인 필요 (rc=$AUTH_RC): $AUTH_OUT" >> "$LOG_FILE"
+    python3 -c "
+import urllib.request, json, sys
+sys.path.insert(0, '$PROJECT_DIR')
+from config.settings import DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
+if DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID:
+    msg = '🔴 [긴급] Claude 인증 만료 — 뉴스 자동 생성 중단됨 ($(date '+%H')시 배치). 복구: Mac 터미널에서 claude 실행해 재로그인하세요. 재로그인 전까지 매 예약 실행이 계속 실패합니다.'
+    data = json.dumps({'content': msg}).encode()
+    req = urllib.request.Request(f'https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages', data=data, headers={'Authorization': f'Bot {DISCORD_BOT_TOKEN}', 'Content-Type': 'application/json', 'User-Agent': 'DiscordBot (ai-news-shorts, 1.0)'})
+    urllib.request.urlopen(req, timeout=10)
+" >> "$LOG_FILE" 2>&1
+    echo "$(date '+%Y-%m-%d %H:%M:%S') 데일리 뉴스 중단 (인증 실패) — batch 미실행" >> "$LOG_FILE"
+    exit 1
+fi
+echo "$(date '+%Y-%m-%d %H:%M:%S') ✅ 인증 확인 OK" >> "$LOG_FILE"
+
 # 이전 영상/스크립트 삭제 (오늘 날짜 파일만 보존)
 TODAY=$(date '+%Y%m%d')
 OUTPUT_DIR="$PROJECT_DIR/output"

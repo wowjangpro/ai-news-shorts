@@ -11,6 +11,44 @@ echo "======================================" >> "$LOG_FILE"
 echo "$(date '+%Y-%m-%d %H:%M:%S') 데일리 뉴스 시작" >> "$LOG_FILE"
 echo "======================================" >> "$LOG_FILE"
 
+# ── Claude 인증: 크론 전용 장수명 토큰 사용 ──────────────────────
+# config/.env의 CLAUDE_CODE_OAUTH_TOKEN(claude setup-token 발급, 약 1년)을 우선 사용.
+# 대화형 세션이 쓰는 ~/.claude/.credentials.json과 분리해 refresh 회전 충돌로 인한
+# 조용한 401 실패를 원천 차단(6/28~7/1 4일 연속 사망 원인). money-shorts와 동일 토큰
+# 재사용(같은 구독). 토큰 미설정 시 기존 credentials.json으로 폴백.
+ENV_FILE="$PROJECT_DIR/config/.env"
+if [ -f "$ENV_FILE" ]; then
+    # shellcheck disable=SC1090
+    source "$ENV_FILE"
+fi
+if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+    export CLAUDE_CODE_OAUTH_TOKEN
+fi
+
+# ── 토큰 만료 임박 경고 (setup-token은 1년 하드 만료·자동 refresh 없음) ──
+if [ -n "$CLAUDE_CODE_OAUTH_TOKEN_SET_AT" ]; then
+    set_epoch=$(date -j -f "%Y-%m-%d" "$CLAUDE_CODE_OAUTH_TOKEN_SET_AT" "+%s" 2>/dev/null)
+    if [ -n "$set_epoch" ]; then
+        token_days=$(( ( $(date +%s) - set_epoch ) / 86400 ))
+        if [ "$token_days" -ge 330 ]; then
+            echo "$(date '+%Y-%m-%d %H:%M:%S') ⏰ Claude 토큰 발급 ${token_days}일 경과 (1년 만료 임박)" >> "$LOG_FILE"
+            TOKEN_DAYS="$token_days" python3 -c "
+import os, sys, json, urllib.request
+sys.path.insert(0, '$PROJECT_DIR')
+from config.settings import DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
+if DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID:
+    msg = f\"⏰ [news-shorts] Claude 토큰 발급 {os.environ['TOKEN_DAYS']}일 경과 (1년 만료 임박). 'claude setup-token' 재발급 후 'bash scripts/set_claude_token.sh' 실행 필요.\"
+    data = json.dumps({'content': msg}).encode()
+    req = urllib.request.Request(f'https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages', data=data, headers={'Authorization': f'Bot {DISCORD_BOT_TOKEN}', 'Content-Type': 'application/json', 'User-Agent': 'DiscordBot (ai-news-shorts, 1.0)'})
+    try:
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as e:
+        print('discord notify err:', e)
+" >> "$LOG_FILE" 2>&1
+        fi
+    fi
+fi
+
 # ── 인증 사전 체크 ──────────────────────────────────────────────
 # 헤드리스 claude(-p)는 OAuth 토큰이 만료·무효화되면 브라우저 재로그인을
 # 못 해 매 예약 실행이 조용히 401로 죽는다(6/28~7/1 4일 연속 0건 사례).
@@ -26,7 +64,7 @@ import urllib.request, json, sys
 sys.path.insert(0, '$PROJECT_DIR')
 from config.settings import DISCORD_BOT_TOKEN, DISCORD_CHANNEL_ID
 if DISCORD_BOT_TOKEN and DISCORD_CHANNEL_ID:
-    msg = '🔴 [긴급] Claude 인증 만료 — 뉴스 자동 생성 중단됨 ($(date '+%H')시 배치). 복구: Mac 터미널에서 claude 실행해 재로그인하세요. 재로그인 전까지 매 예약 실행이 계속 실패합니다.'
+    msg = '🔴 [긴급] Claude 인증 실패 — 뉴스 자동 생성 중단됨 ($(date '+%H')시 배치). 복구: 별도 터미널에서 \'claude setup-token\' 재발급 후 \'bash scripts/set_claude_token.sh\' 실행. 재발급 전까지 매 예약 실행이 계속 실패합니다.'
     data = json.dumps({'content': msg}).encode()
     req = urllib.request.Request(f'https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages', data=data, headers={'Authorization': f'Bot {DISCORD_BOT_TOKEN}', 'Content-Type': 'application/json', 'User-Agent': 'DiscordBot (ai-news-shorts, 1.0)'})
     urllib.request.urlopen(req, timeout=10)
